@@ -82,16 +82,14 @@
 
 
 ## 5. 機能要件
-- #### 認証機能
-<details><summary>詳細</summary>
+<details><summary><b>認証機能</b></summary>
 1. 新規登録画面でユーザー名、メールアドレス、パスワードを登録する
 2. 登録完了後、ログイン画面に遷移する
 3. メールアドレス、パスワードを入力
 4. ログインし、ホーム画面に遷移する
 </details>
 
-- #### 絵カードを選択・表示（コア機能）
-<details><summary>詳細</summary>
+<details><summary><b>絵カードを選択・表示（コア機能）</b></summary>
 1. トップ画面でカードカテゴリーを一覧を選択
 2. カードカテゴリー一覧からカテゴリーを選択
 2. 選択したカテゴリーから絵カードを選択
@@ -99,14 +97,12 @@
 4. 上記の要領で複数選択可能。カードを組み合わせてメッセージを作成
 </details>
 
-- #### 音声を流す
-<details><summary>詳細</summary>
+<details><summary><b>音声を流す</b></summary>
 1. 絵カードがある状態でデッキの音声ボタンを押下
 2. 音声が流れる
 </details>
 
-- #### カード作成
-<details><summary>詳細</summary>
+<details><summary><b>カード作成</b></summary>
 1. カード作成ボタンを押下し、カード作成画面に遷移
 2. タイトルと画像を登録
 3. 任意で音声も登録。もしくは、自動読み上げ機能を付ける
@@ -114,22 +110,19 @@
 5. 完了ボタン押下で登録完了
 </details>
 
-- #### カード編集
-<details><summary>詳細</summary>
+<details><summary><b>カード編集</b></summary>
 1. カード編集ボタンを押下し、カード編集画面に遷移
 2. カード名、画像、音声、カテゴリーの編集ができる
 3. 完了ボタン押下で編集完了
 </details>
 
-- #### カード削除
-<details><summary>詳細</summary>
+<details><summary><b>カード削除</b></summary>
 1. カード編集ボタンを押下し、カード編集画面に遷移
 2. 画面右上の削除ボタンを押下
 3. ポップアップの削除を選択し削除完了
 </details>
 
-- #### 見通し表の作成
-<details><summary>詳細</summary>
+<details><summary><b>見通し表の作成</b></summary>
 1. チェックリスト作成ボタンを押下
 2. デッキの下のカード一覧からカードを選択
 3. 次へボタンを押下
@@ -137,36 +130,31 @@
 5. 完成ボタン押下で作成完了
 </details>
 
-- #### 見通し表の編集
-<details><summary>詳細</summary>
+<details><summary><b>見通し表の編集</b></summary>
 1. チェックリスト編集ボタンを押下し、チェックリスト編集画面に遷移
 2. リスト名と画像の編集ができる
 3. 完了ボタン押下で編集完了
 </details>
 
-- #### 見通し表の削除
-<details><summary>詳細</summary>
+<details><summary><b>見通し表の削除</b></summary>
 1. チェックリスト編集ボタンを押下し、チェックリスト編集画面に遷移
 2. 画面右上の削除ボタンを押下
 3. ポップアップの削除を選択し削除完了
 </details>
 
-- #### カテゴリーの作成
-<details><summary>詳細</summary>
+<details><summary><b>カテゴリーの作成</b></summary>
 1. カテゴリー作成ボタンを押下し、カテゴリー作成画面に遷移
 2. タイトルと画像を登録
 3. 完了ボタン押下で登録完了
 </details>
 
-- #### カテゴリーの編集
-<details><summary>詳細</summary>
+<details><summary><b>カテゴリーの編集</b></summary>
 1. カテゴリー編集ボタンを押下し、カテゴリー編集画面に遷移
 2. カテゴリー名、画像、カードの編集ができる
 3. 完了ボタン押下で編集完了
 </details>
 
-- #### カテゴリーの削除
-<details><summary>詳細</summary>
+<details><summary><b>カテゴリーの削除</b></summary>
 1. カテゴリー編集ボタンを押下し、カテゴリー編集画面に遷移
 2. 画面右上の削除ボタンを押下
 3. ポップアップの削除を選択し削除完了
@@ -179,7 +167,7 @@
 - カードの絵をシンプルにする
 
 ## 7. 参考文献
-<details><summary>文献一覧</summary>
+<details><summary><b>参考文献</b></summary>
 [1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11, https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf, (2025年4月8日アクセス).
 
 [2)](https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/) 日本経済新聞(2022)「小中学生の8.8%に発達障害の可能性 文科省調査」https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/, (2025年4月8日アクセス).
