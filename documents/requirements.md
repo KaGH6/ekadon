@@ -1,22 +1,25 @@
 # 要件定義
 
 ### 目次
-1. [一言サービスコンセプト](#1-一言サービスコンセプト)
-2. [誰のどんな課題を解決するのか？](#2-誰のどんな課題を解決するのか？)
-3. [なぜそれを解決したいのか？](#3-なぜそれを解決したいのか？)
-4. [どうやって解決するのか？](#4-どうやって解決するのか？)
-　4.1. [絵カードとは](#4-どうやって解決するのか？)
-　4.2. [療育者にとっての使いやすさ](#4-どうやって解決するのか？)
-5. [機能要件](#5-機能要件)
-6. [非機能要件](#6-非機能要件)
-7. [参考文献](#7-参考文献)
+1. [一言サービスコンセプト](#anchor1)
+2. [誰のどんな課題を解決するのか？](#anchor2)
+3. [なぜそれを解決したいのか？](#anchor3)
+4. [どうやって解決するのか？](#anchor4)<br>
+4.1. [絵カードとは](#anchor4-1)<br>
+4.2. [療育者にとっての使いやすさ](#anchor4-2)
+5. [機能要件](#anchor5)
+6. [非機能要件](#anchor6)
+7. [参考文献](#anchor7)
 
+<a id="anchor1"></a>
 ## 1. 一言サービスコンセプト
 療育者（通常学級及び支援級、特別支援級の教員・保護者）にとって使いやすい絵カードアプリ
 
+<a id="anchor2"></a>
 ## 2. 誰のどんな課題を解決するのか？
 療育者が抱える、発達障害児に対して適切な方法で指示を出せないという課題
 
+<a id="anchor3"></a>
 ## 3. なぜそれを解決したいのか？
 発達障害児への指導に苦労した経験があるため解決したいです。
 
@@ -29,8 +32,9 @@
 そこで今回は、療育者の負担を少しでも減らせるよう、療育の現場で使用されている「絵カード」という教材のアプリを作ることにしました。
 
 
-
+<a id="anchor4"></a>
 ## 4. どうやって解決するのか？
+<a id="anchor4-1"></a>
 ### 4.1. 絵カードとは
 絵カードとは、身の回りの物や人の行動などを、絵で簡単に表したカードです。自閉症児や発達障害児とのコミュニケーションを補助する教材として用いられています[⁶⁾](https://yotsuyagakuin-ryoiku.com/blogs/picturecard/) [⁷⁾](https://www.jstage.jst.go.jp/article/kyozai/26/0/26_165/_pdf/-char/ja) [⁸⁾](https://www.jstage.jst.go.jp/article/jusokenronbunjisen/44/0/44_1607/_pdf/-char/ja) [⁹⁾](https://www.jstage.jst.go.jp/article/tokkyou/56/1/56_1/_pdf/-char/ja) [¹⁰⁾](https://www.jstage.jst.go.jp/article/japanacademyofas/15/2/15_51/_pdf/-char/ja)。
 
@@ -38,7 +42,8 @@
 
 今回の最終目的は療育者の負担軽減なので、療育者にとって使いやすい絵カードアプリの制作によって、この問題の解決の一端を担いたいと考えました。
 
-### 4.1. 療育者にとっての使いやすさ
+<a id="anchor4-2"></a>
+### 4.2. 療育者にとっての使いやすさ
 療育者にとっての使いやすさとして、以下の点があげられます。
 
 - カードの絵がシンプル
@@ -55,34 +60,34 @@
 
 #### (1) 絵カード使用方法の研究結果に基づく案 [⁷⁾](https://www.jstage.jst.go.jp/article/kyozai/26/0/26_165/_pdf/-char/ja)
 絵カード利用時に療育者が陥りがちな失敗や困難を研究した論文をもとに、このアプリで考えられる解決策をまとめました。
-<details><summary>表1</summary>
+<details open><summary>表1</summary>
 
-![表1.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3986622/b27c4188-539c-453f-80e0-9aa26cbf1a7e.png)
+![Image](https://github.com/user-attachments/assets/e692fd9f-842b-42a3-b191-b9823b943b7f)
 
 </details>
 
 #### (2) 既存アプリの問題点とそれに基づく解決案 [¹²⁾](https://apps.apple.com/jp/app/%E3%81%88%E3%81%93%E3%81%BF%E3%82%85/id1219854974) [¹³⁾](https://play.google.com/store/apps/details?id=jp.co.litalico.cardtalk&hl=ja)
 「えこみゅ」のレビューで指摘されていた問題点を洗い出し、今回制作するアプリで考えられる解決策をまとめました。
-<details><summary>表2</summary>
+<details open><summary>表2</summary>
 
-![表2.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3986622/7250d5d8-fc12-442a-aa91-ecda800c9871.png)
+![Image](https://github.com/user-attachments/assets/9fdb846a-f11d-42f1-a7d7-c297750897ca)
 
 </details>
 
-##### (補足) 表2にある解決案の件数表
+#### (補足) 表2にある解決案の件数表
 表2で同じ解決案を何回述べたかまとめました。
-<details><summary>補足</summary>
+<details open><summary>補足</summary>
 
-![表3.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3986622/b09ed550-51e2-4db3-868d-eba7efa4f520.png)
+![Image](https://github.com/user-attachments/assets/749bd73d-89e3-4fef-9a48-2b2420e75c87)
 
 </details>
-
 
 以上をもとに、このアプリを設計することにしました。
 
-
+<a id="anchor5"></a>
 ## 5. 機能要件
 <details><summary><b>認証機能</b></summary>
+  
 1. 新規登録画面でユーザー名、メールアドレス、パスワードを登録する
 2. 登録完了後、ログイン画面に遷移する
 3. メールアドレス、パスワードを入力
@@ -90,6 +95,7 @@
 </details>
 
 <details><summary><b>絵カードを選択・表示（コア機能）</b></summary>
+
 1. トップ画面でカードカテゴリーを一覧を選択
 2. カードカテゴリー一覧からカテゴリーを選択
 2. 選択したカテゴリーから絵カードを選択
@@ -98,11 +104,13 @@
 </details>
 
 <details><summary><b>音声を流す</b></summary>
+
 1. 絵カードがある状態でデッキの音声ボタンを押下
 2. 音声が流れる
 </details>
 
 <details><summary><b>カード作成</b></summary>
+
 1. カード作成ボタンを押下し、カード作成画面に遷移
 2. タイトルと画像を登録
 3. 任意で音声も登録。もしくは、自動読み上げ機能を付ける
@@ -111,18 +119,21 @@
 </details>
 
 <details><summary><b>カード編集</b></summary>
+
 1. カード編集ボタンを押下し、カード編集画面に遷移
 2. カード名、画像、音声、カテゴリーの編集ができる
 3. 完了ボタン押下で編集完了
 </details>
 
 <details><summary><b>カード削除</b></summary>
+
 1. カード編集ボタンを押下し、カード編集画面に遷移
 2. 画面右上の削除ボタンを押下
 3. ポップアップの削除を選択し削除完了
 </details>
 
 <details><summary><b>見通し表の作成</b></summary>
+
 1. チェックリスト作成ボタンを押下
 2. デッキの下のカード一覧からカードを選択
 3. 次へボタンを押下
@@ -131,43 +142,51 @@
 </details>
 
 <details><summary><b>見通し表の編集</b></summary>
+
 1. チェックリスト編集ボタンを押下し、チェックリスト編集画面に遷移
 2. リスト名と画像の編集ができる
 3. 完了ボタン押下で編集完了
 </details>
 
 <details><summary><b>見通し表の削除</b></summary>
+
 1. チェックリスト編集ボタンを押下し、チェックリスト編集画面に遷移
 2. 画面右上の削除ボタンを押下
 3. ポップアップの削除を選択し削除完了
 </details>
 
 <details><summary><b>カテゴリーの作成</b></summary>
+
 1. カテゴリー作成ボタンを押下し、カテゴリー作成画面に遷移
 2. タイトルと画像を登録
 3. 完了ボタン押下で登録完了
 </details>
 
 <details><summary><b>カテゴリーの編集</b></summary>
+
 1. カテゴリー編集ボタンを押下し、カテゴリー編集画面に遷移
 2. カテゴリー名、画像、カードの編集ができる
 3. 完了ボタン押下で編集完了
 </details>
 
 <details><summary><b>カテゴリーの削除</b></summary>
+
 1. カテゴリー編集ボタンを押下し、カテゴリー編集画面に遷移
 2. 画面右上の削除ボタンを押下
 3. ポップアップの削除を選択し削除完了
 </details>
 
+<a id="anchor6"></a>
 ## 6. 非機能要件
 - 画面は1秒以内に表示される
 - システム障害時は3時間以内に復旧できる
 - スマホとタブレットに対応している
 - カードの絵をシンプルにする
 
+<a id="anchor7"></a>
 ## 7. 参考文献
-<details><summary><b>参考文献</b></summary>
+<details><summary>文献一覧</summary>
+
 [1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11, https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf, (2025年4月8日アクセス).
 
 [2)](https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/) 日本経済新聞(2022)「小中学生の8.8%に発達障害の可能性 文科省調査」https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/, (2025年4月8日アクセス).
