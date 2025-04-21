@@ -10,6 +10,44 @@
 ![Image](https://github.com/user-attachments/assets/6363095d-0766-4fbe-bdc3-48de8d01f623)
 
 ### 4. テーブル定義書（もしくは ER 図）
+テーブル：users
+| カラム名 | データ型    | NULL | キー    | 初期値 | AUTO INCREMENT | 
+| -------- | ----------- | ---- | ------- | ------ | -------------- | 
+| id       | INT         |      | PRIMARY |        | YES            | 
+| name     | VARCHAR(30) |      |         |        |                | 
+| email    | VARCHAR(100) |      | UNIQUE  |        |                | 
+| password | VARCHAR(50) |      |         |        |                | 
+
+<br>
+
+テーブル：cards
+| カラム名    | データ型     | NULL | キー    | 初期値 | AUTO INCREMENT | 
+| ----------- | ------------ | ---- | ------- | ------ | -------------- | 
+| id          | INT          |      | PRIMARY |        | YES            | 
+| name        | VARCHAR(30)  |      |         |        |                | 
+| image_path  | VARCHAR(100) |      |         |        |                | 
+
+<br>
+
+テーブル：categories
+| カラム名     | データ型     | NULL | キー    | 初期値 | AUTO INCREMENT | 
+| ------------ | ------------ | ---- | ------- | ------ | -------------- | 
+| id           | INT          |      | PRIMARY |        | YES            | 
+| name         | VARCHAR(30)  |      |         |        |                | 
+| image_path   | VARCHAR(100) | YES  |         |        |                | 
+| card_id      | FOREIGN      | YES  |         |        |                | 
+
+<br>
+
+テーブル：checklists
+| カラム名       | データ型     | NULL | キー    | 初期値 | AUTO INCREMENT | 
+| -------------- | ------------ | ---- | ------- | ------ | -------------- | 
+| id             | INT          |      | PRIMARY |        | YES            | 
+| name           | VARCHAR(30)  |      |         |        |                | 
+| image_path     | VARCHAR(100) | YES  |         |        |                | 
+| card_id        | FOREIGN      | YES  |         |        |                | 
+| category_id    | FOREIGN      | YES  |         |        |                | 
+
 <br>
 
 ### 5. システム構成図
