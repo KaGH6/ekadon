@@ -62,7 +62,7 @@
 絵カード利用時に療育者が陥りがちな失敗や困難を研究した論文をもとに、このアプリで考えられる解決策をまとめました。
 <details open><summary>表1</summary>
 
-![Image](https://github.com/user-attachments/assets/e692fd9f-842b-42a3-b191-b9823b943b7f)
+![Image](https://github.com/user-attachments/assets/3d458957-2e56-4820-8b3d-0894a52fbe21)
 
 </details>
 
@@ -70,7 +70,7 @@
 「えこみゅ」のレビューで指摘されていた問題点を洗い出し、今回制作するアプリで考えられる解決策をまとめました。
 <details open><summary>表2</summary>
 
-![Image](https://github.com/user-attachments/assets/9fdb846a-f11d-42f1-a7d7-c297750897ca)
+![Image](https://github.com/user-attachments/assets/ed9c4299-7c01-47b1-822f-aa4c3ae51f7a)
 
 </details>
 
@@ -78,7 +78,7 @@
 表2で同じ解決案を何回述べたかまとめました。
 <details open><summary>補足</summary>
 
-![Image](https://github.com/user-attachments/assets/749bd73d-89e3-4fef-9a48-2b2420e75c87)
+![Image](https://github.com/user-attachments/assets/e974a0e5-3772-4f35-8d85-92bc221e7ac1)
 
 </details>
 
@@ -185,7 +185,7 @@
 
 <a id="anchor7"></a>
 ## 7. 参考文献
-<details><summary>文献一覧</summary>
+<details open><summary><b>文献一覧</b></summary>
 
 [1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11, https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf, (2025年4月8日アクセス).
 
@@ -213,3 +213,5 @@
 
 [13)](https://play.google.com/store/apps/details?id=jp.co.litalico.cardtalk&hl=ja) 株式会社LITALICO「えこみゅ：評価とレビュー」Google Play,  https://play.google.com/store/apps/details?id=jp.co.litalico.cardtalk&hl=ja, (2025年4月12日アクセス, 全55件).
 </details>
+
+
