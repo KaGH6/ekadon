@@ -187,11 +187,11 @@
 ## 7. 参考文献
 <details open><summary><b>文献一覧</b></summary>
 
-[1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11.
+[1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省 社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11.
 
 [2)](https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/) 日本経済新聞(2022)「小中学生の8.8%に発達障害の可能性 文科省調査」https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/, (2025年4月8日アクセス).
 
-[3)](https://www.mext.go.jp/content/20230524-mext-tokubetu01-000026255_01.pdf) 文部科学省初等中等教育局特別支援教育課(2022)「通常の学級に在籍する特別な教育的支援を必要とする児童生徒に関する調査結果について」文部科学省, 1-36.
+[3)](https://www.mext.go.jp/content/20230524-mext-tokubetu01-000026255_01.pdf) 文部科学省 初等中等教育局 特別支援教育課(2022)「通常の学級に在籍する特別な教育的支援を必要とする児童生徒に関する調査結果について」文部科学省, 1-36.
 
 [4)](https://www.jstage.jst.go.jp/article/kenkouigaku/32/1/32_18/_pdf/-char/ja) 大堀美樹, 鈴木英子, 髙山裕子(2023)「文献から見た発達障害児の支援者が直面する困難の分類」日本健康医学会雑誌, 32(1), 18-27.
 
