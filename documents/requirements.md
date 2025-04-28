@@ -187,7 +187,7 @@
 ## 7. 参考文献
 <details open><summary><b>文献一覧</b></summary>
 
-[1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11, https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf, (2025年4月8日アクセス).
+[1)](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) 厚生労働省社会・援護局障害保健福祉部 企画課(2024)「令和４年生活のしづらさなどに関する調査（全国在宅障害児・者等実態調査）結果の概要」厚生労働省, 1-11.
 
 [2)](https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/) 日本経済新聞(2022)「小中学生の8.8%に発達障害の可能性 文科省調査」https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/, (2025年4月8日アクセス).
 
