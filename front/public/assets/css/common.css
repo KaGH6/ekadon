@@ -1,0 +1,81 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700;900&display=swap');
+
+/* @media screen and (max-width: 767px) { */
+
+/*----------------------------------------
+全体設定
+------------------------------------------*/
+body {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: normal;
+    letter-spacing: 0;
+    /* line-height: calc(27/19); */
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.content_wrap {
+    width: 100%;
+    padding: 0 min(20 / 375* 100vw, 20px);
+    overflow: hidden;
+}
+
+img {
+    height: auto;
+    width: 100%;
+    vertical-align: middle;
+}
+
+body,
+a,
+p,
+ul li,
+h1,
+h2,
+h3 {
+    color: #000;
+}
+
+a {
+    text-decoration: none;
+    font-size: clamp(16px, 18/375*100vw, 18px);
+}
+
+p {
+    font-size: clamp(16px, 18/375*100vw, 18px);
+}
+
+h2 {
+    font-size: clamp(20px, 24/375*100vw, 24px) !important;
+    font-weight: bold;
+    /* width: fit-content; */
+}
+
+h3 {
+    /* font-size: clamp(20px, 24/375*100vw, 24px);
+   padding-bottom: 1em;
+    width: fit-content; */
+}
+
+/*----------------------------------------
+クラス設定
+------------------------------------------*/
+:root {
+    --white: #ffffff;
+    --gray: #f4f4f4;
+    --black: #282828;
+    --red: #ff0000;
+    --blue: #0059ff;
+    --primary: #244c91;
+    --secondary: #24599c;
+    --tertiary: #17bfab;
+}
+
+/* } */
