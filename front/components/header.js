@@ -14,6 +14,10 @@ export default function Header({ selectedCards }) {
     return (
         <header className="header">
             <div className="header__inner">
+                <button>
+                    <Image src="/assets/img/icons/back.svg" alt="" class="header-back" width={30} height={30} />
+                </button>
+                <h3 class="header-title">タイトル</h3>
                 <button onClick={toggleMenu} className={`drawer__button ${menuOpen ? "active" : ""}`}>
                     <span></span>
                     <span></span>

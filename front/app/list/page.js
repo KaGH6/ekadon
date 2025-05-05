@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Pagenation from "@/components/pagenation";
-import CreateEdit from "@/components/create-edit";
+import CreateEdit from "@/components/create-edit-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
 
