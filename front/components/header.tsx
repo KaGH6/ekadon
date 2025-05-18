@@ -2,9 +2,14 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { CardData } from "@/app/types/card";
 // import "../../assets/css/sp.css";
 
-export default function Header({ selectedCards }) {
+type HeaderProps = {
+    selectedCards: CardData[];
+}
+
+export default function Header({ selectedCards }: HeaderProps) { // selectedCards は CardData[] (カードデータの配列)として扱われる
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => {

@@ -3,10 +3,15 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { CardData } from "@/app/types/card";
 // import Deck from "./deck";
 // import List from "@/app/list/page";
 
-export default function Card({ onSelectedCard }) {
+type CardProps = {
+    onSelectedCard: (card: CardData) => void;
+}
+
+export default function Card({ onSelectedCard }: CardProps) {
     // const dummyCard = [{
     //     id: 1,
     //     name: "どうぶつどうぶつどうぶつ",
@@ -19,12 +24,13 @@ export default function Card({ onSelectedCard }) {
     // }
     // ];
 
-    const [cards, setCards] = useState([]);
+    // CardDataの配列
+    const [cards, setCards] = useState<CardData[]>([]);
 
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await axios.get("http://127.0.0.1:8000/api/list-card");
+                const res = await axios.get<CardData[]>("http://127.0.0.1:8000/api/list-card");
                 console.log(res.data);
                 setCards(res.data);
             } catch (err) {

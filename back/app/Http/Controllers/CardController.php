@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CardController extends Controller {
     public function index() {
@@ -55,8 +56,48 @@ class CardController extends Controller {
         return response()->json($card);
     }
 
+
     // カード編集
+    public function update(Request $request, $id) {
+        // 対象のカードを取得（存在しなければ404）
+        $card = Card::findOrFail($id);
 
+        // バリデーション
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:30',
+            'card_img' => 'sometimes|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            'category_id' => 'sometimes|required|exists:categories,id',
+            'user_id' => 'sometimes|required|integer|exists:users,id',
+        ]);
 
+        // 画像が送信されていれば保存処理
+        if ($request->hasFile('card_img')) {
+            $path = $request->file('card_img')->store('card_imgs', 'public');
+            $validated['card_img'] = asset('storage/' . $path);
+        }
 
+        // カード情報を更新
+        $card->update($validated);
+
+        // 更新後のカード情報を返す
+        return response()->json($card);
+    }
+
+    // カード削除
+    public function destroy($id) {
+        // 対象のカードを取得（存在しなければ404）
+        $card = Card::findOrFail($id);
+
+        // 画像ファイルの削除（URLからパスを抽出）
+        if ($card->card_img) {
+            $relativePath = str_replace(asset('storage') . '/', '', $card->card_img);
+            Storage::disk('public')->delete($relativePath);
+        }
+
+        // 削除実行
+        $card->delete();
+
+        // 削除結果を返す
+        return response()->json(['message' => 'カードと画像を削除しました。']);
+    }
 }
