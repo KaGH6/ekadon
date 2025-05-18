@@ -14,10 +14,30 @@ use App\Http\Controllers\CategoryController;
 Route::post('/create-card', [CardController::class, 'store']);
 
 // カード一覧
+// Route::get('/list-card', [CardController::class, 'index']);
 Route::get('/list-card', [CardController::class, 'index']);
+
+// カード編集
+Route::put('/cards/{id}', [CardController::class, 'update']);
+
+// カード削除
+Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+
+
 
 // カテゴリー作成
 Route::post('/create-category', [CategoryController::class, 'store']);
+
+// カテゴリー一覧
+// Route::get('/list-category', [CategoryController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+
+// カテゴリー編集
+Route::put('/categories/{id}', [CategoryController::class, 'update']);
+
+// カテゴリー削除
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
 
 

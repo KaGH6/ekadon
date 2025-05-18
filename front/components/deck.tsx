@@ -2,8 +2,17 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { CardData } from "@/app/types/card";
 
-export default function Deck({ selectedCards, onRemoveCard }) {
+type DeckProps = {
+    // ユーザーが選択したカードの配列
+    selectedCards: CardData[];
+
+    // 削除ボタンが押されたときに呼ばれる関数（引数は削除するカードのインデックス）
+    onRemoveCard: (index: number) => void;
+}
+
+export default function Deck({ selectedCards, onRemoveCard }: DeckProps) {
     return (
         <section id="deck">
             <div className="deck-outside">

@@ -11,6 +11,7 @@ body {
     font-weight: normal;
     letter-spacing: 0;
     /* line-height: calc(27/19); */
+    margin: 0;
     max-width: 100%;
     overflow-x: hidden;
 }
