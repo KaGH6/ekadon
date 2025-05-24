@@ -1,4 +1,4 @@
-export type Category = {
+export type CategoryData = {
     id: number;
     name: string;
     category_img: string;

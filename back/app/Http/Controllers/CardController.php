@@ -29,7 +29,7 @@ class CardController extends Controller {
 
         // 画像ファイルの保存
         if ($request->hasFile('card_img')) {
-            $path = $request->file('card_img')->store('card_imgs', 'public');
+            $path = $request->file('card_img')->store('images/card_imgs', 'public');
             // 'public/card_imgs/xxx.jpg' → 'storage/card_imgs/xxx.jpg' に変換
             $validated['card_img'] = asset('storage/' . $path);
         }
@@ -72,7 +72,7 @@ class CardController extends Controller {
 
         // 画像が送信されていれば保存処理
         if ($request->hasFile('card_img')) {
-            $path = $request->file('card_img')->store('card_imgs', 'public');
+            $path = $request->file('card_img')->store('images/card_imgs', 'public');
             $validated['card_img'] = asset('storage/' . $path);
         }
 
