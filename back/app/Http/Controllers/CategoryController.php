@@ -13,7 +13,7 @@ class CategoryController extends Controller {
     // 全てのカテゴリーを取得
     public function index() {
         $categories = Category::all();
-
+        // echo $categories;
         // カテゴリーのリストをJSON形式で返す
         return response()->json($categories);
     }
@@ -26,7 +26,8 @@ class CategoryController extends Controller {
         $validated = $request->validate([
             'name' => 'required|string|max:30',
             // 'category_img' => 'required|string|url|max:255',
-            'category_img' => 'required|string|max:255',
+            // 'category_img' => 'required|string|max:255',
+            'category_img' => 'required|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
             'user_id' => 'required|integer|exists:users,id',
         ]);
 
@@ -35,7 +36,7 @@ class CategoryController extends Controller {
         // 画像ファイルの保存自体が、バリデーションが変わる
         // updateで使うかもなので、いっこ関数を共通化させとく
         if ($request->hasFile('category_img')) {
-            $path = $request->file('category_img')->store('category_imgs', 'public');
+            $path = $request->file('category_img')->store('images/category_imgs', 'public');
             $validated['category_img'] = asset('storage/' . $path);
         }
 
@@ -76,7 +77,7 @@ class CategoryController extends Controller {
 
         // 画像ファイルが送信されていれば保存
         if ($request->hasFile('category_img')) {
-            $path = $request->file('category_img')->store('category_imgs', 'public');
+            $path = $request->file('category_img')->store('images/category_imgs', 'public');
             $validated['category_img'] = asset('storage/' . $path);
         }
 
