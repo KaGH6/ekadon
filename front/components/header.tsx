@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { CardData } from "@/app/types/card";
+import { useRouter, usePathname } from "next/navigation";
 // import "../../assets/css/sp.css";
 
 type HeaderProps = {
@@ -11,18 +12,37 @@ type HeaderProps = {
 
 export default function Header({ selectedCards }: HeaderProps) { // selectedCards は CardData[] (カードデータの配列)として扱われる
     const [menuOpen, setMenuOpen] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname(); // 現在のパスを取得
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
+    // タイトルをパスに応じて切り替える
+    const getTitle = () => {
+        if (pathname === "/") return "ホーム";
+        if (pathname === "/menu") return "メニュー";
+        if (pathname.startsWith("/categories") && pathname.includes("/cards")) return "カード 一覧";
+        if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
+        if (pathname.startsWith("/checklists") && pathname.match(/^\/checklists\/\d+/)) return "チェックリスト詳細";
+        if (pathname.startsWith("/checklists")) return "チェックリスト 一覧";
+        return ""; // デフォルト
+    };
+
     return (
         <header className="header">
             <div className="header__inner">
-                <button>
-                    <Image src="/assets/img/icons/back.svg" alt="" className="header-back" width={30} height={30} />
+
+                {/* 前のページに戻るボタン */}
+                <button onClick={() => router.back()}>
+                    <Image src="http://127.0.0.1:8000/storage/images/icons/back.svg" alt="" className="header-back" width={30} height={30} />
                 </button>
-                <h3 className="header-title">タイトル</h3>
+
+                {/* タイトル表示 */}
+                <h3 className="header-title">{getTitle()}</h3>
+
+                {/* メニューボタン */}
                 <button onClick={toggleMenu} className={`drawer__button ${menuOpen ? "active" : ""}`}>
                     <span></span>
                     <span></span>
@@ -32,21 +52,30 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">リンク</a>
+                                <a className="drawer__nav__link" href="/">ホーム</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">リンク</a>
+                                <a className="drawer__nav__link" href="/categories">カテゴリー 一覧</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">リンク</a>
+                                <a className="drawer__nav__link" href="/categories/create">カテゴリー作成</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">リンク</a>
+                                <a className="drawer__nav__link" href="/create-cards">カード作成</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">リンク</a>
+                                <a className="drawer__nav__link" href="#">チェックリスト一覧</a>
+                            </li>
+                            <li className="drawer__nav__item">
+                                <a className="drawer__nav__link" href="#">チェックリスト作成</a>
                             </li>
                         </ul>
+
+                        <div className="auth">
+                            <a href="/auth/signup">新規登録（開発用）</a>
+                            <a href="/auth/login">ログイン（開発用）</a>
+                            <a href="#">ログアウト</a>
+                        </div>
                     </div>
                 </nav>
             </div>

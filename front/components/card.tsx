@@ -8,29 +8,17 @@ import { CardData } from "@/app/types/card";
 // import List from "@/app/list/page";
 
 type CardProps = {
+    categoryId: string;
     onSelectedCard: (card: CardData) => void;
 }
 
-export default function Card({ onSelectedCard }: CardProps) {
-    // const dummyCard = [{
-    //     id: 1,
-    //     name: "どうぶつどうぶつどうぶつ",
-    //     image: "/assets/img/animal-bear.svg",
-    // },
-    // {
-    //     id: 2,
-    //     name: "ど",
-    //     image: "/assets/img/icons/home.svg",
-    // }
-    // ];
-
-    // CardDataの配列
-    const [cards, setCards] = useState<CardData[]>([]);
+export default function Card({ categoryId, onSelectedCard }: CardProps) {
+    const [cards, setCards] = useState<CardData[]>([]); // CardDataの配列
 
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await axios.get<CardData[]>("http://127.0.0.1:8000/api/list-card");
+                const res = await axios.get<CardData[]>(`http://127.0.0.1:8000/api/categories/${categoryId}/cards`);
                 console.log(res.data);
                 setCards(res.data);
             } catch (err) {
@@ -38,14 +26,14 @@ export default function Card({ onSelectedCard }: CardProps) {
             }
         };
 
-        fetchCards();
-    }, []);
+        if (categoryId) fetchCards();
+    }, [categoryId]);
 
     return (
         <>
-            {cards.map((card, index) => (
-                <button key={index} onClick={() => onSelectedCard(card)} className="card-wrap">
-                    <Image src="../assets/img/card.svg" className="card" width={20} height={20} alt="card" />
+            {cards.map((card) => (
+                <button key={card.id} onClick={() => onSelectedCard(card)} className="card-wrap">
+                    <Image src="http://127.0.0.1:8000/storage/images/icons/card.svg" className="card" width={20} height={20} alt="card" />
                     <Image src={card.card_img} className="card-img" width={80} height={80} alt={card.name} />
                     <p className="card-name">{card.name}</p>
                 </button>
