@@ -7,7 +7,7 @@ import axios from 'axios';
 import Pagenation from "@/components/pagenation";
 import CreateEdit from "@/components/create-edit-button";
 import Deck from "@/components/deck";
-import Category from "@/components/category";
+// import Category from "@/components/category";
 import { CategoryData } from "../types/category";
 
 export default function CategoryPage() {
@@ -57,7 +57,12 @@ export default function CategoryPage() {
                 <div className="content_wrap">
                     <div className="list-top">
                         <Pagenation />
-                        <CreateEdit />
+                        <CreateEdit
+                            createHref="/categories/create"
+                            editHref="/categories/edit"
+                            createIcon="http://127.0.0.1:8000/storage/images/icons/create-category.svg"
+                            editIcon="http://127.0.0.1:8000/storage/images/icons/edit-category.svg"
+                        />
                     </div>
 
                     {/* カテゴリー一覧 */}
@@ -66,7 +71,7 @@ export default function CategoryPage() {
                         {categories.map((category) => (
                             // カード一覧に遷移
                             <Link key={category.id} href={`/categories/${category.id}/cards`} className="category-wrap">
-                                <Image src="/assets/images/icons/category.svg" alt="カテゴリー枠" className="category" width={40} height={40} />
+                                <Image src="http://127.0.0.1:8000/storage/images/icons/category.svg" alt="カテゴリー枠" className="category" width={40} height={40} />
                                 <Image
                                     src={category.category_img.startsWith("http") ? category.category_img : `/assets/images/${category.category_img}`}
                                     alt={category.name}

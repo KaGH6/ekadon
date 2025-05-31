@@ -1,18 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function CreateEdit() {
+interface CreateEditProps {
+    createHref: string;
+    editHref: string;
+    createIcon: string;
+    editIcon: string;
+}
 
+export default function CreateEdit({
+    createHref,
+    editHref,
+    createIcon,
+    editIcon
+}: CreateEditProps) {
     return (
         <div className="create-edit-button">
-            <button>
-                <Image src="/assets/img/icons/create-card.svg" width={20} height={20} alt="aa" />
-            </button>
-            <button>
-                <Image src="/assets/img/icons/edit-card.svg" width={20} height={20} alt="aa" />
-            </button>
+            <Link href={createHref}>
+                <Image src={createIcon} width={20} height={20} alt="作成" />
+            </Link>
+            <Link href={editHref}>
+                <Image src={editIcon} width={20} height={20} alt="編集" />
+            </Link>
         </div>
     );
 

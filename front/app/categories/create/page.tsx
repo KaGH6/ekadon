@@ -1,0 +1,92 @@
+"use client";
+
+import { useState } from "react"; // 入力値を一時的に保存
+import { useRouter } from "next/navigation";// ページ遷移
+import axios from "axios"; // API（Laravel）へデータを送る
+
+export default function CreateCategoryPage() {
+    const router = useRouter();
+
+    // Reactの状態（state）を定義
+    const [name, setName] = useState(""); // カテゴリー名
+    const [categoryImg, setCategoryImg] = useState<File | null>(null); // 画像ファイル
+    const [error, setError] = useState(""); // エラーメッセージ
+    const [previewUrl, setPreviewUrl] = useState<string>("http://127.0.0.1:8000/storage/images/icons/select-img.svg"); // 選択した画像を表示するため
+
+
+    // フォーム送信処理
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault(); // 画面の再読み込み防止
+
+        // 入力チェック（バリデーション）
+        if (!categoryImg) {
+            setError("画像を選択してください");
+            return;
+        }
+
+        //  Laravelに送るデータを用意（FormData）
+        try {
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("category_img", categoryImg);
+
+            // axiosでAPIに送信（POST）
+            await axios.post("http://127.0.0.1:8000/api/create-category", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            // 成功したら一覧ページへ移動
+            router.push("/categories");
+        } catch (err: any) {
+            console.error(err);
+            setError("カテゴリー作成に失敗しました");
+        }
+    };
+
+    return (
+        <div id="create" className="bac">
+            <div id="input">
+                <div onSubmit={handleSubmit} className="content_wrap">
+                    <form className="create-category">
+                        <h3>1. カテゴリー名</h3>
+                        <label className="create-wrap">
+                            <input
+                                type="text"
+                                className="textbox"
+                                placeholder="カテゴリー名を入力"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </label>
+
+                        <h3>2. カテゴリー画像</h3>
+                        <label className="create-wrap select-category-img">
+                            <input type="file" id="img-file" className="select-img" multiple accept="image/*" style={{ display: "none" }}
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        setCategoryImg(file); // 実際に送信するファイル
+                                        setPreviewUrl(URL.createObjectURL(file)); // プレビュー表示用URL
+                                    }
+                                }}
+                            />
+                            <img src={previewUrl} alt="選択画像" className="select-img" />
+                            <p className="select-img-text bold">画像を選択</p>
+                        </label>
+                        <h3 className="mt3 mb05">3. カード選択（任意）</h3>
+                        <label className="create-wrap select-cards">
+                            <img src="http://127.0.0.1:8000/storage/images/icons/select-cards.svg" alt="カード選択" className="select-cards-img" />
+                            <p className="select-img-text bold">カードを選択</p>
+                        </label>
+
+                        <button type="submit" className="submit-button">完成</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    );
+}

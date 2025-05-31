@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { CardData } from "../types/card";
+import { useParams } from "next/navigation";
+import { CardData } from "@/app/types/card";
 import Pagenation from "@/components/pagenation";
 import CreateEdit from "@/components/create-edit-button";
 import Deck from "@/components/deck";
@@ -10,6 +11,8 @@ import Card from "@/components/card";
 
 export default function CardList() {
     const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
+    const { categoryId } = useParams();
+
     const handleSelectedCard = (card: CardData) => { // CardData型のオブジェクトのみ渡す
         setSelectedCards(prev => [...prev, card]);
         console.log(selectedCards);
@@ -32,10 +35,15 @@ export default function CardList() {
                 <div className="content_wrap">
                     <div className="list-top">
                         <Pagenation />
-                        <CreateEdit />
+                        <CreateEdit
+                            createHref="/create-cards"
+                            editHref="/cards/edit"
+                            createIcon="http://127.0.0.1:8000/storage/images/icons/create-card.svg"
+                            editIcon="http://127.0.0.1:8000/storage/images/icons/edit-card.svg"
+                        />
                     </div>
                     <div className="list-content">
-                        <Card onSelectedCard={handleSelectedCard} />
+                        <Card categoryId={categoryId} onSelectedCard={handleSelectedCard} />
                     </div>
                 </div>
             </section>

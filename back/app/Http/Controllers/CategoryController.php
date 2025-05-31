@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,7 @@ class CategoryController extends Controller {
             // 'category_img' => 'required|string|url|max:255',
             // 'category_img' => 'required|string|max:255',
             'category_img' => 'required|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
-            'user_id' => 'required|integer|exists:users,id',
+            // 'user_id' => 'required|integer|exists:users,id',
         ]);
 
         // 画像ファイルの保存
@@ -39,6 +40,10 @@ class CategoryController extends Controller {
             $path = $request->file('category_img')->store('images/category_imgs', 'public');
             $validated['category_img'] = asset('storage/' . $path);
         }
+
+        // ログイン中のユーザーIDを使う
+        // $validated['user_id'] = $request->user()->id;
+        $validated['user_id'] = 1; //操作確認用の仮のID
 
         // バリデーションを通過したデータで新しいカテゴリーを作成
         $category = Category::create($validated);
@@ -56,11 +61,10 @@ class CategoryController extends Controller {
         return response()->json($category);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id) {
-        //
+    // 指定されたカテゴリーに属するカードを取得
+    public function cardsByCategory($id) {
+        $cards = Card::where('category_id', $id)->get();
+        return response()->json($cards);
     }
 
     // カテゴリー編集

@@ -31,7 +31,10 @@ Route::post('/create-category', [CategoryController::class, 'store']);
 // カテゴリー一覧
 Route::get('/list-category', [CategoryController::class, 'index']);
 // Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{id}', [CategoryController::class, 'show']);
+// Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::get('/categories/{id}/cards', [CategoryController::class, 'show']);
+Route::get('/categories/{id}/cards', [CategoryController::class, 'cardsByCategory']);
+
 
 // カテゴリー編集
 Route::put('/categories/{id}', [CategoryController::class, 'update']);

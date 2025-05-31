@@ -19,13 +19,19 @@ class AuthController extends Controller {
         ]);
 
         // バリデーション成功後、DBに情報を登録
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']) // PWのハッシュ化(読めない文字にする)
         ]);
 
-        return ("サインアップ成功");
+        // return ("サインアップ成功");
+
+        // 成功時にJSONで返す
+        return response()->json([
+            'message' => 'サインアップ成功',
+            'user' => $user,
+        ], 201); // 201 Created
     }
 
     // ログイン
