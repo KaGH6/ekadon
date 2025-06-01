@@ -1,18 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { CardData } from "@/app/types/card";
 import Pagenation from "@/components/pagenation";
-import CreateEdit from "@/components/create-edit-button";
+import CreateEdit from "@/components/create-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
+import axios from "axios";
 
 export default function CardList() {
     const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
+    const [editModeId, setEditModeId] = useState<number | null>(null);
+    const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+    const [deletedCardId, setDeletedCardId] = useState<number | null>(null);
+    const longPressTimer = useRef<NodeJS.Timeout | null>(null);
     const { categoryId } = useParams();
+    const router = useRouter();
 
+    // カード選択
     const handleSelectedCard = (card: CardData) => { // CardData型のオブジェクトのみ渡す
         setSelectedCards(prev => [...prev, card]);
         console.log(selectedCards);
@@ -22,11 +29,63 @@ export default function CardList() {
     //     setSelectedCards(prev => prev.filter(card => card.id !== idToRemove));
     // };
 
+    // デッキからカード削除
     const handleRemoveCard = (indexToRemove: number) => { // :numberで型安全
         setSelectedCards(prev => prev.filter((_, index) => index !== indexToRemove));
         console.log(indexToRemove);
     };
 
+    // カード編集ボタン
+    const handleEdit = (id: number) => {
+        router.push(`/cards/${id}/edit`);
+    };
+
+    // カード削除機能
+    const handleDelete = async () => {
+        if (confirmDeleteId === null) return;
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/cards/${confirmDeleteId}`);
+            setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
+            setDeletedCardId(confirmDeleteId);
+            setEditModeId(null);
+            setConfirmDeleteId(null);
+        } catch (err) {
+            console.error("削除エラー:", err);
+        }
+    };
+
+    // 長押し・右クリックの管理
+    const handleContextMenu = (e: React.MouseEvent, id: number) => {
+        e.preventDefault();
+        setEditModeId(id);
+    };
+
+    // スマホの長押し開始時
+    const handleTouchStart = (id: number) => {
+        longPressTimer.current = setTimeout(() => {
+            setEditModeId(id);
+        }, 600);
+    };
+
+    // 指を離したら長押しキャンセル
+    const handleTouchEnd = () => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+        }
+    };
+
+    // 編集・削除メニュー以外をクリックしたら閉じる
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (!target.closest(".edit-delete-menu")) {
+                setEditModeId(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <>
@@ -37,16 +96,36 @@ export default function CardList() {
                         <Pagenation />
                         <CreateEdit
                             createHref="/create-cards"
-                            editHref="/cards/edit"
                             createIcon="http://127.0.0.1:8000/storage/images/icons/create-card.svg"
-                            editIcon="http://127.0.0.1:8000/storage/images/icons/edit-card.svg"
                         />
                     </div>
                     <div className="list-content">
-                        <Card categoryId={categoryId} onSelectedCard={handleSelectedCard} />
+                        <Card
+                            categoryId={categoryId as string}
+                            onSelectedCard={handleSelectedCard}
+                            editModeId={editModeId}
+                            onContextMenu={handleContextMenu}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                            onEdit={handleEdit}
+                            onConfirmDelete={setConfirmDeleteId}
+                            deletedCardId={deletedCardId}
+                        />
                     </div>
                 </div>
             </section>
+
+            {confirmDeleteId !== null && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p>選択したカードを削除しますか？</p>
+                        <div className="modal-buttons">
+                            <button className="cancel-btn" onClick={() => setConfirmDeleteId(null)}>キャンセル</button>
+                            <button className="delete-btn" onClick={handleDelete}>削除</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -2,21 +2,44 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from 'axios';
 import Pagenation from "@/components/pagenation";
-import CreateEdit from "@/components/create-edit-button";
+import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
-// import Category from "@/components/category";
+import Category from "@/components/category";
 import { CategoryData } from "../types/category";
 
 export default function CategoryPage() {
     const [categories, setCategories] = useState<CategoryData[]>([]);
     const [selectedCards, setSelectedCards] = useState<any[]>([]);
+    const [editModeId, setEditModeId] = useState<number | null>(null); // 編集・削除ボタン表示ID
+    const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+    const longPressTimer = useRef<NodeJS.Timeout | null>(null); // タイマーを保持
+    const router = useRouter();
 
-    //  特定のカードだけ削除
+    // デッキのカード削除
     const handleRemoveCard = (indexToRemove: number) => {
         setSelectedCards(prev => prev.filter((_, index) => index !== indexToRemove));
+    };
+
+    // カテゴリー編集ボタン
+    const handleEdit = (id: number) => {
+        router.push(`/categories/${id}/edit`);
+    };
+
+    // カテゴリー削除機能
+    const handleDelete = async () => {
+        if (confirmDeleteId === null) return;
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/categories/${confirmDeleteId}`);
+            setCategories(prev => prev.filter(cate => cate.id !== confirmDeleteId)); //選択したIDと一致しないものだけを取り出して、新しい配列を作る。
+            setEditModeId(null); // 削除後は編集・削除ボタンも閉じる
+            setConfirmDeleteId(null); // 削除確認ポップアップを閉じる
+        } catch (error) {
+            console.error("削除エラー:", error);
+        }
     };
 
     // ページ表示時にLaravel APIからカテゴリ一覧を取得
@@ -24,13 +47,6 @@ export default function CategoryPage() {
         const fetchCategories = async () => {
             try {
                 const res = await axios.get("http://127.0.0.1:8000/api/list-category"); // API呼び出し
-                console.log(res.data);
-                console.log("isArray:", Array.isArray(res.data));
-
-                // 配列かどうかで分岐して代入
-                // const data = Array.isArray(res.data) ? res.data : res.data.data;
-
-                //const data = await res.json(); // レスポンスをJSONで取得
                 setCategories(res.data); // stateに保存
                 console.log(categories);
 
@@ -39,16 +55,45 @@ export default function CategoryPage() {
                 console.error("カテゴリー取得失敗:", error);
             }
         };
-
         fetchCategories(); // 関数実行
     }, []);
 
-    // カテゴリ選択処理
-    const handleSelectCategory = (category: CategoryData) => {
-        setSelectedCards((prev) => [...prev, category]);
+    // 長押し・右クリックの管理
+    const handleContextMenu = (e: React.MouseEvent, id: number) => {
+        e.preventDefault(); // ブラウザの右クリックメニューを無効化
+        setEditModeId(id); // このIDのカテゴリーに編集メニューを表示
     };
 
-    console.log("ステートに保存されたcategories:", categories);
+    // スマホの長押し開始時
+    const handleTouchStart = (id: number) => {
+        longPressTimer.current = setTimeout(() => {
+            setEditModeId(id);
+        }, 600); // 600ms 長押しで編集ボタン表示
+    };
+
+    // 指を離したら長押しキャンセル
+    const handleTouchEnd = () => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+        }
+    };
+
+    // 編集・削除メニュー以外をクリックしたら閉じる
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+
+            // .edit-delete-menu内をクリックしたときは無視。それ以外ならメニューを閉じる
+            if (!target.closest(".edit-delete-menu")) {
+                setEditModeId(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <>
@@ -57,35 +102,40 @@ export default function CategoryPage() {
                 <div className="content_wrap">
                     <div className="list-top">
                         <Pagenation />
-                        <CreateEdit
+                        <CreateButton
                             createHref="/categories/create"
-                            editHref="/categories/edit"
                             createIcon="http://127.0.0.1:8000/storage/images/icons/create-category.svg"
-                            editIcon="http://127.0.0.1:8000/storage/images/icons/edit-category.svg"
                         />
                     </div>
 
                     {/* カテゴリー一覧 */}
                     <div className="list-content">
-                        {/* .mapで配列の中身を1つずつ表示 */}
-                        {categories.map((category) => (
-                            // カード一覧に遷移
-                            <Link key={category.id} href={`/categories/${category.id}/cards`} className="category-wrap">
-                                <Image src="http://127.0.0.1:8000/storage/images/icons/category.svg" alt="カテゴリー枠" className="category" width={40} height={40} />
-                                <Image
-                                    src={category.category_img.startsWith("http") ? category.category_img : `/assets/images/${category.category_img}`}
-                                    alt={category.name}
-                                    className="category-img"
-                                    width={80} height={80}
-                                />
-                                <div className="category-name-wrap">
-                                    <p className="category-name">{category.name}</p>
-                                </div>
-                            </Link>
-                        ))}
+                        <Category
+                            categories={categories}
+                            editModeId={editModeId}
+                            onContextMenu={handleContextMenu}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                            onEdit={handleEdit}
+                            onConfirmDelete={setConfirmDeleteId}
+                        />
                     </div>
                 </div>
             </section>
+
+            {confirmDeleteId !== null && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p>選択したカテゴリーを削除しますか？<br></br>
+                            削除すると<b>カテゴリー内のカードも全て削除</b>されます。</p>
+                        <div className="modal-buttons">
+                            <button className="cancel-btn" onClick={() => setConfirmDeleteId(null)}>キャンセル</button>
+                            <button className="delete-btn" onClick={handleDelete}>削除</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </>
     );
 }
