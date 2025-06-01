@@ -10,9 +10,26 @@ import { CardData } from "@/app/types/card";
 type CardProps = {
     categoryId: string;
     onSelectedCard: (card: CardData) => void;
+    editModeId: number | null;
+    onContextMenu: (e: React.MouseEvent, id: number) => void;
+    onTouchStart: (id: number) => void;
+    onTouchEnd: () => void;
+    onEdit: (id: number) => void;
+    onConfirmDelete: (id: number) => void;
+    deletedCardId: number | null;
 }
 
-export default function Card({ categoryId, onSelectedCard }: CardProps) {
+export default function Card({
+    categoryId,
+    onSelectedCard,
+    editModeId,
+    onContextMenu,
+    onTouchStart,
+    onTouchEnd,
+    onEdit,
+    onConfirmDelete,
+    deletedCardId
+}: CardProps) {
     const [cards, setCards] = useState<CardData[]>([]); // CardDataの配列
 
     useEffect(() => {
@@ -29,14 +46,35 @@ export default function Card({ categoryId, onSelectedCard }: CardProps) {
         if (categoryId) fetchCards();
     }, [categoryId]);
 
+    // 削除IDが来たらそのカードだけ除外する
+    useEffect(() => {
+        if (deletedCardId !== null) {
+            setCards(prev => prev.filter(card => card.id !== deletedCardId));
+        }
+    }, [deletedCardId]);
+
     return (
         <>
             {cards.map((card) => (
-                <button key={card.id} onClick={() => onSelectedCard(card)} className="card-wrap">
+                <div
+                    key={card.id}
+                    className="card-wrap"
+                    onClick={() => onSelectedCard(card)}
+                    onContextMenu={(e) => onContextMenu(e, card.id)}
+                    onTouchStart={() => onTouchStart(card.id)}
+                    onTouchEnd={onTouchEnd}
+                >
                     <Image src="http://127.0.0.1:8000/storage/images/icons/card.svg" className="card" width={20} height={20} alt="card" />
-                    <Image src={card.card_img} className="card-img" width={80} height={80} alt={card.name} />
+                    <Image src={card.card_img.startsWith("http") ? card.card_img : `/assets/images/${card.card_img}`} className="card-img" width={80} height={80} alt={card.name} />
                     <p className="card-name">{card.name}</p>
-                </button>
+
+                    {editModeId === card.id && (
+                        <div className="edit-delete-menu">
+                            <button onClick={() => onEdit(card.id)}>編集</button>
+                            <button onClick={() => onConfirmDelete(card.id)}>削除</button>
+                        </div>
+                    )}
+                </div>
             ))}
         </>
     );

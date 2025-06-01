@@ -35,7 +35,6 @@ Route::get('/list-category', [CategoryController::class, 'index']);
 Route::get('/categories/{id}/cards', [CategoryController::class, 'show']);
 Route::get('/categories/{id}/cards', [CategoryController::class, 'cardsByCategory']);
 
-
 // カテゴリー編集
 Route::put('/categories/{id}', [CategoryController::class, 'update']);
 

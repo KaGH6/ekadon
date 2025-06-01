@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Pagenation from "@/components/pagenation";
-import CreateEdit from "@/components/create-edit-button";
+import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
 
 export default function CategoryPage() {
@@ -25,11 +25,9 @@ export default function CategoryPage() {
                 <div className="content_wrap">
                     <div className="list-top">
                         <Pagenation />
-                        <CreateEdit
+                        <CreateButton
                             createHref="/categories/create"
-                            editHref="/categories/edit"
                             createIcon="http://127.0.0.1:8000/storage/images/icons/create-category.svg"
-                            editIcon="http://127.0.0.1:8000/storage/images/icons/edit-category.svg"
                         />
                     </div>
                     <div className="home-list">

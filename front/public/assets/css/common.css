@@ -20,6 +20,31 @@
     font-weight: bold;
 }
 
+.white {
+    color: var(--white);
+}
+
+.lightgray {
+    color: var(--lightgray);
+}
+
+.gray {
+    color: var(--gray);
+}
+
+.black {
+    color: var(--black);
+}
+
+.red {
+    color: var(--red);
+}
+
+.blue {
+    color: var(--blue);
+}
+
+
 /* 確認用 */
 .bac {
     background-color: rgb(255, 245, 213);
@@ -32,7 +57,7 @@ html,
 body {
     font-family: "Titillium Web", sans-serif;
     font-weight: normal;
-    letter-spacing: 0;
+    letter-spacing: 0.7;
     margin: 0;
     width: 100% !important;
     height: 100% !important;
@@ -57,6 +82,10 @@ img {
     height: auto;
     width: 100%;
     vertical-align: middle;
+}
+
+button {
+    letter-spacing: 0.7;
 }
 
 body,
