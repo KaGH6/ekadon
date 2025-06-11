@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from 'next/link';
 import { useState } from "react";
 import { CardData } from "@/app/types/card";
 import { useRouter, usePathname } from "next/navigation";
@@ -52,29 +53,29 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="/">ホーム</a>
+                                <Link className="drawer__nav__link" href="/">ホーム</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="/categories">カテゴリー 一覧</a>
+                                <Link className="drawer__nav__link" href="/categories">カテゴリー 一覧</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="/categories/create">カテゴリー作成</a>
+                                <Link className="drawer__nav__link" href="/categories/create">カテゴリー作成</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="/create-cards">カード作成</a>
+                                <Link className="drawer__nav__link" href="/create-cards">カード作成</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">チェックリスト一覧</a>
+                                <Link className="drawer__nav__link" href="/">チェックリスト一覧</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <a className="drawer__nav__link" href="#">チェックリスト作成</a>
+                                <Link className="drawer__nav__link" href="/">チェックリスト作成</Link>
                             </li>
                         </ul>
 
                         <div className="auth">
-                            <a href="/auth/signup">新規登録（開発用）</a>
-                            <a href="/auth/login">ログイン（開発用）</a>
-                            <a href="#">ログアウト</a>
+                            <Link href="/auth/signup">新規登録（開発用）</Link>
+                            <Link href="/auth/login">ログイン（開発用）</Link>
+                            <Link href="/">ログアウト</Link>
                         </div>
                     </div>
                 </nav>
