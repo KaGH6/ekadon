@@ -57,7 +57,7 @@ export default function Category({
                 >
                     <Link href={`/categories/${category.id}/cards`} className="category-wrap">
                         <Image
-                            src="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/category.svg"
+                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category.svg"
                             alt="カテゴリー枠"
                             className="category"
                             width={40}
