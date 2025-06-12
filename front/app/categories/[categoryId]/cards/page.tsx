@@ -96,7 +96,7 @@ export default function CardList() {
                         <Pagenation />
                         <CreateEdit
                             createHref="/create-cards"
-                            createIcon="http://127.0.0.1:8000/storage/images/icons/create-card.svg"
+                            createIcon="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/create-card.svg"
                         />
                     </div>
                     <div className="list-content">
