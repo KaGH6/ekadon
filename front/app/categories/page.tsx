@@ -104,7 +104,7 @@ export default function CategoryPage() {
                         <Pagenation />
                         <CreateButton
                             createHref="/categories/create"
-                            createIcon="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
+                            createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
                         />
                     </div>
 

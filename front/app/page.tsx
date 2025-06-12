@@ -27,16 +27,16 @@ export default function CategoryPage() {
                         <Pagenation />
                         <CreateButton
                             createHref="/categories/create"
-                            createIcon="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
+                            createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
                         />
                     </div>
                     <div className="home-list">
                         <Link href={`/categories`} className="home-content">
-                            <Image src="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/checklist.svg" alt="チェックリスト" className="home-list-img" width={70} height={70} />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/checklist.svg" alt="チェックリスト" className="home-list-img" width={70} height={70} />
                             <h3>チェックリスト</h3>
                         </Link>
                         <Link href={`/categories`} className="home-content">
-                            <Image src="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/card-category.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/card-category.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
                             <h3>カテゴリー</h3>
                         </Link>
                     </div>

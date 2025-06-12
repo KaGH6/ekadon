@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function CardCreate() {
     const [cardName, setCardName] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null); // 最初はファイルが選ばれていない（null）だが、選ばれたらFile型になる
-    const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"); // 選択した画像を表示するため
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"); // 選択した画像を表示するため
     const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number | "">("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,7 +104,7 @@ export default function CardCreate() {
                         </label>
                         <h3 className="mt3 mb05">2. カテゴリー選択</h3>
                         <select className="select-category" required value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))}>
-                            {/* <Image src="https://ekadon-bucket.s3.ap-northeast-1.amazonaws.com/icons/search-category.svg" alt="search-category" className="search-category" width={30} height={30} /> */}
+                            {/* <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/search-category.svg" alt="search-category" className="search-category" width={30} height={30} /> */}
                             <option value="">カテゴリを選択</option>
                             {categories.map((cate) => (
                                 <option key={cate.id} value={cate.id}>
