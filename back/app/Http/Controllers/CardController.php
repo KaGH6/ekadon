@@ -29,9 +29,10 @@ class CardController extends Controller {
 
         // 画像ファイルの保存
         if ($request->hasFile('card_img')) {
-            $path = $request->file('card_img')->store('images/card_imgs', 'public');
+           // $path = $request->file('card_img')->store('images/card_imgs', 'public');
             // 'public/card_imgs/xxx.jpg' → 'storage/card_imgs/xxx.jpg' に変換
-            $validated['card_img'] = asset('storage/' . $path);
+           // $validated['card_img'] = asset('storage/' . $path);
+	$validated['card_img'] = $this->saveCardImage($request->file('card_img'));
         }
 
         // バリデーションを通過したデータで新しいカードを作成
@@ -72,8 +73,14 @@ class CardController extends Controller {
 
         // 画像が送信されていれば保存処理
         if ($request->hasFile('card_img')) {
-            $path = $request->file('card_img')->store('images/card_imgs', 'public');
-            $validated['card_img'] = asset('storage/' . $path);
+           // $path = $request->file('card_img')->store('images/card_imgs', 'public');
+           // $validated['card_img'] = asset('storage/' . $path);
+
+	    if ($card->card_img) {
+                $this->deleteCardImage($card->card_img);
+            }
+	    // 新しい画像を保存
+            $validated['card_img'] = $this->saveCardImage($request->file('card_img'));
         }
 
         // カード情報を更新
@@ -90,8 +97,9 @@ class CardController extends Controller {
 
         // 画像ファイルの削除（URLからパスを抽出）
         if ($card->card_img) {
-            $relativePath = str_replace(asset('storage') . '/', '', $card->card_img);
-            Storage::disk('public')->delete($relativePath);
+            // $relativePath = str_replace(asset('storage') . '/', '', $card->card_img);
+            // Storage::disk('public')->delete($relativePath);
+	$this->deleteCardImage($card->card_img);
         }
 
         // 削除実行
@@ -99,5 +107,24 @@ class CardController extends Controller {
 
         // 削除結果を返す
         return response()->json(['message' => 'カードと画像を削除しました。']);
+    }
+
+    // S3に画像を保存してURLを返す
+    private function saveCardImage($file)
+    {
+        $path = $file->store('card_imgs', 's3');
+        return Storage::disk('s3')->url($path);
+    }
+
+    // S3から画像を削除する
+    private function deleteCardImage($imageUrl)
+    {
+        $disk = 's3';
+        $bucketUrl = Storage::disk($disk)->url('');
+        $relativePath = str_replace($bucketUrl, '', $imageUrl);
+
+        Storage::disk($disk)->delete($relativePath);
+
+        \Log::info('S3カード画像削除: ' . $relativePath);
     }
 }

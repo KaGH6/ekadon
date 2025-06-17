@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from 'next/link';
 import { useState } from "react";
 import { CardData } from "@/app/types/card";
 import { useRouter, usePathname } from "next/navigation";
@@ -37,7 +36,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
 
                 {/* 前のページに戻るボタン */}
                 <button onClick={() => router.back()}>
-                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/back.svg" alt="" className="header-back" width={30} height={30} />
+                    <Image src="http://127.0.0.1:8000/storage/images/icons/back.svg" alt="" className="header-back" width={30} height={30} />
                 </button>
 
                 {/* タイトル表示 */}
@@ -53,29 +52,29 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/">ホーム</Link>
+                                <a className="drawer__nav__link" href="/">ホーム</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/categories">カテゴリー 一覧</Link>
+                                <a className="drawer__nav__link" href="/categories">カテゴリー 一覧</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/categories/create">カテゴリー作成</Link>
+                                <a className="drawer__nav__link" href="/categories/create">カテゴリー作成</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/create-cards">カード作成</Link>
+                                <a className="drawer__nav__link" href="/create-cards">カード作成</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/">チェックリスト一覧</Link>
+                                <a className="drawer__nav__link" href="#">チェックリスト一覧</a>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/">チェックリスト作成</Link>
+                                <a className="drawer__nav__link" href="#">チェックリスト作成</a>
                             </li>
                         </ul>
 
                         <div className="auth">
-                            <Link href="/auth/signup">新規登録（開発用）</Link>
-                            <Link href="/auth/login">ログイン（開発用）</Link>
-                            <Link href="/">ログアウト</Link>
+                            <a href="/auth/signup">新規登録（開発用）</a>
+                            <a href="/auth/login">ログイン（開発用）</a>
+                            <a href="#">ログアウト</a>
                         </div>
                     </div>
                 </nav>
