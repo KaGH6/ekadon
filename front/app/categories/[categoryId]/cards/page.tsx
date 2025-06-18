@@ -44,7 +44,7 @@ export default function CardList() {
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
         try {
-            await axios.delete(`http://52.194.120.11/api/cards/${confirmDeleteId}`);
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cards/${confirmDeleteId}`);
             setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
             setDeletedCardId(confirmDeleteId);
             setEditModeId(null);

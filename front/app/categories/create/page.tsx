@@ -31,7 +31,7 @@ export default function CreateCategoryPage() {
             formData.append("category_img", categoryImg);
 
             // axiosでAPIに送信（POST）
-            await axios.post("http://52.194.120.11/api/create-category", formData, {
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/create-category`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
