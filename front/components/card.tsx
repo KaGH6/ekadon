@@ -35,7 +35,7 @@ export default function Card({
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await axios.get<CardData[]>(`http://52.194.120.11/api/categories/${categoryId}/cards`);
+                const res = await axios.get<CardData[]>(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`);
                 console.log(res.data);
                 setCards(res.data);
             } catch (err) {

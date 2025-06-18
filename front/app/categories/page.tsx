@@ -46,7 +46,7 @@ export default function CategoryPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await axios.get("http://52.194.120.11/api/list-category"); // API呼び出し
+                const res = await axios.get("${process.env.NEXT_PUBLIC_API_URL}/list-category"); // API呼び出し
                 setCategories(res.data); // stateに保存
                 console.log(categories);
 

@@ -18,7 +18,7 @@ export default function CardCreate() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch("http://52.194.120.11/api/list-category");
+                const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/list-category");
                 const data = await res.json();
                 setCategories(data);
             } catch (error) {
@@ -65,7 +65,7 @@ export default function CardCreate() {
         setIsSubmitting(true);
 
         try {
-            const res = await fetch("http://52.194.120.11/api/create-card", {
+            const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/create-card", {
                 method: "POST",
                 body: formData,
             });
