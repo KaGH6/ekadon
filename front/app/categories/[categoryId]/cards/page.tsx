@@ -44,7 +44,7 @@ export default function CardList() {
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/cards/${confirmDeleteId}`);
+            await axios.delete(`https://ekadon.com/api/cards/${confirmDeleteId}`);
             setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
             setDeletedCardId(confirmDeleteId);
             setEditModeId(null);
@@ -96,7 +96,7 @@ export default function CardList() {
                         <Pagenation />
                         <CreateEdit
                             createHref="/create-cards"
-                            createIcon="http://127.0.0.1:8000/storage/images/icons/create-card.svg"
+                            createIcon="https://ekadon.com/storage/images/icons/create-card.svg"
                         />
                     </div>
                     <div className="list-content">

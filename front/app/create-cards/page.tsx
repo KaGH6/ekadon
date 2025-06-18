@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function CardCreate() {
     const [cardName, setCardName] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null); // 最初はファイルが選ばれていない（null）だが、選ばれたらFile型になる
-    const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("http://127.0.0.1:8000/storage/images/icons/select-img.svg"); // 選択した画像を表示するため
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("https://ekadon.com/storage/images/icons/select-img.svg"); // 選択した画像を表示するため
     const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number | "">("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,7 +18,7 @@ export default function CardCreate() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/list-category");
+                const res = await fetch("https://ekadon.com/api/list-category");
                 const data = await res.json();
                 setCategories(data);
             } catch (error) {
@@ -65,7 +65,7 @@ export default function CardCreate() {
         setIsSubmitting(true);
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/create-card", {
+            const res = await fetch("https://ekadon.com/api/create-card", {
                 method: "POST",
                 body: formData,
             });
@@ -104,7 +104,7 @@ export default function CardCreate() {
                         </label>
                         <h3 className="mt3 mb05">2. カテゴリー選択</h3>
                         <select className="select-category" required value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))}>
-                            {/* <Image src="http://127.0.0.1:8000/storage/images/icons/search-category.svg" alt="search-category" className="search-category" width={30} height={30} /> */}
+                            {/* <Image src="https://ekadon.com/storage/images/icons/search-category.svg" alt="search-category" className="search-category" width={30} height={30} /> */}
                             <option value="">カテゴリを選択</option>
                             {categories.map((cate) => (
                                 <option key={cate.id} value={cate.id}>
