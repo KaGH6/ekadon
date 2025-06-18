@@ -35,7 +35,7 @@ export default function Card({
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await axios.get<CardData[]>(`https://ekadon.com/api/categories/${categoryId}/cards`);
+                const res = await axios.get<CardData[]>(`http://52.194.120.11/api/categories/${categoryId}/cards`);
                 console.log(res.data);
                 setCards(res.data);
             } catch (err) {
@@ -64,7 +64,7 @@ export default function Card({
                     onTouchStart={() => onTouchStart(card.id)}
                     onTouchEnd={onTouchEnd}
                 >
-                    <Image src="https://ekadon.com/storage/images/icons/card.svg" className="card" width={20} height={20} alt="card" />
+                    <Image src="http://52.194.120.11/storage/images/icons/card.svg" className="card" width={20} height={20} alt="card" />
                     <Image src={card.card_img.startsWith("http") ? card.card_img : `/assets/images/${card.card_img}`} className="card-img" width={80} height={80} alt={card.name} />
                     <p className="card-name">{card.name}</p>
 

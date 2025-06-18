@@ -11,7 +11,7 @@ export default function CreateCategoryPage() {
     const [name, setName] = useState(""); // カテゴリー名
     const [categoryImg, setCategoryImg] = useState<File | null>(null); // 画像ファイル
     const [error, setError] = useState(""); // エラーメッセージ
-    const [previewUrl, setPreviewUrl] = useState<string>("https://ekadon.com/storage/images/icons/select-img.svg"); // 選択した画像を表示するため
+    const [previewUrl, setPreviewUrl] = useState<string>("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"); // 選択した画像を表示するため
 
 
     // フォーム送信処理
@@ -31,7 +31,7 @@ export default function CreateCategoryPage() {
             formData.append("category_img", categoryImg);
 
             // axiosでAPIに送信（POST）
-            await axios.post("https://ekadon.com/api/create-category", formData, {
+            await axios.post("http://52.194.120.11/api/create-category", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -78,7 +78,7 @@ export default function CreateCategoryPage() {
                         </label>
                         <h3 className="mt3 mb05">3. カード選択（任意）</h3>
                         <label className="create-wrap select-cards">
-                            <img src="https://ekadon.com/storage/images/icons/select-cards.svg" alt="カード選択" className="select-cards-img" />
+                            <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-cards.svg" alt="カード選択" className="select-cards-img" />
                             <p className="select-img-text bold">カードを選択</p>
                         </label>
 

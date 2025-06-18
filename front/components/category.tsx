@@ -35,7 +35,7 @@ export default function Category({
     // useEffect(() => {
     //     const fetchCategories = async () => {
     //         try {
-    //             const res = await axios.get<CategoryData[]>("https://ekadon.com/api/list-category");
+    //             const res = await axios.get<CategoryData[]>("http://52.194.120.11/api/list-category");
     //             console.log(res.data);
     //             setCategories(res.data);
     //         } catch (err) {
@@ -57,7 +57,7 @@ export default function Category({
                 >
                     <Link href={`/categories/${category.id}/cards`} className="category-wrap">
                         <Image
-                            src="https://ekadon.com/storage/images/icons/category.svg"
+                            src="http://52.194.120.11/storage/images/icons/category.svg"
                             alt="カテゴリー枠"
                             className="category"
                             width={40}

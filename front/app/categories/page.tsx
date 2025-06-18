@@ -33,7 +33,7 @@ export default function CategoryPage() {
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
         try {
-            await axios.delete(`https://ekadon.com/api/categories/${confirmDeleteId}`);
+            await axios.delete(`http://52.194.120.11/api/categories/${confirmDeleteId}`);
             setCategories(prev => prev.filter(cate => cate.id !== confirmDeleteId)); //選択したIDと一致しないものだけを取り出して、新しい配列を作る。
             setEditModeId(null); // 削除後は編集・削除ボタンも閉じる
             setConfirmDeleteId(null); // 削除確認ポップアップを閉じる
@@ -46,7 +46,7 @@ export default function CategoryPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await axios.get("https://ekadon.com/api/list-category"); // API呼び出し
+                const res = await axios.get("http://52.194.120.11/api/list-category"); // API呼び出し
                 setCategories(res.data); // stateに保存
                 console.log(categories);
 
@@ -104,7 +104,7 @@ export default function CategoryPage() {
                         <Pagenation />
                         <CreateButton
                             createHref="/categories/create"
-                            createIcon="https://ekadon.com/storage/images/icons/create-category.svg"
+                            createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
                         />
                     </div>
 
