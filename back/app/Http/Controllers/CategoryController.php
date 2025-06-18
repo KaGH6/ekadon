@@ -8,8 +8,6 @@ use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-// エラーハンドリングのコードをかいとく
-
 class CategoryController extends Controller {
     // 全てのカテゴリーを取得
     public function index() {
@@ -21,9 +19,6 @@ class CategoryController extends Controller {
 
     // カテゴリー作成
     public function store(Request $request) {
-
-        // この定義も、storeの外で定義もあり、で、storeやupdateで呼び出す
-        // storeでもupdateでもバリデーションするなら、いっこに共通化した方が良い
         $validated = $request->validate([
             'name' => 'required|string|max:30',
             // 'category_img' => 'required|string|url|max:255',
@@ -33,12 +28,10 @@ class CategoryController extends Controller {
         ]);
 
         // 画像ファイルの保存
-        // 別関数、この関数（store）の外でsaveimg関数よびだす
-        // 画像ファイルの保存自体が、バリデーションが変わる
-        // updateで使うかもなので、いっこ関数を共通化させとく
         if ($request->hasFile('category_img')) {
-            $path = $request->file('category_img')->store('images/category_imgs', 'public');
-            $validated['category_img'] = asset('storage/' . $path);
+           // $path = $request->file('category_img')->store('images/category_imgs', 'public');
+           // $validated['category_img'] = asset('storage/' . $path);
+	   $validated['category_img'] = $this->saveCategoryImage($request->file('category_img'));
         }
 
         // ログイン中のユーザーIDを使う
@@ -81,8 +74,15 @@ class CategoryController extends Controller {
 
         // 画像ファイルが送信されていれば保存
         if ($request->hasFile('category_img')) {
-            $path = $request->file('category_img')->store('images/category_imgs', 'public');
-            $validated['category_img'] = asset('storage/' . $path);
+           // $path = $request->file('category_img')->store('images/category_imgs', 'public');
+           // $validated['category_img'] = asset('storage/' . $path);
+	   //  $validated['category_img'] = $this->saveCategoryImage($request->file('category_img'));
+	   // 古い画像を削除
+           if ($category->category_img) {
+               $this->deleteCategoryImage($category->category_img);
+           }
+	   // 新しい画像を保存
+           $validated['category_img'] = $this->saveCategoryImage($request->file('category_img'));
         }
 
         // 更新
@@ -100,8 +100,9 @@ class CategoryController extends Controller {
         // カテゴリー画像が存在する場合は削除
         if ($category->category_img) {
             // 画像URLから "storage/" を除いたパスを抽出
-            $relativePath = str_replace(asset('storage') . '/', '', $category->category_img);
-            Storage::disk('public')->delete($relativePath);
+           // $relativePath = str_replace(asset('storage') . '/', '', $category->category_img);
+           // Storage::disk('public')->delete($relativePath);
+	   $this->deleteCategoryImage($category->category_img);
         }
 
         // 削除実行
@@ -109,5 +110,24 @@ class CategoryController extends Controller {
 
         // レスポンス
         return response()->json(['message' => 'カテゴリーを削除しました。']);
+    }
+
+	// 画像保存：S3にアップロードしてURLを返す 
+    private function saveCategoryImage($file)
+    {
+        $path = $file->store('category_imgs', 's3');
+        return Storage::disk('s3')->url($path);
+    }
+
+    // 画像削除：S3のURLからパスを抽出して削除
+    private function deleteCategoryImage($imageUrl)
+    {
+        $disk = 's3';
+        $bucketUrl = Storage::disk($disk)->url('');
+	$relativePath = str_replace($bucketUrl, '', $imageUrl); // パス部分だけにする
+        Storage::disk($disk)->delete($relativePath);
+
+        // デバッグログ
+        \Log::info('S3画像削除: ' . $relativePath);
     }
 }
