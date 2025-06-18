@@ -37,7 +37,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
 
                 {/* 前のページに戻るボタン */}
                 <button onClick={() => router.back()}>
-                    <Image src="https://ekadon.com/storage/images/icons/back.svg" alt="" className="header-back" width={30} height={30} />
+                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/back.svg" alt="" className="header-back" width={30} height={30} />
                 </button>
 
                 {/* タイトル表示 */}
