@@ -64,11 +64,7 @@ export default function Category({
                             height={40}
                         />
                         <Image
-                            src={
-                                category.category_img.startsWith("http")
-                                    ? category.category_img
-                                    : `/assets/images/${category.category_img}`
-                            }
+                            src={category.category_img}
                             alt={category.name}
                             className="category-img"
                             width={80}
