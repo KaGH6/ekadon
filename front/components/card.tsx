@@ -64,8 +64,14 @@ export default function Card({
                     onTouchStart={() => onTouchStart(card.id)}
                     onTouchEnd={onTouchEnd}
                 >
-                    <Image src="http://52.194.120.11/storage/images/icons/card.svg" className="card" width={20} height={20} alt="card" />
-                    <Image src={card.card_img.startsWith("http") ? card.card_img : `/assets/images/${card.card_img}`} className="card-img" width={80} height={80} alt={card.name} />
+                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/card.svg" className="card" width={20} height={20} alt="card" />
+                    <Image
+                        src={card.card_img}
+                        alt={card.name}
+                        width={80}
+                        height={80}
+                        className="card-img"
+                    />
                     <p className="card-name">{card.name}</p>
 
                     {editModeId === card.id && (
