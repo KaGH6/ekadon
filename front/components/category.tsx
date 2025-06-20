@@ -44,11 +44,10 @@ export default function Category({
     //     };
     //     fetchCategories();
     // }, []);
-{categories.map((category) => (
-            console.log("category_img URL:", category.category_img);
+
     return (
         <>
-            
+            {categories.map((category) => (
                 <div
                     key={category.id}
                     onContextMenu={(e) => onContextMenu(e, category.id)}
