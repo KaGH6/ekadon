@@ -33,7 +33,7 @@ class CategoryController extends Controller {
            // $validated['category_img'] = asset('storage/' . $path);
 	       // $validated['category_img'] = $this->saveCategoryImage($request->file('category_img'));
             $path = $request->file('category_img')->store('category_imgs', 's3');
-            $fullUrl = Storage::disk('s3')->url($path);
+            $validated['category_img'] = Storage::disk('s3')->url($path);
         }
 
         // ログイン中のユーザーIDを使う
