@@ -63,7 +63,7 @@ export default function Category({
                             width={40}
                             height={40}
                         />
-                        <Image
+                        <img
                             src={category.category_img}
                             alt={category.name}
                             className="category-img"
