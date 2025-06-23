@@ -16,14 +16,16 @@ return [
     */
 
     // 'paths' => ['api/*', 'sanctum/csrf-cookie'],
-    'paths' => ['api/*'],
+    // 'paths' => ['api/*'],	
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
     // 'allowed_origins' => ['*'],
     // 'allowed_origins' => ['http://localhost:3000'], // Next.js のURLに変更
     // 'allowed_origins' => [env('CORS_ALLOWED_ORIGINS', '*')],
-    'allowed_origins' => ['https://ekadon.com', 'https://ekadon.vercel.app'],
+    // 'allowed_origins' => ['https://ekadon.com', 'https://ekadon.vercel.app'],
+	'allowed_origins' => ['https://ekadon.com'],
 
     'allowed_origins_patterns' => [],
 
