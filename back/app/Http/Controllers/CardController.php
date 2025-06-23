@@ -92,21 +92,41 @@ class CardController extends Controller {
 
     // カード削除
     public function destroy($id) {
-        // 対象のカードを取得（存在しなければ404）
-        $card = Card::findOrFail($id);
+	\Log::info('カード削除処理開始');
 
-        // 画像ファイルの削除（URLからパスを抽出）
+	try {
+         $card = Card::findOrFail($id);
+         \Log::info('カード取得成功: ' . json_encode($card));
+
         if ($card->card_img) {
-            // $relativePath = str_replace(asset('storage') . '/', '', $card->card_img);
-            // Storage::disk('public')->delete($relativePath);
-	$this->deleteCardImage($card->card_img);
+            \Log::info('カード画像あり: ' . $card->card_img);
+            $this->deleteCardImage($card->card_img);
         }
 
-        // 削除実行
         $card->delete();
+         \Log::info('カードDB削除成功');
+
+        return response()->json(['message' => 'カードと画像を削除しました。']);
+    	} catch (\Exception $e) {
+         \Log::error(' カード削除失敗: ' . $e->getMessage());
+         return response()->json(['error' => '削除に失敗しました'], 500);
+    	}
+
+        // 対象のカードを取得（存在しなければ404）
+        // $card = Card::findOrFail($id);
+
+        // 画像ファイルの削除（URLからパスを抽出）
+        // if ($card->card_img) {
+            // $relativePath = str_replace(asset('storage') . '/', '', $card->card_img);
+            // Storage::disk('public')->delete($relativePath);
+	// $this->deleteCardImage($card->card_img);
+        // }
+
+        // 削除実行
+        // $card->delete();
 
         // 削除結果を返す
-        return response()->json(['message' => 'カードと画像を削除しました。']);
+        // return response()->json(['message' => 'カードと画像を削除しました。']);
     }
 
     // S3に画像を保存してURLを返す
@@ -121,10 +141,22 @@ class CardController extends Controller {
     {
         $disk = 's3';
         $bucketUrl = Storage::disk($disk)->url('');
+
+	\Log::info('削除対象URL: ' . $imageUrl);
+	\Log::info('バケットURL: ' . $bucketUrl);
+
         $relativePath = str_replace($bucketUrl, '', $imageUrl);
 
-        Storage::disk($disk)->delete($relativePath);
+	\Log::info('S3削除対象パス: ' . $relativePath);
 
-        \Log::info('S3カード画像削除: ' . $relativePath);
+        // Storage::disk($disk)->delete($relativePath);
+        // \Log::info('S3カード画像削除: ' . $relativePath);
+
+	try {
+	 Storage::disk($disk)->delete($relativePath);
+	 \Log::info(' S3カード画像削除成功');
+	} catch (\Exception $e) {
+	 \Log::error(' S3画像削除エラー: ' . $e->getMessage());
+	}
     }
 }
