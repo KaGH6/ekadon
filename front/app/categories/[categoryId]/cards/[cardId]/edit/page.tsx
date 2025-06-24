@@ -104,7 +104,7 @@ export default function EditCard() {
                                 style={{ display: "none" }}
                                 onChange={handleImageChange}
                             />
-                            <Image
+                            <img
                                 src={imagePreviewUrl}
                                 alt="カード画像"
                                 className="select-img"
