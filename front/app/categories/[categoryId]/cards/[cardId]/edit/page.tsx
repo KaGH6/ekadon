@@ -21,10 +21,10 @@ export default function EditCard() {
         const fetchCard = async () => {
             try {
                 const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`);
-                const data = res.data;
-                setCardName(data.name);
-                setSelectedCategory(data.category_id);
-                setImagePreviewUrl(data.card_img);
+                // const data = res.data;
+                setCardName(res.data.name);
+                setSelectedCategory(res.data.category_id);
+                setImagePreviewUrl(res.data.card_img);
             } catch (error) {
                 console.error("カード取得失敗:", error);
             }
