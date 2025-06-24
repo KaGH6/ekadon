@@ -20,11 +20,11 @@ export default function EditCard() {
     useEffect(() => {
         const fetchCard = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`);
-                const data = await res.json();
-                setCardName(res.data.name);
-                setSelectedCategory(res.data.category_id);
-                setImagePreviewUrl(res.data.card_img);
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`);
+                const data = res.data;
+                setCardName(data.name);
+                setSelectedCategory(data.category_id);
+                setImagePreviewUrl(data.card_img);
             } catch (error) {
                 console.error("カード取得失敗:", error);
             }
@@ -36,9 +36,8 @@ export default function EditCard() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
-                const data = await res.json();
-                setCategories(data);
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
+                setCategories(res.data);
             } catch (error) {
                 console.error("カテゴリ取得失敗:", error);
             }
@@ -67,8 +66,7 @@ export default function EditCard() {
             formData.append("card_img", imageFile);
         }
         formData.append("category_id", selectedCategory.toString());
-        formData.append("user_id", "1"); // 仮ユーザー
-        // formData.append("_method", "PUT");
+        formData.append("user_id", "1"); // 仮ユーザーID
 
         setIsSubmitting(true);
 
@@ -104,14 +102,16 @@ export default function EditCard() {
                                 style={{ display: "none" }}
                                 onChange={handleImageChange}
                             />
-                            <Image
-                                src={imagePreviewUrl}
-                                alt="カード画像"
-                                className="select-img"
-                                width={30}
-                                height={30}
-                                onClick={() => document.getElementById("img-file")?.click()}
-                            />
+                            {imagePreviewUrl && (
+                                <Image
+                                    src={imagePreviewUrl}
+                                    alt="カード画像"
+                                    className="select-img"
+                                    width={80}
+                                    height={80}
+                                    onClick={() => document.getElementById("img-file")?.click()}
+                                />
+                            )}
                             <p className="select-img-text bold">画像を選択</p>
                             <textarea
                                 className="put-name"
