@@ -103,15 +103,15 @@ export default function EditCard() {
                                 onChange={handleImageChange}
                             />
                             {imagePreviewUrl && (
-                                <Image
-                                    src={imagePreviewUrl}
-                                    alt="カード画像"
-                                    className="select-img"
-                                    width={80}
-                                    height={80}
-                                    onClick={() => document.getElementById("img-file")?.click()}
-                                />
-                            )}
+  <img
+    src={imagePreviewUrl}
+    alt="カード画像"
+    className="select-img"
+    width={80}
+    height={80}
+    onClick={() => document.getElementById("img-file")?.click()}
+  />
+)}
                             <p className="select-img-text bold">画像を選択</p>
                             <textarea
                                 className="put-name"
