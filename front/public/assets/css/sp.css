@@ -498,7 +498,7 @@ body.fullscreen #list {
     position: relative;
 }
 
-#create .select-img-text {
+.select-img-text {
     top: 43%;
     right: 0;
     bottom: 0%;
