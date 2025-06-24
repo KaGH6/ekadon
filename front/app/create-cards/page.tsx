@@ -90,7 +90,7 @@ export default function CardCreate() {
     };
 
     return (
-        <div id="create" className="bac">
+        <div id="create-edit" className="bac">
             <section id="input">
                 <div className="content_wrap">
                     <form action="" className="create-card" onSubmit={handleSubmit}>
