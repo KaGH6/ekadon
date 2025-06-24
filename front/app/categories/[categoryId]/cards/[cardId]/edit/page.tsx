@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-export default function EditCardPage() {
+export default function EditCard() {
     const { categoryId, cardId } = useParams();
     const router = useRouter();
 
@@ -72,20 +72,17 @@ export default function EditCardPage() {
         setIsSubmitting(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`, {
-                method: "POST", // PUT ではなく POST + _method に対応する場合
-                body: formData,
-            });
-
-            if (res.ok) {
-                router.push(`/categories/${selectedCategory}/cards`);
-            } else {
-                const errorText = await res.text();
-                console.error("カード更新失敗:", errorText);
-                alert("カード更新に失敗しました");
-            }
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}?_method=PUT`,
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            );
+            router.push(`/categories/${selectedCategory}/cards`);
         } catch (error) {
-            console.error("送信エラー:", error);
+            console.error("カード更新失敗:", error);
+            alert("カード更新に失敗しました");
         } finally {
             setIsSubmitting(false);
         }
