@@ -10,39 +10,48 @@ export default function EditCard() {
     const router = useRouter();
 
     const [cardName, setCardName] = useState("");
-    const [cardImg, setCardImg] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState("");
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState("");
     const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number | "">("");
-    const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // カード取得
     useEffect(() => {
         const fetchCard = async () => {
             try {
                 const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`);
+                // const data = res.data;
                 setCardName(res.data.name);
                 setSelectedCategory(res.data.category_id);
-                setPreviewUrl(res.data.card_img);
-            } catch (err) {
-                console.error(err);
-                setError("カードの読み込みに失敗しました");
+                setImagePreviewUrl(res.data.card_img);
+            } catch (error) {
+                console.error("カード取得失敗:", error);
             }
         };
         fetchCard();
     }, [cardId]);
 
+    // カテゴリー一覧取得
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
                 setCategories(res.data);
-            } catch (err) {
-                console.error("カテゴリ取得失敗:", err);
+            } catch (error) {
+                console.error("カテゴリ取得失敗:", error);
             }
         };
         fetchCategories();
     }, []);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            setImagePreviewUrl(URL.createObjectURL(file));
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,8 +62,8 @@ export default function EditCard() {
 
         const formData = new FormData();
         formData.append("name", cardName);
-        if (cardImg) {
-            formData.append("card_img", cardImg);
+        if (imageFile) {
+            formData.append("card_img", imageFile);
         }
         formData.append("category_id", selectedCategory.toString());
         formData.append("user_id", "1"); // 仮ユーザーID
@@ -70,9 +79,9 @@ export default function EditCard() {
                 }
             );
             router.push(`/categories/${selectedCategory}/cards`);
-        } catch (err) {
-            console.error("カード更新失敗:", err);
-            setError("カード更新に失敗しました");
+        } catch (error) {
+            console.error("カード更新失敗:", error);
+            alert("カード更新に失敗しました");
         } finally {
             setIsSubmitting(false);
         }
@@ -80,11 +89,30 @@ export default function EditCard() {
 
     return (
         <div id="create-edit" className="bac">
-            <div id="input">
-                <div onSubmit={handleSubmit} className="content_wrap">
-                    <form className="create-card">
-                        <h3>1. カード名</h3>
+            <section id="input">
+                <div className="content_wrap">
+                    <form className="create-card" onSubmit={handleSubmit}>
+                        <h3 className="mb05">1. カード編集</h3>
                         <label className="card-wrap">
+                            <input
+                                type="file"
+                                id="img-file"
+                                className="img-file"
+                                accept="image/*"
+                                style={{ display: "none" }}
+                                onChange={handleImageChange}
+                            />
+                            {imagePreviewUrl && (
+                                <Image
+                                    src={imagePreviewUrl}
+                                    alt="カード画像"
+                                    className="select-img"
+                                    width={80}
+                                    height={80}
+                                    onClick={() => document.getElementById("img-file")?.click()}
+                                />
+                            )}
+                            <p className="select-img-text bold">画像を選択</p>
                             <textarea
                                 className="put-name"
                                 maxLength={12}
@@ -95,27 +123,7 @@ export default function EditCard() {
                             />
                         </label>
 
-                        <h3>2. カード画像</h3>
-                        <label className="card-wrap select-category-img">
-                            <input
-                                type="file"
-                                id="img-file"
-                                className="select-img"
-                                accept="image/*"
-                                style={{ display: "none" }}
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setCardImg(file);
-                                        setPreviewUrl(URL.createObjectURL(file));
-                                    }
-                                }}
-                            />
-                            <Image src={previewUrl} alt="選択画像" className="select-img" />
-                            <p className="select-img-text bold">画像を選択</p>
-                        </label>
-
-                        <h3>3. カテゴリー選択</h3>
+                        <h3 className="mt3 mb05">2. カテゴリー選択</h3>
                         <select
                             className="select-category"
                             required
@@ -133,10 +141,9 @@ export default function EditCard() {
                         <button type="submit" className="submit-button mb5" disabled={isSubmitting}>
                             {isSubmitting ? "送信中..." : "完成"}
                         </button>
-                        {error && <p className="error-message">{error}</p>}
                     </form>
                 </div>
-            </div>
+            </section>
         </div>
     );
 }
