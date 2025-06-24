@@ -456,7 +456,7 @@ body.fullscreen #list {
 }
 
 /*----------------------------------------
-#create 作成画面
+#create-edit 作成画面、編集画面
 ------------------------------------------*/
 .create {
     background-color: #e4e1d7;
@@ -473,21 +473,21 @@ body.fullscreen #list {
     margin-top: 5em;
 }
 
-#create .card {
+#create-edit .card {
     position: relative;
     min-width: min(230 / 375* 100vw, 230px);
 }
 
-#create .select-img,
-#create .put-name,
-#create .select-img-text {
+#create-edit .select-img,
+#create-edit .put-name,
+#create-edit .select-img-text {
     position: absolute;
     width: fit-content;
     height: fit-content;
     padding: 0;
 }
 
-#create .select-img {
+#create-edit .select-img {
     top: 0;
     right: 0;
     bottom: 20%;
@@ -498,7 +498,7 @@ body.fullscreen #list {
     position: relative;
 }
 
-.select-img-text {
+#create-edit .select-img-text {
     top: 43%;
     right: 0;
     bottom: 0%;
@@ -507,7 +507,7 @@ body.fullscreen #list {
     position: absolute;
 }
 
-#create .put-name {
+#create-edit .put-name {
     font-size: min(30 / 375* 100vw, 30px);
     font-weight: 500;
     line-height: 1.3;
@@ -523,12 +523,12 @@ body.fullscreen #list {
     align-items: center;
 }
 
-#create .put-name::placeholder {
+#create-edit .put-name::placeholder {
     text-align: center;
     font-size: min(24 / 375* 100vw, 24px);
 }
 
-#create .search-category {
+#create-edit .search-category {
     width: min(150 / 375* 100vw, 150px);
     margin: 1.5em auto;
 }
@@ -604,7 +604,7 @@ body.fullscreen #list {
     width: min(150 / 375* 100vw, 150px);
 }
 
-#create .select-cards .select-img-text {
+#create-edit .select-cards .select-img-text {
     top: 50%;
 }
 

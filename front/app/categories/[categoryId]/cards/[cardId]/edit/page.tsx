@@ -91,7 +91,7 @@ export default function EditCardPage() {
     };
 
     return (
-        <div id="edit" className="bac">
+        <div id="create-edit" className="bac">
             <section id="input">
                 <div className="content_wrap">
                     <form className="create-card" onSubmit={handleSubmit}>

@@ -54,7 +54,7 @@ export default function EditCategory() {
     };
 
     return (
-        <div id="edit" className="bac">
+        <div id="create-edit" className="bac">
             <div id="input">
                 <div onSubmit={handleSubmit} className="content_wrap">
                     <form className="create-category">

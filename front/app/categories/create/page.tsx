@@ -46,7 +46,7 @@ export default function CreateCategoryPage() {
     };
 
     return (
-        <div id="create" className="bac">
+        <div id="create-edit" className="bac">
             <div id="input">
                 <div onSubmit={handleSubmit} className="content_wrap">
                     <form className="create-category">
