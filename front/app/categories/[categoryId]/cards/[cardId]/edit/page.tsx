@@ -22,9 +22,9 @@ export default function EditCard() {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`);
                 const data = await res.json();
-                setCardName(data.name);
-                setSelectedCategory(data.category_id);
-                setImagePreviewUrl(data.card_img);
+                setCardName(res.data.name);
+                setSelectedCategory(res.data.category_id);
+                setImagePreviewUrl(res.data.card_img);
             } catch (error) {
                 console.error("カード取得失敗:", error);
             }
@@ -104,7 +104,7 @@ export default function EditCard() {
                                 style={{ display: "none" }}
                                 onChange={handleImageChange}
                             />
-                            <img
+                            <Image
                                 src={imagePreviewUrl}
                                 alt="カード画像"
                                 className="select-img"
