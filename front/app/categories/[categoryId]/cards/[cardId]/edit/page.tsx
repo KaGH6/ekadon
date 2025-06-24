@@ -67,6 +67,7 @@ export default function EditCardPage() {
         }
         formData.append("category_id", selectedCategory.toString());
         formData.append("user_id", "1"); // 仮ユーザー
+        formData.append("_method", "PUT");
 
         setIsSubmitting(true);
 
