@@ -24,6 +24,7 @@ export default function EditCard() {
                 // const data = res.data;
                 setCardName(res.data.name);
                 setSelectedCategory(res.data.category_id);
+                console.log("取得した画像URL:", res.data.card_img);
                 setImagePreviewUrl(res.data.card_img);
             } catch (error) {
                 console.error("カード取得失敗:", error);
