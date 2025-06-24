@@ -33,9 +33,9 @@ export default function EditCard() {
         fetchCard();
     }, [cardId]);
 
-    useEffect(() => {
-    console.log("imagePreviewUrl:", imagePreviewUrl);
-}, [imagePreviewUrl]);
+    // useEffect(() => {
+    //     console.log("imagePreviewUrl:", imagePreviewUrl);
+    // }, [imagePreviewUrl]);
 
     // カテゴリー一覧取得
     useEffect(() => {
