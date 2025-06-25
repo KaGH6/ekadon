@@ -71,6 +71,7 @@ export default function Card({
                         width={80}
                         height={80}
                         className="card-img"
+                        unoptimized
                     />
                     <p className="card-name">{card.name}</p>
 
