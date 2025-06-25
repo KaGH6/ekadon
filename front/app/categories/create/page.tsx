@@ -37,8 +37,10 @@ export default function CreateCategoryPage() {
                 },
             });
 
-            // 成功したら一覧ページへ移動
+            // 成功したら一覧ページへ移動して、再フェッチさせる
             router.push("/categories");
+            router.refresh();
+            
         } catch (err: any) {
             console.error(err);
             setError("カテゴリー作成に失敗しました");
