@@ -69,6 +69,7 @@ export default function Category({
                             className="category-img"
                             width={80}
                             height={80}
+                            unoptimized
                         />
                         <div className="category-name-wrap">
                             <p className="category-name">{category.name}</p>
