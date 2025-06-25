@@ -40,7 +40,7 @@ export default function Deck({ selectedCards, onRemoveCard }: DeckProps) {
                                 onRemoveCard(index);
                             }}><Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/close.svg" width={15} height={15} alt="close" /></span>
                             <Image src="/assets/img/card.svg" className="card" width={20} height={20} alt="card" />
-                            <Image src={card.card_img} className="card-img" width={80} height={80} alt={card.name} />
+                            <Image src={card.card_img} className="card-img" width={80} height={80} alt={card.name} unoptimized />
                             <p className="card-name">{card.name}</p>
                         </button>
                     ))}
