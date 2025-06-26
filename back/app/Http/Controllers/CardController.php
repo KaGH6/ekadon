@@ -44,17 +44,25 @@ class CardController extends Controller {
 
 
     // カード取得
-    public function show($slug) { //指定したIDのカードを取得
+    // public function show($slug) { //指定したIDのカードを取得
         // 指定されたIDでカードを検索
-        $card = Card::where('slug', $slug)->firstOrFail();
+        // $card = Card::where('slug', $slug)->firstOrFail();
 
         // 見つからない場合は404エラーを返す
-        if (!$card) {
-            return response()->json(['message' => 'Card not found'], 404);
-        }
+        // if (!$card) {
+        //     return response()->json(['message' => 'Card not found'], 404);
+        // }
 
         // 見つかった場合はそのカードをJSON形式で返す
-        return response()->json($card);
+        // return response()->json($card);
+    // }
+
+    public function show($id) {
+	// IDでカードを取得（見つからない場合は自動で404を返す）
+	$card = Card::findOrFail($id);
+
+	// JSONで返す
+	return response()->json($card);
     }
 
 
@@ -132,8 +140,11 @@ class CardController extends Controller {
     // S3に画像を保存してURLを返す
     private function saveCardImage($file)
     {
-        $path = $file->store('card_imgs', 's3');
-        return Storage::disk('s3')->url($path);
+        // $path = $file->store('card_imgs', 's3');
+        // return Storage::disk('s3')->url($path);
+	$path = Storage::disk('s3')->putFile('card_imgs', $file);
+	\Log::info('保存パス: ' . $path);
+	return Storage::disk('s3')->url($path);
     }
 
     // S3から画像を削除する

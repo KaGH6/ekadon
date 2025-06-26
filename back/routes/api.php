@@ -17,6 +17,9 @@ Route::post('/create-card', [CardController::class, 'store']);
 // Route::get('/list-card', [CardController::class, 'index']);
 Route::get('/list-card', [CardController::class, 'index']);
 
+// カード取得（詳細表示）
+Route::get('/cards/{id}', [CardController::class, 'show']);
+
 // カード編集
 Route::put('/cards/{id}', [CardController::class, 'update']);
 
@@ -38,8 +41,8 @@ Route::post('/create-category', [CategoryController::class, 'store']);
 // カテゴリー一覧
 Route::get('/list-category', [CategoryController::class, 'index']);
 // Route::get('/categories', [CategoryController::class, 'index']);
-// Route::get('/categories/{id}', [CategoryController::class, 'show']);
-Route::get('/categories/{id}/cards', [CategoryController::class, 'show']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+// Route::get('/categories/{id}/cards', [CategoryController::class, 'show']);
 Route::get('/categories/{id}/cards', [CategoryController::class, 'cardsByCategory']);
 
 // カテゴリー編集
