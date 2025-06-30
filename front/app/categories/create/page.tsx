@@ -30,13 +30,9 @@ export default function CreateCategoryPage() {
             formData.append("name", name);
             formData.append("category_img", categoryImg);
 
-            // トークンを取得
-            const token = localStorage.getItem("token");
-
-            // axiosで、Authorizationヘッダー付きでAPIに送信（POST）
+            // axiosでAPIに送信（POST）
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/create-category`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 },
             });
@@ -44,7 +40,7 @@ export default function CreateCategoryPage() {
             // 成功したら一覧ページへ移動して、再フェッチさせる
             router.push("/categories");
             router.refresh();
-
+            
         } catch (err: any) {
             console.error(err);
             setError("カテゴリー作成に失敗しました");
