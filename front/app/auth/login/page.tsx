@@ -50,12 +50,12 @@ export default function Login() {
 
                     <form onSubmit={handleLogin}>
                         <label className="form-group">
-                            <Image src="http://127.0.0.1:8000/storage/images/icons/email.svg" className="sign-img" width={20} height={20} alt="メールアドレス" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg" className="sign-img" width={20} height={20} alt="メールアドレス" />
                             <input type="email" className="textbox" placeholder="メールアドレス" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </label>
 
                         <label className="form-group">
-                            <Image src="http://127.0.0.1:8000/storage/images/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード" />
                             <input
                                 type={showPassword ? "text" : "password"}
                                 className="textbox"
@@ -65,7 +65,7 @@ export default function Login() {
                                 required
                             />
                             <Image
-                                src={`http://127.0.0.1:8000/storage/images/icons/${showPassword ? "password-checked" : "password-check"}.svg`} className="pwcheck toggle-password"
+                                src={`https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/${showPassword ? "password-checked" : "password-check"}.svg`} className="pwcheck toggle-password"
                                 width={20}
                                 height={20}
                                 alt="パスワードチェック"

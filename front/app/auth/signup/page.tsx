@@ -72,32 +72,32 @@ export default function Signup() {
 
                     <form onSubmit={handleSignup}>
                         <label className="form-group">
-                            <Image src="http://127.0.0.1:8000/storage/images/icons/username.svg" className="sign-img" width={20} height={20} alt="ユーザー名" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/username.svg" className="sign-img" width={20} height={20} alt="ユーザー名" />
                             <input type="text" id="username" className="textbox" placeholder="ユーザー名" value={username} onChange={(e) => setUsername(e.target.value)} required />
                         </label>
 
                         <label className="form-group">
-                            <Image src="http://127.0.0.1:8000/storage/images/icons/email.svg" className="sign-img" width={20} height={20} alt="メールアドレス" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg" className="sign-img" width={20} height={20} alt="メールアドレス" />
                             <input type="email" id="email" className="textbox" placeholder="メールアドレス" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </label>
                         <label className="form-group">
-                            <Image src="http://127.0.0.1:8000/storage/images/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード" />
                             <input type={showPassword ? "text" : "password"} id="password" className="textbox" placeholder="パスワード" value={password} onChange={(e) => setPassword(e.target.value)} required />
                             <Image src={
                                 showPassword
-                                    ? "http://127.0.0.1:8000/storage/images/icons/password-checked.svg"
-                                    : "http://127.0.0.1:8000/storage/images/icons/password-check.svg"
+                                    ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-checked.svg"
+                                    : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-check.svg"
                             }
                                 className="pwcheck toggle-password"
                                 data-target="password" width={20} height={20} alt="パスワードチェック" onClick={() => setShowPassword(!showPassword)} />
                         </label>
                         <label className="form-group">
-                            <Image src="http://127.0.0.1:8000/storage/images/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード ( 確認 )" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード ( 確認 )" />
                             <input type={showPasswordConfirm ? "text" : "password"} id="password_confirm" className="textbox" placeholder="パスワード ( 確認 )" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} required />
                             <Image src={
                                 showPasswordConfirm
-                                    ? "http://127.0.0.1:8000/storage/images/icons/password-checked.svg"
-                                    : "http://127.0.0.1:8000/storage/images/icons/password-check.svg"
+                                    ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-checked.svg"
+                                    : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-check.svg"
                             }
                                 className="pwcheck toggle-password"
                                 data-target="password_confirm" width={20} height={20} alt="パスワードチェック" onClick={() => setShowPasswordConfirm(!showPasswordConfirm)} />
