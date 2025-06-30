@@ -37,7 +37,6 @@ export default function CardList() {
 
     // カード編集ボタン
     const handleEdit = (id: number) => {
-        // router.push(`/cards/${id}/edit`);
         router.push(`/categories/${categoryId}/cards/${id}/edit`);
     };
 
