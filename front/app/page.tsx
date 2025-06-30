@@ -20,7 +20,8 @@ export default function CategoryPage() {
 
     return (
         <>
-            <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} />
+            {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
+            <Deck />
             <section id="list">
                 <div className="content_wrap">
                     <div className="list-top">
