@@ -34,7 +34,7 @@ export default function Login() {
             const token = res.data.token;
             localStorage.setItem("token", token);
 
-            router.push("/categories");
+            router.push("/"); // ログイン後、ホーム画面に遷移
         } catch (err: any) {
             setError("ログインに失敗しました");
         }
