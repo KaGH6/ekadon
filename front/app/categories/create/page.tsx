@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import { useState } from "react"; // 入力値を一時的に保存
 import { useRouter } from "next/navigation";// ページ遷移
 import axios from "axios"; // API（Laravel）へデータを送る
@@ -30,9 +31,13 @@ export default function CreateCategoryPage() {
             formData.append("name", name);
             formData.append("category_img", categoryImg);
 
-            // axiosでAPIに送信（POST）
+            // トークンを取得
+            const token = localStorage.getItem("token");
+
+            // axiosで、Authorizationヘッダー付きでAPIに送信（POST）
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/create-category`, formData, {
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 },
             });
@@ -40,7 +45,7 @@ export default function CreateCategoryPage() {
             // 成功したら一覧ページへ移動して、再フェッチさせる
             router.push("/categories");
             router.refresh();
-            
+
         } catch (err: any) {
             console.error(err);
             setError("カテゴリー作成に失敗しました");
@@ -75,12 +80,12 @@ export default function CreateCategoryPage() {
                                     }
                                 }}
                             />
-                            <img src={previewUrl} alt="選択画像" className="select-img" />
+                            <Image src={previewUrl} alt="選択画像" className="select-img" />
                             <p className="select-img-text bold">画像を選択</p>
                         </label>
                         <h3 className="mt3 mb05">3. カード選択（任意）</h3>
                         <label className="create-wrap select-cards">
-                            <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-cards.svg" alt="カード選択" className="select-cards-img" />
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-cards.svg" alt="カード選択" className="select-cards-img" />
                             <p className="select-img-text bold">カードを選択</p>
                         </label>
 
