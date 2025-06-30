@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { CardData } from "@/app/types/card";
+import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 // import Deck from "./deck";
 // import List from "@/app/list/page";
 
@@ -21,7 +22,7 @@ type CardProps = {
 
 export default function Card({
     categoryId,
-    onSelectedCard,
+    // onSelectedCard,
     editModeId,
     onContextMenu,
     onTouchStart,
@@ -31,6 +32,7 @@ export default function Card({
     deletedCardId
 }: CardProps) {
     const [cards, setCards] = useState<CardData[]>([]); // CardDataの配列
+    const addCard = useDeckStore((state) => state.addCard); // Zustandから追加
 
     useEffect(() => {
         const fetchCards = async () => {
@@ -59,7 +61,8 @@ export default function Card({
                 <div
                     key={card.id}
                     className="card-wrap"
-                    onClick={() => onSelectedCard(card)}
+                    // onClick={() => onSelectedCard(card)}
+                    onClick={() => addCard(card)}
                     onContextMenu={(e) => onContextMenu(e, card.id)}
                     onTouchStart={() => onTouchStart(card.id)}
                     onTouchEnd={onTouchEnd}
