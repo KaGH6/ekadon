@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function EditCard() {
     const { categoryId, cardId } = useParams();
@@ -93,62 +94,64 @@ export default function EditCard() {
     };
 
     return (
-        <div id="create-edit" className="bac">
-            <section id="input">
-                <div className="content_wrap">
-                    <form className="create-card" onSubmit={handleSubmit}>
-                        <h3 className="mb05">1. カード編集</h3>
-                        <label className="card-wrap">
-                            <input
-                                type="file"
-                                id="img-file"
-                                className="img-file"
-                                accept="image/*"
-                                style={{ display: "none" }}
-                                onChange={handleImageChange}
-                            />
-                            {imagePreviewUrl && (
-                                <Image
-                                    src={imagePreviewUrl}
-                                    alt="カード画像"
-                                    className="select-img"
-                                    width={80}
-                                    height={80}
-                                    onClick={() => document.getElementById("img-file")?.click()}
+        <AuthGuard>
+            <div id="create-edit" className="bac">
+                <section id="input">
+                    <div className="content_wrap">
+                        <form className="create-card" onSubmit={handleSubmit}>
+                            <h3 className="mb05">1. カード編集</h3>
+                            <label className="card-wrap">
+                                <input
+                                    type="file"
+                                    id="img-file"
+                                    className="img-file"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    onChange={handleImageChange}
                                 />
-                            )}
-                            <p className="select-img-text bold">画像を選択</p>
-                            <textarea
-                                className="put-name"
-                                maxLength={12}
-                                placeholder="カード名を入力（12文字まで）"
+                                {imagePreviewUrl && (
+                                    <Image
+                                        src={imagePreviewUrl}
+                                        alt="カード画像"
+                                        className="select-img"
+                                        width={80}
+                                        height={80}
+                                        onClick={() => document.getElementById("img-file")?.click()}
+                                    />
+                                )}
+                                <p className="select-img-text bold">画像を選択</p>
+                                <textarea
+                                    className="put-name"
+                                    maxLength={12}
+                                    placeholder="カード名を入力（12文字まで）"
+                                    required
+                                    value={cardName}
+                                    onChange={(e) => setCardName(e.target.value)}
+                                />
+                            </label>
+
+                            <h3 className="mt3 mb05">2. カテゴリー選択</h3>
+                            <select
+                                className="select-category"
                                 required
-                                value={cardName}
-                                onChange={(e) => setCardName(e.target.value)}
-                            />
-                        </label>
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(Number(e.target.value))}
+                            >
+                                <option value="">カテゴリを選択</option>
+                                {categories.map((cate) => (
+                                    <option key={cate.id} value={cate.id}>
+                                        {cate.name}
+                                    </option>
+                                ))}
+                            </select>
 
-                        <h3 className="mt3 mb05">2. カテゴリー選択</h3>
-                        <select
-                            className="select-category"
-                            required
-                            value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(Number(e.target.value))}
-                        >
-                            <option value="">カテゴリを選択</option>
-                            {categories.map((cate) => (
-                                <option key={cate.id} value={cate.id}>
-                                    {cate.name}
-                                </option>
-                            ))}
-                        </select>
-
-                        <button type="submit" className="submit-button mb5" disabled={isSubmitting}>
-                            {isSubmitting ? "送信中..." : "完成"}
-                        </button>
-                    </form>
-                </div>
-            </section>
-        </div>
+                            <button type="submit" className="submit-button mb5" disabled={isSubmitting}>
+                                {isSubmitting ? "送信中..." : "完成"}
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </AuthGuard>
     );
 }

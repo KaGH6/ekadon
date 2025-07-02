@@ -19,7 +19,8 @@ export default function Deck() {
 
     // Zustandから状態と操作関数を取得
     const deck = useDeckStore((state) => state.deck);
-    const removeCard = useDeckStore((state) => state.removeCard);
+    // const removeCard = useDeckStore((state) => state.removeCard);
+    const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
 
     //  デッキ拡大時にbodyにクラスを追加・削除
     useEffect(() => {
@@ -46,7 +47,8 @@ export default function Deck() {
                                 // e.stopPropagation();
                                 // onRemoveCard(index);
                                 e.stopPropagation();
-                                removeCard(card.id); // Zustandから削除
+                                // removeCard(card.id); // Zustandから削除
+                                removeCardByIndex(index); // indexで削除
                             }}><Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/close.svg" width={15} height={15} alt="close" /></span>
                             <Image src="/assets/img/card.svg" className="card" width={20} height={20} alt="card" />
                             <Image src={card.card_img} className="card-img" width={80} height={80} alt={card.name} unoptimized />
