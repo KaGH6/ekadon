@@ -10,6 +10,7 @@ import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
 import Category from "@/components/category";
 import { CategoryData } from "../types/category";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function CategoryPage() {
     const [categories, setCategories] = useState<CategoryData[]>([]);
@@ -96,7 +97,7 @@ export default function CategoryPage() {
     }, []);
 
     return (
-        <>
+        <AuthGuard>
             {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
             <Deck />
             <section id="list">
@@ -137,6 +138,6 @@ export default function CategoryPage() {
                 </div>
             )}
 
-        </>
+        </AuthGuard>
     );
 }

@@ -9,6 +9,7 @@ import CreateEdit from "@/components/create-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
 import axios from "axios";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function CardList() {
     const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
@@ -88,7 +89,7 @@ export default function CardList() {
     }, []);
 
     return (
-        <>
+        <AuthGuard>
             {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
             <Deck />
             <section id="list">
@@ -127,6 +128,6 @@ export default function CardList() {
                     </div>
                 </div>
             )}
-        </>
+        </AuthGuard>
     );
 }

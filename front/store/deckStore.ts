@@ -17,6 +17,7 @@ type DeckState = {
     deck: CardData[];
     addCard: (card: CardData) => void;
     removeCard: (id: number) => void;
+    removeCardByIndex: (index: number) => void;
     clearDeck: () => void;
 };
 
@@ -42,6 +43,12 @@ export const useDeckStore = create<DeckState>()(
             removeCard: (id) =>
                 set((state) => ({
                     deck: state.deck.filter((c) => c.id !== id),
+                })),
+
+            // インデックスで1枚だけ削除
+            removeCardByIndex: (index) =>
+                set((state) => ({
+                    deck: state.deck.filter((_, i) => i !== index),
                 })),
 
             // デッキを全削除

@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from 'next/link';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CardData } from "@/app/types/card";
 import { useRouter, usePathname } from "next/navigation";
-// import "../../assets/css/sp.css";
 
 type HeaderProps = {
     selectedCards: CardData[];
@@ -13,8 +12,15 @@ type HeaderProps = {
 
 export default function Header({ selectedCards }: HeaderProps) { // selectedCards は CardData[] (カードデータの配列)として扱われる
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const router = useRouter();
     const pathname = usePathname(); // 現在のパスを取得
+
+    // ログイン状態かどうかを真偽値（true/false）でisAuthenticatedにセット
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        setIsAuthenticated(!!token);
+    }, []);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -52,18 +58,22 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                 },
             });
 
-            // JWTトークン削除
-            localStorage.removeItem("token");
+            localStorage.removeItem("token"); // JWTトークン削除
+            setIsAuthenticated(false); // ログアウトボタン表示
+            setMenuOpen(false);
 
             // ログイン画面へリダイレクト
             router.push("/auth/login");
         } catch (err) {
             console.error("ログアウト失敗", err);
             localStorage.removeItem("token"); // JWTトークン削除
+            setIsAuthenticated(false); // ログアウトボタン表示
             setMenuOpen(false); // メニューを閉じる
             router.push("/auth/login"); // ログイン画面へリダイレクト
         }
     };
+
+    if (isAuthenticated === null) return null; // Hydrationエラー防止
 
     return (
         <header className="header">
@@ -107,9 +117,18 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                         </ul>
 
                         <div className="auth">
-                            <Link href="/auth/signup">新規登録（開発用）</Link>
-                            <Link href="/auth/login">ログイン（開発用）</Link>
-                            <button onClick={handleLogout}>ログアウト</button>
+                            {isAuthenticated ? (
+                                <>
+                                    <Link href="/auth/signup">新規登録（開発用）</Link>
+                                    <Link href="/auth/login">ログイン（開発用）</Link>
+                                    <button onClick={handleLogout} className="drawer__nav__link">ログアウト</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link href="/auth/signup">新規登録</Link>
+                                    <Link href="/auth/login">ログイン</Link>
+                                </>
+                            )}
                         </div>
                     </div>
                 </nav>
