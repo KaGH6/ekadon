@@ -24,7 +24,7 @@ export default function Login() {
         try {
             // ログインリクエスト送信
             // await を使っているので、APIの返事が返るまで次の処理には進まない
-            const res = await axios.post("http://127.0.0.1:8000/api/login", {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
                 email,
                 password
             });
