@@ -71,7 +71,7 @@ export default function EditCard() {
             formData.append("card_img", imageFile);
         }
         formData.append("category_id", selectedCategory.toString());
-        formData.append("user_id", "1"); // 仮ユーザーID
+        // formData.append("user_id", "1"); // 仮ユーザーID
 
         setIsSubmitting(true);
 

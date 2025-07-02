@@ -39,8 +39,8 @@ class CategoryController extends Controller {
         }
 
         // ログイン中のユーザーIDを使う
-        // $validated['user_id'] = $request->user()->id;
-        $validated['user_id'] = 1; //操作確認用の仮のID
+        $validated['user_id'] = $request->user()->id;
+        // $validated['user_id'] = 1; //操作確認用の仮のID
 
         // バリデーションを通過したデータで新しいカテゴリーを作成
         $category = Category::create($validated);

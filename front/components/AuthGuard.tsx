@@ -7,6 +7,7 @@ type Props = {
     children: React.ReactNode;
 };
 
+// ルートガード（認証ガード）
 // ログインしていないユーザーが特定のページにアクセスできないようにする
 const AuthGuard = ({ children }: Props) => {
     const router = useRouter();
