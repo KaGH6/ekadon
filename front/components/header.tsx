@@ -35,6 +35,36 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         return ""; // デフォルト
     };
 
+    // ログアウト処理
+    const handleLogout = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            router.push("/auth/login");
+            return;
+        }
+
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+
+            // JWTトークン削除
+            localStorage.removeItem("token");
+
+            // ログイン画面へリダイレクト
+            router.push("/auth/login");
+        } catch (err) {
+            console.error("ログアウト失敗", err);
+            localStorage.removeItem("token"); // JWTトークン削除
+            setMenuOpen(false); // メニューを閉じる
+            router.push("/auth/login"); // ログイン画面へリダイレクト
+        }
+    };
+
     return (
         <header className="header">
             <div className="header__inner">
@@ -79,7 +109,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                         <div className="auth">
                             <Link href="/auth/signup">新規登録（開発用）</Link>
                             <Link href="/auth/login">ログイン（開発用）</Link>
-                            <Link href="/">ログアウト</Link>
+                            <button onClick={handleLogout}>ログアウト</button>
                         </div>
                     </div>
                 </nav>
