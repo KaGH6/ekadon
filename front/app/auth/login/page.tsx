@@ -21,12 +21,19 @@ export default function Login() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault(); // フォーム送信時のページリロードを防ぐ
 
+        // CSRF Cookieを最初に取得
+        await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`, {
+            withCredentials: true
+        });
+
+        // ログインリクエスト送信
         try {
-            // ログインリクエスト送信
             // await を使っているので、APIの返事が返るまで次の処理には進まない
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
                 email,
                 password
+            }, {
+                withCredentials: true
             });
 
             // トークンの取得と保存

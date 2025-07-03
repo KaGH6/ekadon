@@ -51,7 +51,7 @@ export default function CategoryPage() {
                 // setCategories(res.data); // stateに保存
                 // console.log(categories);
 
-                const token = localStorage.getItem('token'); // 🔑 トークン取得
+                const token = localStorage.getItem('token'); // トークン取得
                 if (!token) {
                     console.error("トークンがありません（未ログイン）");
                     return;
