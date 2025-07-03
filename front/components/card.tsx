@@ -34,7 +34,7 @@ export default function Card({
     deletedCardId
 }: CardProps) {
     // const [cards, setCards] = useState<CardData[]>([]); // CardDataの配列
-    // const addCard = useDeckStore((state) => state.addCard); // Zustandから追加
+    const addCard = useDeckStore((state) => state.addCard); // Zustandから追加
 
     // useEffect(() => {
     //     const fetchCards = async () => {
