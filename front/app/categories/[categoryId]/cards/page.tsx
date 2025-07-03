@@ -77,6 +77,7 @@ export default function CardList() {
         if (confirmDeleteId === null) return;
         try {
             await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cards/${confirmDeleteId}`);
+            setCards(prev => prev.filter(card => card.id !== confirmDeleteId));
             setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
             setDeletedCardId(confirmDeleteId);
             setEditModeId(null);
@@ -134,6 +135,7 @@ export default function CardList() {
                     </div>
                     <div className="list-content">
                         <Card
+                            cards={cards}
                             categoryId={categoryId as string}
                             onSelectedCard={handleSelectedCard}
                             editModeId={editModeId}
