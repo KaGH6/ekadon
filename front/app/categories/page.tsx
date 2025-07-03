@@ -47,9 +47,23 @@ export default function CategoryPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`); // API呼び出し
-                setCategories(res.data); // stateに保存
-                console.log(categories);
+                // const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`); // API呼び出し
+                // setCategories(res.data); // stateに保存
+                // console.log(categories);
+
+                const token = localStorage.getItem('token'); // 🔑 トークン取得
+                if (!token) {
+                    console.error("トークンがありません（未ログイン）");
+                    return;
+                }
+
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true, // Laravel Sanctum を使っている場合
+                });
+                setCategories(res.data);
 
                 // エラーハンドリング
             } catch (error) {
