@@ -12,6 +12,7 @@ import axios from "axios";
 import AuthGuard from "@/components/AuthGuard";
 
 export default function CardList() {
+    const [cards, setCards] = useState<CardData[]>([]);
     const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
     const [editModeId, setEditModeId] = useState<number | null>(null);
     const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
@@ -19,6 +20,36 @@ export default function CardList() {
     const longPressTimer = useRef<NodeJS.Timeout | null>(null);
     const { categoryId } = useParams();
     const router = useRouter();
+
+    // カード一覧取得
+    useEffect(() => {
+        const fetchCards = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("トークンがありません（未ログイン）");
+                return;
+            }
+
+            try {
+                const res = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        withCredentials: true,
+                    }
+                );
+                console.log("取得したカード一覧:", res.data);
+                setCards(res.data); // ステートに保存
+            } catch (error) {
+                console.error("カード取得エラー:", error);
+            }
+        };
+
+        fetchCards();
+    }, [categoryId]);
+
 
     // カード選択
     const handleSelectedCard = (card: CardData) => { // CardData型のオブジェクトのみ渡す
