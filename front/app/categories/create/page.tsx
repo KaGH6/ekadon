@@ -32,7 +32,7 @@ export default function CreateCategoryPage() {
             formData.append("name", name);
             formData.append("category_img", categoryImg);
 
-            // トークンを取得
+            // トークンを取得（保存名が"token"か確認）
             const token = localStorage.getItem("token");
 
             // axiosで、Authorizationヘッダー付きでAPIに送信（POST）
@@ -41,6 +41,7 @@ export default function CreateCategoryPage() {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 },
+                withCredentials: true, // Sanctum認証ではこれが必須！
             });
 
             // 成功したら一覧ページへ移動して、再フェッチさせる
