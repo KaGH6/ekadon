@@ -22,7 +22,7 @@ export default function Login() {
         e.preventDefault(); // フォーム送信時のページリロードを防ぐ
 
         // CSRF Cookieを最初に取得
-        await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`, {
+        await axios.get(`https://api.ekadon.com/sanctum/csrf-cookie`, {
             withCredentials: true
         });
 
