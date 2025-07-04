@@ -9,8 +9,10 @@ import CreateEdit from "@/components/create-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
 import axios from "axios";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function CardList() {
+    const [cards, setCards] = useState<CardData[]>([]);
     const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
     const [editModeId, setEditModeId] = useState<number | null>(null);
     const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
@@ -18,6 +20,36 @@ export default function CardList() {
     const longPressTimer = useRef<NodeJS.Timeout | null>(null);
     const { categoryId } = useParams();
     const router = useRouter();
+
+    // カード一覧取得
+    useEffect(() => {
+        const fetchCards = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("トークンがありません（未ログイン）");
+                return;
+            }
+
+            try {
+                const res = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        withCredentials: true,
+                    }
+                );
+                console.log("取得したカード一覧:", res.data);
+                setCards(res.data); // ステートに保存
+            } catch (error) {
+                console.error("カード取得エラー:", error);
+            }
+        };
+
+        fetchCards();
+    }, [categoryId]);
+
 
     // カード選択
     const handleSelectedCard = (card: CardData) => { // CardData型のオブジェクトのみ渡す
@@ -37,7 +69,6 @@ export default function CardList() {
 
     // カード編集ボタン
     const handleEdit = (id: number) => {
-        // router.push(`/cards/${id}/edit`);
         router.push(`/categories/${categoryId}/cards/${id}/edit`);
     };
 
@@ -46,6 +77,7 @@ export default function CardList() {
         if (confirmDeleteId === null) return;
         try {
             await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cards/${confirmDeleteId}`);
+            setCards(prev => prev.filter(card => card.id !== confirmDeleteId));
             setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
             setDeletedCardId(confirmDeleteId);
             setEditModeId(null);
@@ -89,8 +121,9 @@ export default function CardList() {
     }, []);
 
     return (
-        <>
-            <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} />
+        <AuthGuard>
+            {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
+            <Deck />
             <section id="list">
                 <div className="content_wrap">
                     <div className="list-top">
@@ -102,6 +135,7 @@ export default function CardList() {
                     </div>
                     <div className="list-content">
                         <Card
+                            cards={cards}
                             categoryId={categoryId as string}
                             onSelectedCard={handleSelectedCard}
                             editModeId={editModeId}
@@ -127,6 +161,6 @@ export default function CardList() {
                     </div>
                 </div>
             )}
-        </>
+        </AuthGuard>
     );
 }

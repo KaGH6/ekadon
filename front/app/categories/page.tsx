@@ -10,6 +10,7 @@ import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
 import Category from "@/components/category";
 import { CategoryData } from "../types/category";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function CategoryPage() {
     const [categories, setCategories] = useState<CategoryData[]>([]);
@@ -46,9 +47,23 @@ export default function CategoryPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`); // API呼び出し
-                setCategories(res.data); // stateに保存
-                console.log(categories);
+                // const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`); // API呼び出し
+                // setCategories(res.data); // stateに保存
+                // console.log(categories);
+
+                const token = localStorage.getItem('token'); // トークン取得
+                if (!token) {
+                    console.error("トークンがありません（未ログイン）");
+                    return;
+                }
+
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true, // Laravel Sanctum を使っている場合
+                });
+                setCategories(res.data);
 
                 // エラーハンドリング
             } catch (error) {
@@ -96,8 +111,9 @@ export default function CategoryPage() {
     }, []);
 
     return (
-        <>
-            <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} />
+        <AuthGuard>
+            {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
+            <Deck />
             <section id="list">
                 <div className="content_wrap">
                     <div className="list-top">
@@ -136,6 +152,6 @@ export default function CategoryPage() {
                 </div>
             )}
 
-        </>
+        </AuthGuard>
     );
 }

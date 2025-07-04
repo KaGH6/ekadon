@@ -3,14 +3,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import axios from 'axios';
+import { useRouter } from "next/navigation";
+// import axios from 'axios';
 import Pagenation from "@/components/pagenation";
 import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
 
-export default function CategoryPage() {
-
+export default function Home() {
+    const router = useRouter(); // ログインチェック
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // ログインチェック
     const [selectedCards, setSelectedCards] = useState<any[]>([]);
+
+    // ログインチェック
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            setIsAuthenticated(true);
+        } else {
+            router.push("/auth/signup");
+        }
+    }, []);
+
+    // ログイン判定中は描画しない（またはローディング表示）
+    if (isAuthenticated === null) return null;
 
     //  特定のカードだけ削除
     const handleRemoveCard = (indexToRemove: number) => {
@@ -20,7 +35,8 @@ export default function CategoryPage() {
 
     return (
         <>
-            <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} />
+            {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
+            <Deck />
             <section id="list">
                 <div className="content_wrap">
                     <div className="list-top">

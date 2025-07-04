@@ -18,7 +18,14 @@ export default function CardCreate() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
+                const token = localStorage.getItem("token");  // トークン取得
+                // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`, {
+                    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+                });
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const data = await res.json();
                 setCategories(data);
             } catch (error) {
@@ -51,6 +58,8 @@ export default function CardCreate() {
         console.log("カード名:", cardName);
         console.log("画像ファイル:", imageFile);
 
+        const token = localStorage.getItem("token"); // token取得
+
         if (!cardName || !imageFile || !selectedCategory) {
             alert("すべての項目を入力してください");
             return;
@@ -60,13 +69,14 @@ export default function CardCreate() {
         formData.append("name", cardName);
         formData.append("card_img", imageFile);
         formData.append("category_id", selectedCategory.toString());
-        formData.append("user_id", "1"); // 動作確認用の仮ID
+        // formData.append("user_id", "1"); // 動作確認用の仮ID
 
         setIsSubmitting(true);
 
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-card`, {
                 method: "POST",
+                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
                 body: formData,
             });
 

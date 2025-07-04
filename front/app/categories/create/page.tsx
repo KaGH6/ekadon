@@ -1,8 +1,10 @@
 "use client";
 
+import Image from 'next/image';
 import { useState } from "react"; // 入力値を一時的に保存
 import { useRouter } from "next/navigation";// ページ遷移
 import axios from "axios"; // API（Laravel）へデータを送る
+import AuthGuard from "@/components/AuthGuard";
 
 export default function CreateCategoryPage() {
     const router = useRouter();
@@ -30,17 +32,22 @@ export default function CreateCategoryPage() {
             formData.append("name", name);
             formData.append("category_img", categoryImg);
 
-            // axiosでAPIに送信（POST）
+            // トークンを取得（保存名が"token"か確認）
+            const token = localStorage.getItem("token");
+
+            // axiosで、Authorizationヘッダー付きでAPIに送信（POST）
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/create-category`, formData, {
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 },
+                withCredentials: true, // Sanctum認証ではこれが必須！
             });
 
             // 成功したら一覧ページへ移動して、再フェッチさせる
             router.push("/categories");
             router.refresh();
-            
+
         } catch (err: any) {
             console.error(err);
             setError("カテゴリー作成に失敗しました");
@@ -48,47 +55,44 @@ export default function CreateCategoryPage() {
     };
 
     return (
-        <div id="create-edit" className="bac">
-            <div id="input">
-                <div onSubmit={handleSubmit} className="content_wrap">
-                    <form className="create-category">
-                        <h3>1. カテゴリー名</h3>
-                        <label className="create-wrap">
-                            <input
-                                type="text"
-                                className="textbox"
-                                placeholder="カテゴリー名を入力"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </label>
+        <AuthGuard>
+            <div id="create-edit" className="bac">
+                <div id="input">
+                    <div onSubmit={handleSubmit} className="content_wrap">
+                        <form className="create-category">
+                            <h3>1. カテゴリー名</h3>
+                            <label className="create-wrap">
+                                <input
+                                    type="text"
+                                    className="textbox"
+                                    placeholder="カテゴリー名を入力"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                            </label>
 
-                        <h3>2. カテゴリー画像</h3>
-                        <label className="create-wrap select-category-img">
-                            <input type="file" id="img-file" className="select-img" multiple accept="image/*" style={{ display: "none" }}
-                                onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setCategoryImg(file); // 実際に送信するファイル
-                                        setPreviewUrl(URL.createObjectURL(file)); // プレビュー表示用URL
-                                    }
-                                }}
-                            />
-                            <img src={previewUrl} alt="選択画像" className="select-img" />
-                            <p className="select-img-text bold">画像を選択</p>
-                        </label>
-                        <h3 className="mt3 mb05">3. カード選択（任意）</h3>
-                        <label className="create-wrap select-cards">
-                            <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-cards.svg" alt="カード選択" className="select-cards-img" />
-                            <p className="select-img-text bold">カードを選択</p>
-                        </label>
+                            <h3>2. カテゴリー画像</h3>
+                            <label className="create-wrap select-category-img">
+                                <input type="file" id="img-file" className="select-img" multiple accept="image/*" style={{ display: "none" }}
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            setCategoryImg(file); // 実際に送信するファイル
+                                            setPreviewUrl(URL.createObjectURL(file)); // プレビュー表示用URL
+                                        }
+                                    }}
+                                />
+                                <Image src={previewUrl} alt="選択画像" className="select-img" width={100} height={100} />
+                                <p className="select-img-text bold">画像を選択</p>
+                            </label>
 
-                        <button type="submit" className="submit-button">完成</button>
-                    </form>
+                            <button type="submit" className="submit-button">完成</button>
+                        </form>
 
+                    </div>
                 </div>
             </div>
-        </div>
+        </AuthGuard>
     );
 }
