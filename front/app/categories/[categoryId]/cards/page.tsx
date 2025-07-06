@@ -75,8 +75,19 @@ export default function CardList() {
     // カード削除機能
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("ログイン情報が見つかりません。再度ログインしてください。");
+            return;
+        }
+
         try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cards/${confirmDeleteId}`);
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cards/${confirmDeleteId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setCards(prev => prev.filter(card => card.id !== confirmDeleteId));
             setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
             setDeletedCardId(confirmDeleteId);
