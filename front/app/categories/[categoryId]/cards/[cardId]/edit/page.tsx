@@ -20,8 +20,18 @@ export default function EditCard() {
     // カード取得
     useEffect(() => {
         const fetchCard = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("ログイン情報が見つかりません。再度ログインしてください。");
+                return;
+            }
+
             try {
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`);
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 // const data = res.data;
                 setCardName(res.data.name);
                 setSelectedCategory(res.data.category_id);
@@ -41,8 +51,18 @@ export default function EditCard() {
     // カテゴリー一覧取得
     useEffect(() => {
         const fetchCategories = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("ログイン情報が見つかりません。再度ログインしてください。");
+                return;
+            }
+
             try {
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 setCategories(res.data);
             } catch (error) {
                 console.error("カテゴリ取得失敗:", error);
@@ -66,6 +86,12 @@ export default function EditCard() {
             return;
         }
 
+        const token = localStorage.getItem("token"); // ← これを追加
+        if (!token) {
+            alert("ログイン情報が見つかりません。再度ログインしてください。");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("name", cardName);
         if (imageFile) {
@@ -81,7 +107,10 @@ export default function EditCard() {
                 `${process.env.NEXT_PUBLIC_API_URL}/cards/${cardId}?_method=PUT`,
                 formData,
                 {
-                    headers: { "Content-Type": "multipart/form-data" },
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
             router.push(`/categories/${selectedCategory}/cards`);
