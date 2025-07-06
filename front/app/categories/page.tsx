@@ -41,7 +41,11 @@ export default function CategoryPage() {
         }
 
         try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${confirmDeleteId}`);
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${confirmDeleteId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setCategories(prev => prev.filter(cate => cate.id !== confirmDeleteId)); //選択したIDと一致しないものだけを取り出して、新しい配列を作る。
             setEditModeId(null); // 削除後は編集・削除ボタンも閉じる
             setConfirmDeleteId(null); // 削除確認ポップアップを閉じる
