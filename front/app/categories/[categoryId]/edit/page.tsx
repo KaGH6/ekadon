@@ -18,8 +18,18 @@ export default function EditCategory() {
 
     useEffect(() => {
         const fetchCategory = async () => {
+            const token = localStorage.getItem("token"); // トークンを取得
+            if (!token) {
+                setError("ログイン情報が見つかりません。再度ログインしてください。");
+                return;
+            }
+
             try {
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}`);
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // ヘッダーに付与
+                    },
+                });
                 setName(res.data.name);
                 setPreviewUrl(res.data.category_img);
             } catch (err) {
@@ -33,6 +43,12 @@ export default function EditCategory() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const token = localStorage.getItem("token"); // トークンを取得
+        if (!token) {
+            setError("ログイン情報が見つかりません。再度ログインしてください。");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("name", name);
         if (categoryImg) {
@@ -44,13 +60,17 @@ export default function EditCategory() {
                 `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}?_method=PUT`,
                 formData,
                 {
-                    headers: { "Content-Type": "multipart/form-data" },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
                 }
             );
             router.push("/categories");
         } catch (err) {
             console.error(err);
             setError("カテゴリーの更新に失敗しました");
+            return;
         }
     };
 
@@ -58,8 +78,8 @@ export default function EditCategory() {
         <AuthGuard>
             <div id="create-edit" className="bac">
                 <div id="input">
-                    <div onSubmit={handleSubmit} className="content_wrap">
-                        <form className="create-category">
+                    <div className="content_wrap">
+                        <form onSubmit={handleSubmit} className="create-category">
                             <h3>1. カテゴリー名</h3>
                             <label className="create-wrap">
                                 <input

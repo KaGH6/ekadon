@@ -61,7 +61,7 @@ export default function CategoryPage() {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                    withCredentials: true, // Laravel Sanctum を使っている場合
+                    // withCredentials: true, // Laravel Sanctum を使っている場合
                 });
                 setCategories(res.data);
 

@@ -18,7 +18,14 @@ export default function CardCreate() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
+                const token = localStorage.getItem("token");  // トークン取得
+                // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/list-category`, {
+                    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+                });
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const data = await res.json();
                 setCategories(data);
             } catch (error) {
