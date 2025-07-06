@@ -145,6 +145,7 @@ export default function EditCard() {
                                         className="select-img"
                                         width={80}
                                         height={80}
+                                        unoptimized
                                         onClick={() => document.getElementById("img-file")?.click()}
                                     />
                                 )}
