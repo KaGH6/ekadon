@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CardController extends Controller {
-    public function index() {
-        // 全てのカードを取得
-        $cards = Card::all();
+    // public function index() {
+       public function index(Request $request) {
+        // 全てのカードを取得（ログインユーザーのカードのみ）
+        //$cards = Card::all();
+	$userId = $request->user()->id;
+        // $cards = Card::where('user_id', $userId)->get();
+	$cards = Card::where(function ($query) use ($userId) {
+        $query->where('user_id', $userId)
+              ->orWhere('user_id', 3);
+	})->get();
 
         // カードのリストをJSON形式で返す
         return response()->json($cards);
@@ -24,8 +31,11 @@ class CardController extends Controller {
             'card_img' => 'required|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
             // 'card_sound' => 'nullable|mines:mp3,wav,ogg|max:10240',
             'category_id' => 'required|exists:categories,id',
-            'user_id' => 'required|integer|exists:users,id',
+            // 'user_id' => 'required|integer|exists:users,id',
         ]);
+
+	// ログイン中のユーザーIDをセット
+	$validated['user_id'] = $request->user()->id;
 
         // 画像ファイルの保存
         if ($request->hasFile('card_img')) {
@@ -57,9 +67,17 @@ class CardController extends Controller {
         // return response()->json($card);
     // }
 
-    public function show($id) {
+    // public function show($id) {
+       public function show(Request $request, $id) {
 	// IDでカードを取得（見つからない場合は自動で404を返す）
-	$card = Card::findOrFail($id);
+	// $card = Card::findOrFail($id);
+	$userId = $request->user()->id;
+        // $card = Card::where('id', $id)->where('user_id', $userId)->firstOrFail();
+	$card = Card::where('id', $id)
+        ->where(function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                  ->orWhere('user_id', 3);
+        })->firstOrFail();
 
 	// JSONで返す
 	return response()->json($card);
@@ -69,14 +87,16 @@ class CardController extends Controller {
     // カード編集
     public function update(Request $request, $id) {
         // 対象のカードを取得（存在しなければ404）
-        $card = Card::findOrFail($id);
+        // $card = Card::findOrFail($id);
+	$userId = $request->user()->id;
+        $card = Card::where('id', $id)->where('user_id', $userId)->firstOrFail();
 
         // バリデーション
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:30',
             'card_img' => 'sometimes|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
             'category_id' => 'sometimes|required|exists:categories,id',
-            'user_id' => 'sometimes|required|integer|exists:users,id',
+            // 'user_id' => 'sometimes|required|integer|exists:users,id',
         ]);
 
         // 画像が送信されていれば保存処理
@@ -99,12 +119,16 @@ class CardController extends Controller {
     }
 
     // カード削除
-    public function destroy($id) {
+    // public function destroy($id) {
+       public function destroy(Request $request, $id) {
 	\Log::info('カード削除処理開始');
 
-	try {
-         $card = Card::findOrFail($id);
-         \Log::info('カード取得成功: ' . json_encode($card));
+	$userId = $request->user()->id;
+        $card = Card::where('id', $id)->where('user_id', $userId)->firstOrFail();
+
+	// try {
+        //  $card = Card::findOrFail($id);
+        //  \Log::info('カード取得成功: ' . json_encode($card));
 
         if ($card->card_img) {
             \Log::info('カード画像あり: ' . $card->card_img);
@@ -115,10 +139,10 @@ class CardController extends Controller {
          \Log::info('カードDB削除成功');
 
         return response()->json(['message' => 'カードと画像を削除しました。']);
-    	} catch (\Exception $e) {
-         \Log::error(' カード削除失敗: ' . $e->getMessage());
-         return response()->json(['error' => '削除に失敗しました'], 500);
-    	}
+    	// } catch (\Exception $e) {
+        //  \Log::error(' カード削除失敗: ' . $e->getMessage());
+        //  return response()->json(['error' => '削除に失敗しました'], 500);
+    	// }
 
         // 対象のカードを取得（存在しなければ404）
         // $card = Card::findOrFail($id);

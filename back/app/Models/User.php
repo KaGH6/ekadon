@@ -55,4 +55,15 @@ class User extends Authenticatable implements JWTSubject {
             'password' => 'hashed',
         ];
     }
+
+    // リレーション
+    // ユーザーが所有するカテゴリー一覧
+    public function categories() {
+        return $this->hasMany(Category::class);
+    }
+
+    // ユーザーが所有するカード一覧
+    public function cards() {
+        return $this->hasMany(Card::class);
+    }
 }
