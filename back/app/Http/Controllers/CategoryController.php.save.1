@@ -9,17 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller {
-    // 全てのカテゴリーを取得（ログインユーザーに紐づくものだけ）
-    // public function index() {
-       public function index(Request $request) {
+    // 全てのカテゴリーを取得
+    public function index() {
         // $categories = Category::all();
         // // echo $categories;
 	$userId = $request->user()->id;
-	// $categories = Category::where('user_id', $userId)->get();
-	$categories = Category::where(function ($query) use ($userId) {
-        $query->where('user_id', $userId)
-              ->orWhere('user_id', 3); // 開発者の共通データ
-	})->get();
+	$categories = Category::where('user_id', $userId)->get();
 
         // カテゴリーのリストをJSON形式で返す
         return response()->json($categories);
@@ -57,59 +52,34 @@ class CategoryController extends Controller {
         return response()->json($category, 201);
     }
 
-    // カテゴリー取得（ID指定＆ユーザー所有チェック）
-    // public function show(string $id) {
-       public function show(Request $request, string $id) {
+    // カテゴリー取得（ID指定）
+    public function show(string $id) {
         // // IDでカテゴリーを検索（見つからなければ404）
         // $category = Category::findOrFail($id);
 
 	$userId = $request->user()->id;
-        // $category = Category::where('id', $id)->where('user_id', $userId)->firstOrFail();
-	$category = Category::where('id', $id)
-        ->where(function ($query) use ($userId) {
-            $query->where('user_id', $userId)
-                  ->orWhere('user_id', 3);
-        })->firstOrFail();
+$category = Category::where('id', $id)->where('user_id', $userId)->firstOrFail();
 
         // 見つかったカテゴリーをJSON形式で返す
         return response()->json($category);
     }
 
-    // 指定されたカテゴリーに属するカードを取得（ユーザー所有のみ）
-    // public function cardsByCategory($id) {
-       public function cardsByCategory(Request $request, $id) {
-	$userId = $request->user()->id;
-	// カテゴリーが自分のものかチェック（必要に応じて）
-	// $category = Category::where('id', $id)->where('user_id', $userId)->firstOrFail();
-	$category = Category::where('id', $id)
-        ->where(function ($query) use ($userId) {
-            $query->where('user_id', $userId)
-                  ->orWhere('user_id', 3);
-        })->firstOrFail();
-
-        // $cards = Card::where('category_id', $id)->get();
-	//$cards = Card::where('category_id', $id)->where('user_id', $userId)->get();
-	$cards = Card::where('category_id', $id)
-        ->where(function ($q) use ($userId) {
-            $q->where('user_id', $userId)
-              ->orWhere('user_id', 3);
-        })->get();
-
+    // 指定されたカテゴリーに属するカードを取得
+    public function cardsByCategory($id) {
+        $cards = Card::where('category_id', $id)->get();
         return response()->json($cards);
     }
 
     // カテゴリー編集
     public function update(Request $request, string $id) {
-        // // 対象のカテゴリーを取得（なければ404）
-        // $category = Category::findOrFail($id);
-	$userId = $request->user()->id;
-	$category = Category::where('id', $id)->where('user_id', $userId)->firstOrFail();
+        // 対象のカテゴリーを取得（なければ404）
+        $category = Category::findOrFail($id);
 
         // バリデーション
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:30',
             'category_img' => 'sometimes|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
-            // 'user_id' => 'sometimes|required|integer|exists:users,id',
+            'user_id' => 'sometimes|required|integer|exists:users,id',
         ]);
 
         // 画像ファイルが送信されていれば保存
@@ -133,12 +103,9 @@ class CategoryController extends Controller {
     }
 
     // カテゴリー削除
-    // public function destroy(string $id) {
-       public function destroy(Request $request, string $id) {
+    public function destroy(string $id) {
         // 対象カテゴリー取得（なければ404）
-        // $category = Category::findOrFail($id);
-	$userId = $request->user()->id;
-	$category = Category::where('id', $id)->where('user_id', $userId)->firstOrFail();
+        $category = Category::findOrFail($id);
 
         // カテゴリー画像が存在する場合は削除
         if ($category->category_img) {

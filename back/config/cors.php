@@ -25,7 +25,12 @@ return [
     // 'allowed_origins' => ['http://localhost:3000'], // Next.js のURLに変更
     // 'allowed_origins' => [env('CORS_ALLOWED_ORIGINS', '*')],
     // 'allowed_origins' => ['https://ekadon.com', 'https://ekadon.vercel.app'],
-	'allowed_origins' => ['https://ekadon.com'],
+	// 'allowed_origins' => ['https://ekadon.com'],
+    'allowed_origins' => [
+        'https://ekadon.com',
+        'https://api.ekadon.com',
+        'https://ekadon.vercel.app',
+    ],
 
     'allowed_origins_patterns' => [],
 
@@ -35,6 +40,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
-
+    // 'supports_credentials' => false,
+    'supports_credentials' => true,
 ];
