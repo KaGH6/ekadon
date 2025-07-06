@@ -33,6 +33,13 @@ export default function CategoryPage() {
     // カテゴリー削除機能
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("ログイン情報が見つかりません。再度ログインしてください。");
+            return;
+        }
+
         try {
             await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${confirmDeleteId}`);
             setCategories(prev => prev.filter(cate => cate.id !== confirmDeleteId)); //選択したIDと一致しないものだけを取り出して、新しい配列を作る。
