@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
+import { saveDeck } from "@/lib/api/deck";
+import { usePathname } from "next/navigation";
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
@@ -22,6 +24,20 @@ export default function Deck() {
     // const removeCard = useDeckStore((state) => state.removeCard);
     const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
 
+    const pathname = usePathname(); // 現在のパスを取得
+
+    // デッキ保存処理
+    const handleSaveDeck = async () => {
+        try {
+            const cardIds = deck.map((card) => card.id);
+            await saveDeck(cardIds);
+            alert("デッキを保存しました！");
+        } catch (error) {
+            console.error("デッキ保存エラー:", error);
+            alert("保存に失敗しました。");
+        }
+    };
+
     //  デッキ拡大時にbodyにクラスを追加・削除
     useEffect(() => {
         const body = document.body; // body要素を取得
@@ -35,6 +51,9 @@ export default function Deck() {
             body.classList.remove("fullscreen");
         };
     }, [isFullscreen]);
+
+    // チェックリスト画面なら true
+    const isChecklistPage = pathname.startsWith("/checklists");
 
     return (
         <section id="deck" className={`deck-wrapper ${isFullscreen ? "rotate-wrapper" : ""}`}>
@@ -68,6 +87,18 @@ export default function Deck() {
                         } width={50} height={50}
                             alt={isFullscreen ? "デッキ拡大" : "デッキ縮小"} />
                     </button>
+
+                    {/* 保存ボタンはチェックリスト画面のみ表示 */}
+                    {isChecklistPage && (
+                        <button className="save" onClick={handleSaveDeck}>
+                            <Image
+                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/saved.svg"
+                                width={50}
+                                height={50}
+                                alt="保存"
+                            />
+                        </button>
+                    )}
                 </div>
             </div>
         </section>
