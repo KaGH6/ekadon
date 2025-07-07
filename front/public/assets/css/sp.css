@@ -731,6 +731,10 @@ body.fullscreen #list {
     z-index: 100;
 }
 
+.card-wrap:hover {
+    cursor: pointer;
+}
+
 .card-wrap .card {
     /* デッキカード・リストカード共通 */
     width: min(120 / 375* 100vw, 120px);
@@ -739,9 +743,9 @@ body.fullscreen #list {
     border-radius: 15px;
 }
 
-.card-wrap .card:hover {
-    cursor: pointer !important;
-}
+/* .card-wrap .card:hover {
+    cursor: pointer;
+} */
 
 .card-img {
     width: min(85 / 375* 100vw, 85px);
