@@ -101,7 +101,7 @@ p {
 .header__inner {
     padding: 0.5rem 1rem;
     height: min(60 / 375* 100vw, 60px);
-    background-color: #69dfd8;
+    background-color: #85ddd8;
     position: relative;
 }
 
