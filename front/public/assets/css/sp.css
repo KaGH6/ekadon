@@ -360,7 +360,7 @@ body.active {
 
 #deck .deck-outside {
     padding: 0 min(10 / 375* 100vw, 10px);
-    background-color: #a6fcff;
+    background-color: #C2F0ED;
     width: 100%;
     height: 100%;
 }
@@ -371,7 +371,7 @@ body.active {
     gap: 0.75em;
     justify-content: center;
     align-items: center;
-    background-color: khaki;
+    background-color: #E6F4F1;
     overflow-x: auto;
     width: 100%;
     height: min(200 / 375* 100vw, 200px);
@@ -471,7 +471,7 @@ body.fullscreen #list {
 /* 一覧スペース設定 */
 /* 一覧全体 */
 #list {
-    background-color: antiquewhite;
+    background-color: #FDF6EE;
     width: 100%;
     height: 100dvh;
     padding-bottom: 3em;
