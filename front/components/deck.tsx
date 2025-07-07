@@ -30,7 +30,13 @@ export default function Deck() {
     const handleSaveDeck = async () => {
         try {
             const cardIds = deck.map((card) => card.id);
-            await saveDeck(cardIds);
+            const name = prompt("デッキ名を入力してください");
+            if (!name) {
+                alert("デッキ名が未入力のため、保存をキャンセルしました。");
+                return;
+            }
+
+            await saveDeck(cardIds, name); // nameがある時だけ1回呼ぶ
             alert("デッキを保存しました！");
         } catch (error) {
             console.error("デッキ保存エラー:", error);
