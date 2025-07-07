@@ -101,7 +101,7 @@ p {
 .header__inner {
     padding: 0.5rem 1rem;
     height: min(60 / 375* 100vw, 60px);
-    background-color: var(--lightgray);
+    background-color: #69dfd8;
     position: relative;
 }
 
