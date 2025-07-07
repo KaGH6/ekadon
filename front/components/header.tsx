@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from "react";
 import { CardData } from "@/app/types/card";
 import { useRouter, usePathname } from "next/navigation";
+import { useDeckStore } from "@/store/deckStore";
 
 type HeaderProps = {
     selectedCards: CardData[];
@@ -62,6 +63,8 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
             setIsAuthenticated(false); // ログアウトボタン表示
             setMenuOpen(false);
 
+            useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
+
             // ログイン画面へリダイレクト
             router.push("/auth/login");
         } catch (err) {
@@ -69,6 +72,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
             localStorage.removeItem("token"); // JWTトークン削除
             setIsAuthenticated(false); // ログアウトボタン表示
             setMenuOpen(false); // メニューを閉じる
+            useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
             router.push("/auth/login"); // ログイン画面へリダイレクト
         }
     };
