@@ -10,8 +10,20 @@
     background-color: rgb(255, 245, 213);
 }
 
+:root {
+    --white: #ffffff;
+    --lightgray: #b9b9b9;
+    --gray: #6c6c6c;
+    --black: #3d3d3d;
+    --red: #ff0000;
+    --blue: #0059ff;
+    --primary: #244c91;
+    --secondary: #24599c;
+    --tertiary: #17bfab;
+}
+
 .red {
-    color: #ff0000;
+    color: var(--red);
 }
 
 button {
@@ -397,7 +409,16 @@ body.active {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0.5em;
+    right: 1em;
+    margin: 0;
+}
+
+#deck .clear {
+    width: min(30 / 375* 100vw, 30px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 1em;
     margin: 0;
 }
 
