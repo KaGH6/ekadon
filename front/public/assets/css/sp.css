@@ -10,16 +10,8 @@
     background-color: rgb(255, 245, 213);
 }
 
-:root {
-    --white: #ffffff;
-    --lightgray: #b9b9b9;
-    --gray: #6c6c6c;
-    --black: #3d3d3d;
-    --red: #ff0000;
-    --blue: #0059ff;
-    --primary: #244c91;
-    --secondary: #24599c;
-    --tertiary: #17bfab;
+.red {
+    color: #ff0000;
 }
 
 button {
@@ -573,8 +565,10 @@ body.fullscreen #list {
     bottom: 20%;
     left: 0;
     margin: auto;
+    aspect-ratio: 1/1;
     width: min(230 / 375* 100vw, 230px);
     height: auto;
+    object-fit: cover;
     position: relative;
 }
 
@@ -749,8 +743,10 @@ body.fullscreen #list {
 } */
 
 .card-img {
+    aspect-ratio: 1/1;
     width: min(85 / 375* 100vw, 85px);
     height: auto;
+    object-fit: cover;
     position: absolute;
     top: 15%;
     margin: 0 auto;
@@ -812,8 +808,10 @@ body.fullscreen .card-name {
 }
 
 .category-img {
+    aspect-ratio: 1/1;
     width: min(70 / 375* 100vw, 70px);
     height: auto;
+    object-fit: cover;
     position: absolute;
     top: 23%;
     margin: 0 auto;
@@ -935,15 +933,17 @@ body.fullscreen .card-name {
 .cancel-btn {
     background: #eee;
     color: #333;
-    padding: 0.5em 1em;
+    padding: 0.7em 2em;
     border-radius: 6px;
+    font-size: 1.2em;
 }
 
 .delete-btn {
     background: #f66;
     color: white;
-    padding: 0.5em 1em;
+    padding: 0.7em 2em;
     border-radius: 6px;
+    font-size: 1.2em;
 }
 
 
