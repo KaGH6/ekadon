@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 // import axios from 'axios';
-import Pagenation from "@/components/pagenation";
+import Breadcrumbs from "@/components/breadcrumbs";
 import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
 
@@ -40,7 +40,7 @@ export default function Home() {
             <section id="list">
                 <div className="content_wrap">
                     <div className="list-top">
-                        <Pagenation />
+                        <Breadcrumbs />
                         <CreateButton
                             createHref="/categories/create"
                             createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"

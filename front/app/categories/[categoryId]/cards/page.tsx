@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { CardData } from "@/app/types/card";
-import Pagenation from "@/components/pagenation";
+import Breadcrumbs from "@/components/breadcrumbs";
 import CreateEdit from "@/components/create-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
@@ -138,7 +138,7 @@ export default function CardList() {
             <section id="list">
                 <div className="content_wrap">
                     <div className="list-top">
-                        <Pagenation />
+                        <Breadcrumbs />
                         <CreateEdit
                             createHref="/create-cards"
                             createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-card.svg"

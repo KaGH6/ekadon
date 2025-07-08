@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useParams } from "next/navigation"; //categoryIdを取得
 // import { useEffect, useState } from "react";
 
-export default function Pagenation() {
+export default function Breadcrumbs() {
     const pathname = usePathname();
     const router = useRouter();
     const params = useParams();
