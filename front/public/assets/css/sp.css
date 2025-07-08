@@ -734,7 +734,7 @@ body.fullscreen #list {
 
 .card-wrap.speaking {
     /* 音声読み上げ時のデッキカードを拡大 */
-    transform: scale(1.06);
+    transform: scale(1.1);
     z-index: 2;
     box-shadow: 0 0 15px #88f7cf;
 }

@@ -25,6 +25,7 @@ export default function Deck() {
     const deck = useDeckStore((state) => state.deck);
     // const removeCard = useDeckStore((state) => state.removeCard);
     const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
+    const clearDeck = useDeckStore((state) => state.clearDeck); // 全削除
 
     const pathname = usePathname(); // 現在のパスを取得
 
@@ -151,6 +152,24 @@ export default function Deck() {
                             />
                         </button>
                     )}
+
+                    {/* 全削除ボタン */}
+                    <button
+                        className="clear"
+                        onClick={() => {
+                            // if (confirm("デッキ内のすべてのカードを削除しますか？")) {
+                            //     clearDeck();
+                            // }
+                            clearDeck(); // 確認なしで即削除
+                        }}
+                    >
+                        <Image
+                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/trash.svg"
+                            width={50}
+                            height={50}
+                            alt="デッキ内全削除"
+                        />
+                    </button>
                 </div>
             </div>
         </section>
