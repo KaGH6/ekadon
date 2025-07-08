@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
+import { speakSingleText } from "@/lib/speech/speak";
 // import Deck from "./deck";
 // import List from "@/app/list/page";
 
@@ -66,7 +67,10 @@ export default function Card({
                         key={card.id}
                         className="card-wrap"
                         // onClick={() => onSelectedCard(card)}
-                        onClick={() => addCard(card)}
+                        onClick={() => {
+                            speakSingleText(card.name);
+                            addCard(card);
+                        }}
                         onContextMenu={(e) => onContextMenu(e, card.id)}
                         onTouchStart={() => onTouchStart(card.id)}
                         onTouchEnd={onTouchEnd}
@@ -84,8 +88,14 @@ export default function Card({
 
                         {editModeId === card.id && (
                             <div className="edit-delete-menu">
-                                <button onClick={() => onEdit(card.id)}>編集</button>
-                                <button onClick={() => onConfirmDelete(card.id)}>削除</button>
+                                <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    onEdit(card.id);
+                                }}>編集</button>
+                                <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    onConfirmDelete(card.id);
+                                }}>削除</button>
                             </div>
                         )}
                     </div>

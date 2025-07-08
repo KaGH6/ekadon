@@ -6,7 +6,7 @@ import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
 import { usePathname } from "next/navigation";
-import { speakDeckCards } from "@/lib/speech/speak";
+import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
