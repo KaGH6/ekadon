@@ -42,13 +42,16 @@ export const speakDeckCardsWithExpand = async (
         const text = texts[index];
         const utterance = new SpeechSynthesisUtterance(text);
 
-
         // ローマ字だけの文字列なら英語、それ以外は日本語
         const isEnglish = isRomajiOnly(text);
         utterance.lang = isEnglish ? "en-US" : "ja-JP";
-        utterance.voice = voices.find(v =>
+
+        const matchedVoice = voices.find(v =>
             v.lang.startsWith(isEnglish ? "en" : "ja")
-        ) || null;
+        );
+        if (matchedVoice) {
+            utterance.voice = matchedVoice;
+        }
 
         utterance.rate = 0.95;  // 少しゆっくり（0.95倍速）
         utterance.pitch = 1.1;  // 少し高めの声
@@ -87,9 +90,12 @@ export const speakSingleText = async (
     // ローマ字だけの文字列なら英語、それ以外は日本語
     const isEnglish = isRomajiOnly(text);
     utterance.lang = isEnglish ? "en-US" : "ja-JP";
-    utterance.voice = voices.find(v =>
+    const matchedVoice = voices.find(v =>
         v.lang.startsWith(isEnglish ? "en" : "ja")
-    ) || null;
+    );
+    if (matchedVoice) {
+        utterance.voice = matchedVoice;
+    }
 
     utterance.rate = 0.95;
     utterance.pitch = 1.1;
