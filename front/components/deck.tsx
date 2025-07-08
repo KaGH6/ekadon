@@ -19,6 +19,7 @@ import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
 // export default function Deck({ selectedCards, onRemoveCard }: DeckProps) {
 export default function Deck() {
     const [isFullscreen, setIsFullscreen] = useState(false); // デッキ拡大
+    const [speakingIndex, setSpeakingIndex] = useState<number | null>(null); // 読み上げ時のデッキのカード拡大用
 
     // Zustandから状態と操作関数を取得
     const deck = useDeckStore((state) => state.deck);
@@ -45,6 +46,39 @@ export default function Deck() {
         }
     };
 
+    // 読み上げ + ハイライト関数
+    const speakDeckCardsWithHighlight = (
+        texts: string[],
+        onSpeakIndex: (index: number | null) => void
+    ) => {
+        if (!("speechSynthesis" in window)) {
+            alert("音声読み上げに対応していません。");
+            return;
+        }
+        const synth = window.speechSynthesis;
+        const speakNext = (index: number) => {
+            if (index >= texts.length) {
+                onSpeakIndex(null); // 終了時に解除
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(texts[index]);
+            utterance.lang = "ja-JP";
+            utterance.rate = 0.95;
+            utterance.pitch = 1.1;
+
+            utterance.onstart = () => {
+                onSpeakIndex(index); // 現在読み上げ中のindexを通知
+            };
+
+            utterance.onend = () => {
+                speakNext(index + 1); // 次へ
+            };
+            synth.speak(utterance);
+        };
+        speakNext(0);
+    };
+
     //  デッキ拡大時にbodyにクラスを追加・削除
     useEffect(() => {
         const body = document.body; // body要素を取得
@@ -68,7 +102,11 @@ export default function Deck() {
                 <div className="deck-inside">
                     {/* {selectedCards.map((card, index) => ( */}
                     {deck.map((card, index) => (
-                        <button key={index} className="card-wrap">
+                        <button
+                            key={index}
+                            // className="card-wrap"
+                            className={`card-wrap ${speakingIndex === index ? "speaking" : ""}`}
+                        >
                             <span className="card-close" onClick={(e) => {
                                 // e.stopPropagation();
                                 // onRemoveCard(index);
@@ -87,7 +125,8 @@ export default function Deck() {
                         className="sound"
                         onClick={() => {
                             const texts = deck.map((card) => card.name);
-                            speakDeckCards(texts);
+                            // speakDeckCards(texts);
+                            speakDeckCardsWithHighlight(texts, setSpeakingIndex);
                         }}
                     >
                         <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />

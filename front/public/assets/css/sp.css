@@ -730,6 +730,14 @@ body.fullscreen #list {
     cursor: pointer;
 }
 
+.card-wrap.speaking {
+    /* 音声読み上げ時のデッキカードを拡大 */
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+    z-index: 2;
+    box-shadow: 0 0 12px #9bffdb;
+}
+
 .card-wrap .card {
     /* デッキカード・リストカード共通 */
     width: min(120 / 375* 100vw, 120px);
