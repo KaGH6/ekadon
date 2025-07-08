@@ -724,6 +724,7 @@ body.fullscreen #list {
     align-items: center;
     height: fit-content;
     z-index: 100;
+    border-radius: 10%;
     transition: transform 0.3s ease;
 }
 
@@ -735,7 +736,7 @@ body.fullscreen #list {
     /* 音声読み上げ時のデッキカードを拡大 */
     transform: scale(1.1);
     z-index: 2;
-    box-shadow: 0 0 12px #9bffdb;
+    box-shadow: 0 0 15px #88f7cf;
 }
 
 .card-wrap .card {
