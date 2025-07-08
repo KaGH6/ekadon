@@ -38,12 +38,15 @@ const isRomajiOnly = (str: string) => {
 // 言語に応じて適切な声を取得（女性優先）
 const getVoiceForLang = (lang: string): SpeechSynthesisVoice | undefined => {
     if (lang === "ja-JP") {
-        return voices.find(v => v.name === "Kyoko") ||
+        return voices.find(v => v.name === "Kyoko") || // macOS
             voices.find(v => v.name.includes("Google 日本語")) ||
+            voices.find(v => v.name.includes("Mizuki")) || // Windows 日本語女性
             voices.find(v => v.lang === "ja-JP");
     }
     if (lang === "en-US") {
         return voices.find(v => v.name.includes("Google US English")) ||
+            voices.find(v => v.name.includes("Zira")) || // Windows 女性英語音声
+            voices.find(v => v.name.toLowerCase().includes("female")) ||
             voices.find(v => v.lang === "en-US");
     }
     return voices.find(v => v.lang.startsWith(lang));
