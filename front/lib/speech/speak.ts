@@ -1,16 +1,31 @@
 let voices: SpeechSynthesisVoice[] = [];
 
-// 利用可能な音声を取得（非同期）
+// 利用可能な音声を取得
 const loadVoices = (): Promise<void> => {
     return new Promise((resolve) => {
         const synth = window.speechSynthesis;
-        const interval = setInterval(() => {
+
+        const load = () => {
             voices = synth.getVoices();
             if (voices.length > 0) {
-                clearInterval(interval);
                 resolve();
+            } else {
+                // fallback: interval
+                const interval = setInterval(() => {
+                    voices = synth.getVoices();
+                    if (voices.length > 0) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
             }
-        }, 100);
+        };
+
+        if (typeof synth.onvoiceschanged !== "undefined") {
+            synth.onvoiceschanged = load;
+        }
+
+        load();
     });
 };
 
@@ -18,6 +33,20 @@ const loadVoices = (): Promise<void> => {
 const isRomajiOnly = (str: string) => {
     const trimmed = str.trim();
     return /^[a-zA-Z\s]+$/.test(trimmed);
+};
+
+// 言語に応じて適切な声を取得（女性優先）
+const getVoiceForLang = (lang: string): SpeechSynthesisVoice | undefined => {
+    if (lang === "ja-JP") {
+        return voices.find(v => v.name === "Kyoko") ||
+            voices.find(v => v.name.includes("Google 日本語")) ||
+            voices.find(v => v.lang === "ja-JP");
+    }
+    if (lang === "en-US") {
+        return voices.find(v => v.name.includes("Google US English")) ||
+            voices.find(v => v.lang === "en-US");
+    }
+    return voices.find(v => v.lang.startsWith(lang));
 };
 
 // デッキのカードを読み上げ & カード拡大表示 & 言語自動切替
@@ -46,9 +75,7 @@ export const speakDeckCardsWithExpand = async (
         const isEnglish = isRomajiOnly(text);
         utterance.lang = isEnglish ? "en-US" : "ja-JP";
 
-        const matchedVoice = voices.find(v =>
-            v.lang.startsWith(isEnglish ? "en" : "ja")
-        );
+        const matchedVoice = getVoiceForLang(utterance.lang);
         if (matchedVoice) {
             utterance.voice = matchedVoice;
         }
@@ -90,9 +117,7 @@ export const speakSingleText = async (
     // ローマ字だけの文字列なら英語、それ以外は日本語
     const isEnglish = isRomajiOnly(text);
     utterance.lang = isEnglish ? "en-US" : "ja-JP";
-    const matchedVoice = voices.find(v =>
-        v.lang.startsWith(isEnglish ? "en" : "ja")
-    );
+    const matchedVoice = getVoiceForLang(utterance.lang);
     if (matchedVoice) {
         utterance.voice = matchedVoice;
     }

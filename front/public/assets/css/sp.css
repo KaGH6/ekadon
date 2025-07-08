@@ -589,7 +589,7 @@ body.fullscreen #list {
     aspect-ratio: 1/1;
     width: min(230 / 375* 100vw, 230px);
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
     position: relative;
 }
 
@@ -776,7 +776,7 @@ body.fullscreen #list {
     aspect-ratio: 1/1;
     width: min(85 / 375* 100vw, 85px);
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
     position: absolute;
     top: 15%;
     margin: 0 auto;
@@ -841,7 +841,7 @@ body.fullscreen .card-name {
     aspect-ratio: 1/1;
     width: min(70 / 375* 100vw, 70px);
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
     position: absolute;
     top: 23%;
     margin: 0 auto;
