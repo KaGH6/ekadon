@@ -6,7 +6,7 @@ import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
 import { usePathname } from "next/navigation";
-import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
+import { speakDeckCardsWithExpand } from "@/lib/speech/speak";
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
@@ -124,10 +124,10 @@ export default function Deck() {
                 <div className="deck-bottom">
                     <button
                         className="sound"
-                        onClick={() => {
+                        onClick={async () => {
                             const texts = deck.map((card) => card.name);
                             // speakDeckCards(texts);
-                            speakDeckCardsWithHighlight(texts, setSpeakingIndex);
+                            await speakDeckCardsWithExpand(texts, setSpeakingIndex);
                         }}
                     >
                         <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
