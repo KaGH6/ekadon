@@ -18,7 +18,7 @@ type DeckState = {
     addCard: (card: CardData) => void;
     removeCard: (id: number) => void;
     removeCardByIndex: (index: number) => void;
-    clearDeck: () => void;
+    clearDeck: () => void; // 全削除
 };
 
 // Zustand Store の作成
@@ -35,7 +35,7 @@ export const useDeckStore = create<DeckState>()(
                 //     set((state) => ({ deck: [...state.deck, card] }));
                 // }
 
-                // 重複OK
+                // 重複OKで追加
                 set((state) => ({ deck: [...state.deck, card] }));
             },
 
