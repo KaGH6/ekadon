@@ -9,23 +9,33 @@ const loadVoices = (): Promise<void> => {
             voices = synth.getVoices();
             if (voices.length > 0) {
                 resolve();
-            } else {
-                // fallback: interval
-                const interval = setInterval(() => {
-                    voices = synth.getVoices();
-                    if (voices.length > 0) {
-                        clearInterval(interval);
-                        resolve();
-                    }
-                }, 100);
             }
+        };
+
+        // すでに取得済みなら即resolve
+        voices = synth.getVoices();
+        if (voices.length > 0) {
+            resolve();
+            return;
+        }
+
+        // イベント + fallback の両方使う
+        synth.onvoiceschanged = () => {
+            load();
+            resolve();
         };
 
         if (typeof synth.onvoiceschanged !== "undefined") {
             synth.onvoiceschanged = load;
         }
 
-        load();
+        const interval = setInterval(() => {
+            load();
+            if (voices.length > 0) {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 100);
     });
 };
 
@@ -52,6 +62,9 @@ const getVoiceForLang = (lang: string): SpeechSynthesisVoice | undefined => {
     return voices.find(v => v.lang.startsWith(lang));
 };
 
+// フラグで連続読み上げ防止
+let isSpeaking = false;
+
 // デッキのカードを読み上げ & カード拡大表示 & 言語自動切替
 export const speakDeckCardsWithExpand = async (
     texts: string[],
@@ -62,12 +75,17 @@ export const speakDeckCardsWithExpand = async (
         return;
     }
 
+    if (isSpeaking) return; // 重複読み上げ防止
+    isSpeaking = true;
+
     await loadVoices();
+    window.speechSynthesis.cancel(); // 既存の音声を止める
     const synth = window.speechSynthesis;
 
     const speakNext = (index: number) => {
         if (index >= texts.length) {
             onExpandIndex(null); // 読み上げ完了したら拡大解除
+            isSpeaking = false;
             return;
         }
 
@@ -78,11 +96,10 @@ export const speakDeckCardsWithExpand = async (
         const isEnglish = isRomajiOnly(text);
         utterance.lang = isEnglish ? "en-US" : "ja-JP";
 
-        const matchedVoice = getVoiceForLang(utterance.lang);
-        if (matchedVoice) {
-            utterance.voice = matchedVoice;
+        const voice = getVoiceForLang(utterance.lang);
+        if (voice) {
+            utterance.voice = voice;
         }
-
         utterance.rate = 0.95;  // 少しゆっくり（0.95倍速）
         utterance.pitch = 1.1;  // 少し高めの声
 
@@ -91,7 +108,12 @@ export const speakDeckCardsWithExpand = async (
         };
 
         utterance.onend = () => {
-            speakNext(index + 1); // 次のテキストへ
+            if (index + 1 < texts.length) {
+                speakNext(index + 1);
+            } else {
+                onExpandIndex(null);
+                isSpeaking = false; // フラグ解除
+            }
         };
 
         synth.speak(utterance);
@@ -120,11 +142,11 @@ export const speakSingleText = async (
     // ローマ字だけの文字列なら英語、それ以外は日本語
     const isEnglish = isRomajiOnly(text);
     utterance.lang = isEnglish ? "en-US" : "ja-JP";
-    const matchedVoice = getVoiceForLang(utterance.lang);
-    if (matchedVoice) {
-        utterance.voice = matchedVoice;
-    }
 
+    const voice = getVoiceForLang(utterance.lang);
+    if (voice) {
+        utterance.voice = voice;
+    }
     utterance.rate = 0.95;
     utterance.pitch = 1.1;
 
