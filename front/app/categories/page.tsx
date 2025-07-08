@@ -154,7 +154,8 @@ export default function CategoryPage() {
                 <div className="modal-overlay">
                     <div className="modal">
                         <p>選択したカテゴリーを削除しますか？<br></br>
-                            削除すると<b>カテゴリー内のカードも全て削除</b>されます。</p>
+                            削除すると<b>カテゴリー内のカードも<br></br>
+                                <span className="red">全て削除</span></b>されます。</p>
                         <div className="modal-buttons">
                             <button className="cancel-btn" onClick={() => setConfirmDeleteId(null)}>キャンセル</button>
                             <button className="delete-btn" onClick={handleDelete}>削除</button>
