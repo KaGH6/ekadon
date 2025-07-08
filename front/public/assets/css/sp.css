@@ -485,6 +485,7 @@ body.fullscreen #list {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0.8;
 }
 
 #list .page-nation {
