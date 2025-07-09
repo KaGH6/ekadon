@@ -68,8 +68,8 @@ export default function Card({
                         className="card-wrap"
                         // onClick={() => onSelectedCard(card)}
                         onClick={() => {
-                            speakSingleText(card.name);
-                            addCard(card);
+                            speakSingleText(card.name); // 音声読み上げ
+                            addCard(card); // デッキに追加
                         }}
                         onContextMenu={(e) => onContextMenu(e, card.id)}
                         onTouchStart={() => onTouchStart(card.id)}
@@ -89,11 +89,11 @@ export default function Card({
                         {editModeId === card.id && (
                             <div className="edit-delete-menu">
                                 <button onClick={(e) => {
-                                    e.stopPropagation();
+                                    e.stopPropagation(); // カードクリックでデッキに表示を無効化
                                     onEdit(card.id);
                                 }}>編集</button>
                                 <button onClick={(e) => {
-                                    e.stopPropagation();
+                                    e.stopPropagation(); // カードクリックでデッキに表示を無効化
                                     onConfirmDelete(card.id);
                                 }}>削除</button>
                             </div>
