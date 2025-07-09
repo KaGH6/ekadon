@@ -6,7 +6,7 @@ import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
 import { usePathname } from "next/navigation";
-import { speakDeckCardsWithExpand } from "@/lib/speech/speak";
+import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
@@ -47,38 +47,38 @@ export default function Deck() {
         }
     };
 
-    // // 読み上げ + ハイライト関数
-    // const speakDeckCardsWithHighlight = (
-    //     texts: string[],
-    //     onSpeakIndex: (index: number | null) => void
-    // ) => {
-    //     if (!("speechSynthesis" in window)) {
-    //         alert("音声読み上げに対応していません。");
-    //         return;
-    //     }
-    //     const synth = window.speechSynthesis;
-    //     const speakNext = (index: number) => {
-    //         if (index >= texts.length) {
-    //             onSpeakIndex(null); // 終了時に解除
-    //             return;
-    //         }
+    // 読み上げ + ハイライト関数
+    const speakDeckCardsWithHighlight = (
+        texts: string[],
+        onSpeakIndex: (index: number | null) => void
+    ) => {
+        if (!("speechSynthesis" in window)) {
+            alert("音声読み上げに対応していません。");
+            return;
+        }
+        const synth = window.speechSynthesis;
+        const speakNext = (index: number) => {
+            if (index >= texts.length) {
+                onSpeakIndex(null); // 終了時に解除
+                return;
+            }
 
-    //         const utterance = new SpeechSynthesisUtterance(texts[index]);
-    //         utterance.lang = "ja-JP";
-    //         utterance.rate = 0.95;
-    //         utterance.pitch = 1.1;
+            const utterance = new SpeechSynthesisUtterance(texts[index]);
+            utterance.lang = "ja-JP";
+            utterance.rate = 0.95;
+            utterance.pitch = 1.1;
 
-    //         utterance.onstart = () => {
-    //             onSpeakIndex(index); // 現在読み上げ中のindexを通知
-    //         };
+            utterance.onstart = () => {
+                onSpeakIndex(index); // 現在読み上げ中のindexを通知
+            };
 
-    //         utterance.onend = () => {
-    //             speakNext(index + 1); // 次へ
-    //         };
-    //         synth.speak(utterance);
-    //     };
-    //     speakNext(0);
-    // };
+            utterance.onend = () => {
+                speakNext(index + 1); // 次へ
+            };
+            synth.speak(utterance);
+        };
+        speakNext(0);
+    };
 
     //  デッキ拡大時にbodyにクラスを追加・削除
     useEffect(() => {
@@ -124,11 +124,9 @@ export default function Deck() {
                 <div className="deck-bottom">
                     <button
                         className="sound"
-                        onClick={async () => {
-                            if (deck.length === 0) return; // 空なら実行しない
+                        onClick={() => {
                             const texts = deck.map((card) => card.name);
-                            // speakDeckCards(texts);
-                            await speakDeckCardsWithExpand(texts, setSpeakingIndex);
+                            speakDeckCardsWithHighlight(texts, setSpeakingIndex);
                         }}
                     >
                         <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
