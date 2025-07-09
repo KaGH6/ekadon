@@ -47,6 +47,9 @@ export default function Deck() {
         }
     };
 
+    // 連続読み上げ防止
+    let isSpeaking = false;
+
     // 読み上げ + ハイライト関数
     const speakDeckCardsWithHighlight = (
         texts: string[],
@@ -56,28 +59,39 @@ export default function Deck() {
             alert("音声読み上げに対応していません。");
             return;
         }
+
+        if (isSpeaking) return; // 再生中なら無視
+
+        isSpeaking = true;
         const synth = window.speechSynthesis;
-        const speakNext = (index: number) => {
-            if (index >= texts.length) {
-                onSpeakIndex(null); // 終了時に解除
-                return;
-            }
 
-            const utterance = new SpeechSynthesisUtterance(texts[index]);
-            utterance.lang = "ja-JP";
-            utterance.rate = 0.95;
-            utterance.pitch = 1.1;
+        // 一度キャンセルしてから再生
+        synth.cancel();
 
-            utterance.onstart = () => {
-                onSpeakIndex(index); // 現在読み上げ中のindexを通知
+        setTimeout(() => {
+            const speakNext = (index: number) => {
+                if (index >= texts.length) {
+                    onSpeakIndex(null); // 終了時に解除
+                    isSpeaking = false;
+                    return;
+                }
+
+                const utterance = new SpeechSynthesisUtterance(texts[index]);
+                utterance.lang = "ja-JP";
+                utterance.rate = 0.95;
+                utterance.pitch = 1.1;
+
+                utterance.onstart = () => {
+                    onSpeakIndex(index); // 現在読み上げ中のindexを通知
+                };
+
+                utterance.onend = () => {
+                    speakNext(index + 1); // 次へ
+                };
+                synth.speak(utterance);
             };
-
-            utterance.onend = () => {
-                speakNext(index + 1); // 次へ
-            };
-            synth.speak(utterance);
-        };
-        speakNext(0);
+            speakNext(0);
+        }, 100); // cancelの完了を待つため少し待つ
     };
 
     //  デッキ拡大時にbodyにクラスを追加・削除
