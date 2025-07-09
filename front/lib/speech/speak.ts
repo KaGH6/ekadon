@@ -75,49 +75,54 @@ export const speakDeckCardsWithExpand = async (
         return;
     }
 
-    if (isSpeaking) return; // 重複読み上げ防止
+    if (isSpeaking) return;
     isSpeaking = true;
 
     await loadVoices();
-    window.speechSynthesis.cancel(); // 既存の音声を止める
+    window.speechSynthesis.cancel();
+
     const synth = window.speechSynthesis;
 
     const speakNext = (index: number) => {
         if (index >= texts.length) {
-            onExpandIndex(null); // 読み上げ完了したら拡大解除
+            onExpandIndex(null);
             isSpeaking = false;
             return;
         }
 
         const text = texts[index];
         const utterance = new SpeechSynthesisUtterance(text);
-
-        // ローマ字だけの文字列なら英語、それ以外は日本語
         const isEnglish = isRomajiOnly(text);
         utterance.lang = isEnglish ? "en-US" : "ja-JP";
 
         const voice = getVoiceForLang(utterance.lang);
-        if (voice) {
-            utterance.voice = voice;
-        }
-        utterance.rate = 0.95;  // 少しゆっくり（0.95倍速）
-        utterance.pitch = 1.1;  // 少し高めの声
+        if (voice) utterance.voice = voice;
 
-        // 該当のカードを拡大表示
-        onExpandIndex(index);
+        utterance.rate = 0.95;
+        utterance.pitch = 1.1;
 
-        let fallbackTimeout: NodeJS.Timeout;
+        let finished = false;
+        let fallbackTimeout: ReturnType<typeof setTimeout>;
+
+        utterance.onstart = () => {
+            onExpandIndex(index);
+            // fallback 設定
+            fallbackTimeout = setTimeout(() => {
+                if (!finished) {
+                    finished = true;
+                    speakNext(index + 1);
+                }
+            }, 6000); // 万一 onend が発火しない場合（最大6秒）
+        };
 
         utterance.onend = () => {
-            clearTimeout(fallbackTimeout); // 正常に onend が呼ばれた場合、タイマー無効化
+            if (finished) return;
+            finished = true;
+            clearTimeout(fallbackTimeout);
             speakNext(index + 1);
         };
-        synth.speak(utterance);
 
-        // 万一 onend が呼ばれない場合（Windows Chrome 対策）
-        fallbackTimeout = setTimeout(() => {
-            speakNext(index + 1);
-        }, Math.max(text.length * 100 + 300));
+        synth.speak(utterance);
     };
 
     speakNext(0);
