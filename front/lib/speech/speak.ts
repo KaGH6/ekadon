@@ -75,51 +75,36 @@ export const speakDeckCardsWithExpand = async (
         return;
     }
 
-    if (isSpeaking) return; // 重複読み上げ防止
-    isSpeaking = true;
-
-    await loadVoices();
-    window.speechSynthesis.cancel(); // 既存の音声を止める
     const synth = window.speechSynthesis;
+    await loadVoices();
+    synth.cancel();
 
-    const speakNext = (index: number) => {
-        if (index >= texts.length) {
-            onExpandIndex(null); // 読み上げ完了したら拡大解除
-            isSpeaking = false;
-            return;
-        }
+    // delayを入れることで Windows Chrome でも確実に動作する
+    await new Promise(resolve => setTimeout(resolve, 100));
 
+    for (let index = 0; index < texts.length; index++) {
         const text = texts[index];
-        const utterance = new SpeechSynthesisUtterance(text);
-
-        // ローマ字だけの文字列なら英語、それ以外は日本語
         const isEnglish = isRomajiOnly(text);
-        utterance.lang = isEnglish ? "en-US" : "ja-JP";
+        const lang = isEnglish ? "en-US" : "ja-JP";
+        const voice = getVoiceForLang(lang);
 
-        const voice = getVoiceForLang(utterance.lang);
-        if (voice) {
-            utterance.voice = voice;
-        }
-        utterance.rate = 0.95;  // 少しゆっくり（0.95倍速）
-        utterance.pitch = 1.1;  // 少し高めの声
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.voice = voice || null;
+        utterance.rate = 0.95;
+        utterance.pitch = 1.1;
 
-        utterance.onstart = () => {
-            onExpandIndex(index); // 該当のカードを拡大表示
-        };
+        onExpandIndex(index); // 拡大表示
 
-        utterance.onend = () => {
-            if (index + 1 < texts.length) {
-                speakNext(index + 1);
-            } else {
-                onExpandIndex(null);
-                isSpeaking = false; // フラグ解除
-            }
-        };
+        await new Promise<void>((resolve) => {
+            utterance.onend = () => resolve();
+            utterance.onerror = () => resolve(); // エラーでも先に進む
 
-        synth.speak(utterance);
-    };
+            synth.speak(utterance);
+        });
+    }
 
-    speakNext(0);
+    onExpandIndex(null); // 終了後に拡大解除
 };
 
 
