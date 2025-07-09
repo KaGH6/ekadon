@@ -75,36 +75,50 @@ export const speakDeckCardsWithExpand = async (
         return;
     }
 
-    const synth = window.speechSynthesis;
+    if (isSpeaking) return; // 重複読み上げ防止
+    isSpeaking = true;
+
     await loadVoices();
-    synth.cancel();
+    window.speechSynthesis.cancel(); // 既存の音声を止める
+    const synth = window.speechSynthesis;
 
-    // delayを入れることで Windows Chrome でも確実に動作する
-    await new Promise(resolve => setTimeout(resolve, 100));
+    const speakNext = (index: number) => {
+        if (index >= texts.length) {
+            onExpandIndex(null); // 読み上げ完了したら拡大解除
+            isSpeaking = false;
+            return;
+        }
 
-    for (let index = 0; index < texts.length; index++) {
         const text = texts[index];
-        const isEnglish = isRomajiOnly(text);
-        const lang = isEnglish ? "en-US" : "ja-JP";
-        const voice = getVoiceForLang(lang);
-
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang;
-        utterance.voice = voice || null;
-        utterance.rate = 0.95;
-        utterance.pitch = 1.1;
 
-        onExpandIndex(index); // 拡大表示
+        // ローマ字だけの文字列なら英語、それ以外は日本語
+        const isEnglish = isRomajiOnly(text);
+        utterance.lang = isEnglish ? "en-US" : "ja-JP";
 
-        await new Promise<void>((resolve) => {
-            utterance.onend = () => resolve();
-            utterance.onerror = () => resolve(); // エラーでも先に進む
+        const voice = getVoiceForLang(utterance.lang);
+        if (voice) {
+            utterance.voice = voice;
+        }
+        utterance.rate = 0.95;  // 少しゆっくり（0.95倍速）
+        utterance.pitch = 1.1;  // 少し高めの声
 
-            synth.speak(utterance);
-        });
-    }
+        // 該当のカードを拡大表示
+        onExpandIndex(index);
 
-    onExpandIndex(null); // 終了後に拡大解除
+        // 音声の長さに応じて次を再生（目安: 文字数 × 時間）
+        const estimatedDuration = text.length * 100;
+
+        // 実行
+        window.speechSynthesis.speak(utterance);
+
+        // 次の読み上げを予約
+        setTimeout(() => {
+            speakNext(index + 1);
+        }, estimatedDuration + 500); // 少し余裕を持たせる
+    };
+
+    speakNext(0);
 };
 
 
