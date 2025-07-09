@@ -135,10 +135,7 @@ export default function Deck() {
                             const loadVoices = (): Promise<void> => {
                                 return new Promise((resolve) => {
                                     let voices = synth.getVoices();
-                                    if (voices.length > 0) {
-                                        resolve();
-                                        return;
-                                    }
+                                    if (voices.length > 0) return resolve();
 
                                     const interval = setInterval(() => {
                                         voices = synth.getVoices();
@@ -173,6 +170,7 @@ export default function Deck() {
                             synth.cancel(); // 前の音声を止める
 
                             let index = 0;
+
                             const speakNext = () => {
                                 if (index >= texts.length) {
                                     setSpeakingIndex(null);
@@ -188,16 +186,21 @@ export default function Deck() {
                                 utterance.rate = 0.95;
                                 utterance.pitch = 1.1;
 
-                                utterance.onstart = () => setSpeakingIndex(index);
-                                utterance.onend = () => {
-                                    index++;
-                                    speakNext();
+                                utterance.onstart = () => {
+                                    setSpeakingIndex(index);
                                 };
 
-                                synth.speak(utterance);
+                                utterance.onend = () => {
+                                    index++;
+                                    // Chrome対策：次の speak は明示的にタイミングをずらす
+                                    setTimeout(() => speakNext(), 150);
+                                };
+
+                                // Chrome対策：speak を必ず遅延で呼ぶ
+                                setTimeout(() => synth.speak(utterance), 0);
                             };
 
-                            speakNext(); // クリック直後に呼ぶ！
+                            speakNext(); // 最初の呼び出しも即実行せず、次tickで行う
                         }}
                     >
                         <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
