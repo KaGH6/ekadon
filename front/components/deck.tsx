@@ -68,7 +68,17 @@ export default function Deck() {
         // 一度キャンセルしてから再生
         synth.cancel();
 
-        setTimeout(() => {
+        // Firefoxは cancel 直後に speak しても競合するため delay
+        const waitForCancel = () => {
+            if (!synth.speaking && !synth.pending) {
+                // 再生状態でなければ再開
+                startSpeaking();
+            } else {
+                setTimeout(waitForCancel, 50); // 少しずつ様子を見る
+            }
+        };
+
+        const startSpeaking = () => {
             const speakNext = (index: number) => {
                 if (index >= texts.length) {
                     onSpeakIndex(null); // 終了時に解除
@@ -91,7 +101,9 @@ export default function Deck() {
                 synth.speak(utterance);
             };
             speakNext(0);
-        }, 100); // cancelの完了を待つため少し待つ
+        };
+        // Firefox対応のため、cancel完了まで待ってから開始
+        waitForCancel();
     };
 
     //  デッキ拡大時にbodyにクラスを追加・削除
