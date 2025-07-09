@@ -106,16 +106,18 @@ export const speakDeckCardsWithExpand = async (
         // 該当のカードを拡大表示
         onExpandIndex(index);
 
-        // 音声の長さに応じて次を再生（目安: 文字数 × 時間）
-        const estimatedDuration = text.length * 100;
+        let fallbackTimeout: NodeJS.Timeout;
 
-        // 実行
-        window.speechSynthesis.speak(utterance);
-
-        // 次の読み上げを予約
-        setTimeout(() => {
+        utterance.onend = () => {
+            clearTimeout(fallbackTimeout); // 正常に onend が呼ばれた場合、タイマー無効化
             speakNext(index + 1);
-        }, estimatedDuration + 500); // 少し余裕を持たせる
+        };
+        synth.speak(utterance);
+
+        // 万一 onend が呼ばれない場合（Windows Chrome 対策）
+        fallbackTimeout = setTimeout(() => {
+            speakNext(index + 1);
+        }, text.length * 100);
     };
 
     speakNext(0);
