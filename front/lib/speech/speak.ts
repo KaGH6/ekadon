@@ -117,7 +117,7 @@ export const speakDeckCardsWithExpand = async (
         // 万一 onend が呼ばれない場合（Windows Chrome 対策）
         fallbackTimeout = setTimeout(() => {
             speakNext(index + 1);
-        }, text.length * 100);
+        }, Math.max(text.length * 100 + 300));
     };
 
     speakNext(0);
