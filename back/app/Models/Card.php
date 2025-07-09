@@ -28,4 +28,11 @@ class Card extends Model {
     public function user() {
         return $this->belongsTo(User::class);  // カードは一人のユーザーに属する
     }
+
+    //  カードが属するデッキ（多対多）
+    public function decks() {
+        return $this->belongsToMany(Deck::class)
+                    ->withPivot('position')  // 並び順
+                    ->withTimestamps();      // created_at, updated_at付き
+    }
 }

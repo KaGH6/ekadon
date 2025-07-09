@@ -30,7 +30,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // 認証が必要なルート（auth:sanctum）
 // ==============================
 // Route::middleware(['auth:api'])->group(function () {
-//Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
 Route::middleware(['jwt.auth'])->group(function () {
 
     // カテゴリー関連
@@ -47,6 +47,12 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::post('/create-card', [CardController::class, 'store']);
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+
+    //  デッキ関連
+    Route::get('/decks', [DeckController::class, 'index']);
+    Route::post('/decks', [DeckController::class, 'store']);
+    Route::get('/decks/{id}', [DeckController::class, 'show']);
+    Route::delete('/decks/{id}', [DeckController::class, 'destroy']);
 
     // 認証関連
     Route::post('/logout', [AuthController::class, 'logout']);

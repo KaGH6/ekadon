@@ -66,4 +66,9 @@ class User extends Authenticatable implements JWTSubject {
     public function cards() {
         return $this->hasMany(Card::class);
     }
+
+    //  ユーザーが所有するデッキ一覧
+    public function decks() {
+        return $this->hasMany(Deck::class);
+    }
 }
