@@ -32,11 +32,11 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         if (pathname === "/") return "ホーム";
         if (pathname === "/menu") return "メニュー";
         if (pathname.startsWith("/categories") && pathname.includes("/cards")) return "カード 一覧";
-        if (pathname.startsWith("/cards") && pathname.includes("/create")) return "カード 作成";
-        if (pathname.startsWith("/cards") && pathname.includes("/edit")) return "カード 編集";
+        if (pathname.startsWith("/create-cards")) return "カード 作成";
+        if (pathname.startsWith("/cards/") && pathname.includes("edit")) return "カード 編集";
+        if (pathname.startsWith("/categories/") && pathname.includes("create")) return "カテゴリー 作成";
+        if (pathname.startsWith("/categories/") && pathname.includes("edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
-        if (pathname.startsWith("/categories") && pathname.includes("/create")) return "カテゴリー 作成";
-        if (pathname.startsWith("/categories") && pathname.includes("/edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/checklists") && pathname.match(/^\/checklists\/\d+/)) return "チェックリスト詳細";
         if (pathname.startsWith("/checklists")) return "チェックリスト 一覧";
         return ""; // デフォルト
