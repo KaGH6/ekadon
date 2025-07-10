@@ -31,9 +31,9 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
     const getTitle = () => {
         if (pathname === "/") return "ホーム";
         if (pathname === "/menu") return "メニュー";
+        if (/^\/categories\/\d+\/cards\/\d+\/edit$/.test(pathname)) return "カード 編集";
         if (pathname.startsWith("/categories") && pathname.includes("/cards")) return "カード 一覧";
         if (pathname.startsWith("/create-cards")) return "カード 作成";
-        if (/^\/categories\/\d+\/cards\/\d+\/edit$/.test(pathname)) return "カード 編集";
         if (pathname.startsWith("/categories/") && pathname.includes("create")) return "カテゴリー 作成";
         if (pathname.startsWith("/categories/") && pathname.includes("edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
