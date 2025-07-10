@@ -144,19 +144,23 @@ export default function CardList() {
                             createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-card.svg"
                         />
                     </div>
-                    <div className="list-content">
-                        <Card
-                            cards={cards}
-                            categoryId={categoryId as string}
-                            onSelectedCard={handleSelectedCard}
-                            editModeId={editModeId}
-                            onContextMenu={handleContextMenu}
-                            onTouchStart={handleTouchStart}
-                            onTouchEnd={handleTouchEnd}
-                            onEdit={handleEdit}
-                            onConfirmDelete={setConfirmDeleteId}
-                            deletedCardId={deletedCardId}
-                        />
+
+                    {/* カード一覧 */}
+                    <div className="list-content-wrapper">
+                        <div className="list-content">
+                            <Card
+                                cards={cards}
+                                categoryId={categoryId as string}
+                                onSelectedCard={handleSelectedCard}
+                                editModeId={editModeId}
+                                onContextMenu={handleContextMenu}
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
+                                onEdit={handleEdit}
+                                onConfirmDelete={setConfirmDeleteId}
+                                deletedCardId={deletedCardId}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>

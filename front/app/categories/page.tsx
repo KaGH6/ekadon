@@ -136,16 +136,18 @@ export default function CategoryPage() {
                     </div>
 
                     {/* カテゴリー一覧 */}
-                    <div className="list-content">
-                        <Category
-                            categories={categories}
-                            editModeId={editModeId}
-                            onContextMenu={handleContextMenu}
-                            onTouchStart={handleTouchStart}
-                            onTouchEnd={handleTouchEnd}
-                            onEdit={handleEdit}
-                            onConfirmDelete={setConfirmDeleteId}
-                        />
+                    <div className="list-content-wrapper">
+                        <div className="list-content">
+                            <Category
+                                categories={categories}
+                                editModeId={editModeId}
+                                onContextMenu={handleContextMenu}
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
+                                onEdit={handleEdit}
+                                onConfirmDelete={setConfirmDeleteId}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
