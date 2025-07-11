@@ -71,4 +71,18 @@ class AuthController extends Controller {
         return response()->json(auth()->guard('api')->user());
         // return response()->json(auth()->user());  // JWTが認証されていればuser()で取得できる
     }
+
+    //  アクセストークンのリフレッシュ
+    public function refresh() {
+        try {
+            $newToken = JWTAuth::parseToken()->refresh();
+            return response()->json([
+                'access_token' => $newToken,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'トークンのリフレッシュに失敗しました'], 401);
+        }
+    }
 }
