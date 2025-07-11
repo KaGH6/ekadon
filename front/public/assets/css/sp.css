@@ -521,11 +521,23 @@ body.fullscreen #list {
 }
 
 /* 一覧本体 */
+/* .list-content-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
+} */
+
 #list .list-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.75rem;
+    /* display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    gap: 0.75rem;
+    max-width: 800px;
+    width: 100%; */
 }
 
 /*----------------------------------------
