@@ -3,7 +3,8 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
+// import axios from "axios";
+import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
 
 export default function EditCard() {

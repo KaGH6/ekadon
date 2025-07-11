@@ -8,7 +8,8 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import CreateEdit from "@/components/create-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
-import axios from "axios";
+// import axios from "axios";
+import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
 
 export default function CardList() {

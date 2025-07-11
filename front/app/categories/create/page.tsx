@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import { useState } from "react"; // 入力値を一時的に保存
 import { useRouter } from "next/navigation";// ページ遷移
-import axios from "axios"; // API（Laravel）へデータを送る
+// import axios from "axios"; // API（Laravel）へデータを送る
+import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
 
 export default function CreateCategoryPage() {
