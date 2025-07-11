@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import axios from "@/lib/api/axiosInstance"; // リフレッシュトークン用
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -40,6 +41,9 @@ export default function Login() {
             // Laravelからの返事（JSON）にあるtokenを取り出す
             const token = res.data.token;
             localStorage.setItem("token", token);
+
+            // axiosInstance の Authorization ヘッダーを更新
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
             router.push("/"); // ログイン後、ホーム画面に遷移
         } catch (err: any) {
