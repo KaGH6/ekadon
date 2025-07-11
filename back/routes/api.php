@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DeckController;
 
 // ==============================
 // CORS対策：OPTIONS preflight
@@ -25,6 +26,9 @@ use App\Http\Controllers\CategoryController;
 // サインアップ・ログイン
 Route::post('/signup', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
+
+//  アクセストークンのリフレッシュ
+Route::middleware(['jwt.auth'])->post('/refresh', [AuthController::class, 'refresh']);
 
 // ==============================
 // 認証が必要なルート（auth:sanctum）
