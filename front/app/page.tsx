@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import Breadcrumbs from "@/components/breadcrumbs";
 import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
+import axios from "@/lib/api/axiosInstance";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function Home() {
     const router = useRouter(); // ログインチェック
@@ -34,7 +36,7 @@ export default function Home() {
 
 
     return (
-        <>
+        <AuthGuard>
             {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
             <Deck />
             <section id="list">
@@ -58,6 +60,6 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-        </>
+        </AuthGuard>
     );
 }

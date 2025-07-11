@@ -3,6 +3,8 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "@/lib/api/axiosInstance";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function CardCreate() {
     const [cardName, setCardName] = useState("");
@@ -100,34 +102,36 @@ export default function CardCreate() {
     };
 
     return (
-        <div id="create-edit" className="bac">
-            <section id="input">
-                <div className="content_wrap">
-                    <form action="" className="create-card" onSubmit={handleSubmit}>
-                        <h3 className="mb05">1. カード作成</h3>
-                        <label className="card-wrap">
-                            <input type="file" id="img-file" className="img-file" accept="image/*"
-                                style={{ display: "none" }} onChange={handleImageChange} />
-                            <Image src={imagePreviewUrl} alt="カード画像" className="select-img" width={30} height={30} onClick={() => document.getElementById("img-file")?.click()} />
-                            <p className="select-img-text bold">画像を選択</p>
-                            <textarea className="put-name" maxLength={12} placeholder="カード名を入力（12文字まで）" required value={cardName} onChange={(e) => setCardName(e.target.value)}></textarea>
-                        </label>
-                        <h3 className="mt3 mb05">2. カテゴリー選択</h3>
-                        <select className="select-category" required value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))}>
-                            {/* <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/search-category.svg" alt="search-category" className="search-category" width={30} height={30} /> */}
-                            <option value="">カテゴリを選択</option>
-                            {categories.map((cate) => (
-                                <option key={cate.id} value={cate.id}>
-                                    {cate.name}
-                                </option>
-                            ))}
-                        </select>
+        <AuthGuard>
+            <div id="create-edit" className="bac">
+                <section id="input">
+                    <div className="content_wrap">
+                        <form action="" className="create-card" onSubmit={handleSubmit}>
+                            <h3 className="mb05">1. カード作成</h3>
+                            <label className="card-wrap">
+                                <input type="file" id="img-file" className="img-file" accept="image/*"
+                                    style={{ display: "none" }} onChange={handleImageChange} />
+                                <Image src={imagePreviewUrl} alt="カード画像" className="select-img" width={30} height={30} onClick={() => document.getElementById("img-file")?.click()} />
+                                <p className="select-img-text bold">画像を選択</p>
+                                <textarea className="put-name" maxLength={12} placeholder="カード名を入力（12文字まで）" required value={cardName} onChange={(e) => setCardName(e.target.value)}></textarea>
+                            </label>
+                            <h3 className="mt3 mb05">2. カテゴリー選択</h3>
+                            <select className="select-category" required value={selectedCategory} onChange={(e) => setSelectedCategory(Number(e.target.value))}>
+                                {/* <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/search-category.svg" alt="search-category" className="search-category" width={30} height={30} /> */}
+                                <option value="">カテゴリを選択</option>
+                                {categories.map((cate) => (
+                                    <option key={cate.id} value={cate.id}>
+                                        {cate.name}
+                                    </option>
+                                ))}
+                            </select>
 
-                        <button type="submit" className="submit-button mb5" disabled={isSubmitting}>{isSubmitting ? "送信中..." : "完成"}</button>
-                    </form>
+                            <button type="submit" className="submit-button mb5" disabled={isSubmitting}>{isSubmitting ? "送信中..." : "完成"}</button>
+                        </form>
 
-                </div>
-            </section>
-        </div>
+                    </div>
+                </section>
+            </div>
+        </AuthGuard>
     );
 }
