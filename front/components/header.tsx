@@ -83,10 +83,18 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         <header className="header">
             <div className="header__inner">
 
-                {/* 前のページに戻るボタン */}
-                <button onClick={() => router.back()}>
-                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/back.svg" alt="" className="header-back" width={30} height={30} />
-                </button>
+                {/* 前のページに戻るボタン：ホーム画面以外でボタンを表示 */}
+                {pathname !== "/" && (
+                    <button onClick={() => router.back()}>
+                        <Image
+                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/back.svg"
+                            alt="前のページへ戻る"
+                            className="header-back"
+                            width={30}
+                            height={30}
+                        />
+                    </button>
+                )}
 
                 {/* タイトル表示 */}
                 <h3 className="header-title">{getTitle()}</h3>
