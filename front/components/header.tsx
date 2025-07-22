@@ -17,6 +17,11 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
     const router = useRouter();
     const pathname = usePathname(); // 現在のパスを取得
 
+    // ページが変わったらハンバーガーメニューを閉じる
+    useEffect(() => {
+        setMenuOpen(false);
+    }, [pathname]);
+
     // ログイン状態かどうかを真偽値（true/false）でisAuthenticatedにセット
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -109,22 +114,22 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/">ホーム</Link>
+                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>ホーム</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/categories">カテゴリー 一覧</Link>
+                                <Link className="drawer__nav__link" href="/categories" onClick={() => setMenuOpen(false)}>カテゴリー 一覧</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/categories/create">カテゴリー作成</Link>
+                                <Link className="drawer__nav__link" href="/categories/create" onClick={() => setMenuOpen(false)}>カテゴリー作成</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/create-cards">カード作成</Link>
+                                <Link className="drawer__nav__link" href="/create-cards" onClick={() => setMenuOpen(false)}>カード作成</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/">チェックリスト一覧</Link>
+                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>チェックリスト一覧</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/">チェックリスト作成</Link>
+                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>チェックリスト作成</Link>
                             </li>
                         </ul>
 
