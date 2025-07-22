@@ -43,10 +43,10 @@ export default function Home() {
                 <div className="content_wrap">
                     <div className="list-top">
                         <Breadcrumbs />
-                        <CreateButton
+                        {/* <CreateButton
                             createHref="/categories/create"
                             createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
-                        />
+                        /> */}
                     </div>
                     <div className="home-list">
                         <Link href={`/categories`} className="home-content">
