@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import axios from "@/lib/api/axiosInstance";
 import { useRouter } from "next/navigation";
 
 export default function Signup() {
@@ -32,7 +33,7 @@ export default function Signup() {
         }
 
         try {
-            // LaravelにPOST
+            // サインアップ、LaravelにPOST
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/signup`, {
                 name: username,
                 email,
@@ -40,7 +41,19 @@ export default function Signup() {
                 password_confirmation: passwordConfirm,
             });
 
-            // 登録成功 → ログイン画面へ遷移
+            // ログインAPI呼び出し
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/login`,
+                { email, password },
+                { withCredentials: true }
+            );
+
+            // トークン保存
+            const token = res.data.token;
+            localStorage.setItem("token", token);
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+            // ホーム画面へ遷移
             router.push("/auth/login");
         } catch (err: any) {
             const responseErrors = err.response?.data?.errors;
