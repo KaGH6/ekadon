@@ -13,7 +13,7 @@ export const speakDeckCards = (texts: string[]) => {
         const utterance = new SpeechSynthesisUtterance(texts[index]);
 
         utterance.lang = "ja-JP";
-        utterance.rate = 0.95;  // 少しゆっくり
+        utterance.rate = 1.2;  // 読み上げ速度（少し速め）
         utterance.pitch = 1.1;  // 少し高めの声
 
         utterance.onend = () => {
