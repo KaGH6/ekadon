@@ -54,7 +54,7 @@ export default function Signup() {
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
             // ホーム画面へ遷移
-            router.push("/auth/login");
+            router.push("/");
         } catch (err: any) {
             const responseErrors = err.response?.data?.errors;
 
