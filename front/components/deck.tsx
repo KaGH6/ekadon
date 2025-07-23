@@ -137,7 +137,7 @@ export default function Deck() {
                     ))}
                 </div>
                 <div className="deck-bottom">
-                    <Tippy content="カード名を音声で読み上げ">
+                    <Tippy content="カードを読み上げ">
                         <button
                             className="sound"
                             onClick={() => {
@@ -149,7 +149,7 @@ export default function Deck() {
                         </button>
                     </Tippy>
 
-                    <Tippy content={isFullscreen ? "デッキを縮小" : "デッキを拡大"}>
+                    <Tippy content={isFullscreen ? "デッキ縮小" : "デッキ拡大"}>
                         <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
                             <Image src={
                                 isFullscreen
@@ -173,7 +173,7 @@ export default function Deck() {
                     )}
 
                     {/* 全削除ボタン */}
-                    <Tippy content="デッキ内のカードを全て削除">
+                    <Tippy content="デッキ内のカードを全削除">
                         <button
                             className="clear"
                             onClick={() => {
