@@ -149,7 +149,7 @@ export default function Deck() {
                         </button>
                     </Tippy>
 
-                    <Tippy content={isFullscreen ? "デッキ縮小" : "デッキ拡大"}>
+                    <Tippy content={isFullscreen ? "デッキを縮小" : "デッキを拡大"}>
                         <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
                             <Image src={
                                 isFullscreen
