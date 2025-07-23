@@ -137,7 +137,7 @@ export default function Deck() {
                     ))}
                 </div>
                 <div className="deck-bottom">
-                    <Tippy content="カードを読み上げ">
+                    <Tippy content="カード読み上げ">
                         <button
                             className="sound"
                             onClick={() => {
@@ -173,7 +173,7 @@ export default function Deck() {
                     )}
 
                     {/* 全削除ボタン */}
-                    <Tippy content="デッキ内のカードを全削除">
+                    <Tippy content="デッキ内を全削除">
                         <button
                             className="clear"
                             onClick={() => {
