@@ -173,7 +173,7 @@ export default function Deck() {
                     )}
 
                     {/* 全削除ボタン */}
-                    <Tippy content="デッキ内を全削除">
+                    <Tippy content="デッキ内全削除">
                         <button
                             className="clear"
                             onClick={() => {
