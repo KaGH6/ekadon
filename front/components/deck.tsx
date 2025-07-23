@@ -7,6 +7,7 @@ import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
 import { usePathname } from "next/navigation";
 import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
+import Tippy from '@tippyjs/react';
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
@@ -136,23 +137,28 @@ export default function Deck() {
                     ))}
                 </div>
                 <div className="deck-bottom">
-                    <button
-                        className="sound"
-                        onClick={() => {
-                            const texts = deck.map((card) => card.name);
-                            speakDeckCardsWithHighlight(texts, setSpeakingIndex);
-                        }}
-                    >
-                        <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
-                    </button>
-                    <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
-                        <Image src={
-                            isFullscreen
-                                ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/zoom-out.svg"
-                                : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/zoom-up.svg"
-                        } width={50} height={50}
-                            alt={isFullscreen ? "デッキ拡大" : "デッキ縮小"} />
-                    </button>
+                    <Tippy content="カード名を音声で読み上げ">
+                        <button
+                            className="sound"
+                            onClick={() => {
+                                const texts = deck.map((card) => card.name);
+                                speakDeckCardsWithHighlight(texts, setSpeakingIndex);
+                            }}
+                        >
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
+                        </button>
+                    </Tippy>
+
+                    <Tippy content={isFullscreen ? "デッキを縮小" : "デッキを拡大"}>
+                        <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
+                            <Image src={
+                                isFullscreen
+                                    ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/zoom-out.svg"
+                                    : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/zoom-up.svg"
+                            } width={50} height={50}
+                                alt={isFullscreen ? "デッキ拡大" : "デッキ縮小"} />
+                        </button>
+                    </Tippy>
 
                     {/* 保存ボタンはチェックリスト画面のみ表示 */}
                     {isChecklistPage && (
@@ -167,22 +173,24 @@ export default function Deck() {
                     )}
 
                     {/* 全削除ボタン */}
-                    <button
-                        className="clear"
-                        onClick={() => {
-                            // if (confirm("デッキ内のすべてのカードを削除しますか？")) {
-                            //     clearDeck();
-                            // }
-                            clearDeck(); // 確認なしで即削除
-                        }}
-                    >
-                        <Image
-                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/trash.svg"
-                            width={50}
-                            height={50}
-                            alt="デッキ内全削除"
-                        />
-                    </button>
+                    <Tippy content="デッキ内のカードを全て削除">
+                        <button
+                            className="clear"
+                            onClick={() => {
+                                // if (confirm("デッキ内のすべてのカードを削除しますか？")) {
+                                //     clearDeck();
+                                // }
+                                clearDeck(); // 確認なしで即削除
+                            }}
+                        >
+                            <Image
+                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/trash.svg"
+                                width={50}
+                                height={50}
+                                alt="デッキ内全削除"
+                            />
+                        </button>
+                    </Tippy>
                 </div>
             </div>
         </section >
