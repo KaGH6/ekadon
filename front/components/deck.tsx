@@ -17,6 +17,23 @@ import Tippy from '@tippyjs/react';
 //     onRemoveCard: (index: number) => void;
 // }
 
+// タッチ端末判定用
+function useIsTouchDevice() {
+    const [isTouch, setIsTouch] = useState(false);
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const hasTouch =
+                'ontouchstart' in window ||
+                navigator.maxTouchPoints > 0 ||
+                // IE10 など
+                // @ts-ignore
+                navigator.msMaxTouchPoints > 0;
+            setIsTouch(hasTouch);
+        }
+    }, []);
+    return isTouch;
+}
+
 // export default function Deck({ selectedCards, onRemoveCard }: DeckProps) {
 export default function Deck() {
     const [isFullscreen, setIsFullscreen] = useState(false); // デッキ拡大
@@ -28,6 +45,7 @@ export default function Deck() {
     const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
     const clearDeck = useDeckStore((state) => state.clearDeck); // 全削除
 
+    const isTouch = useIsTouchDevice(); // タッチ端末かどうか判定
     const pathname = usePathname(); // 現在のパスを取得
 
     // デッキ保存処理
@@ -137,7 +155,7 @@ export default function Deck() {
                     ))}
                 </div>
                 <div className="deck-bottom">
-                    <Tippy content="カードを読み上げ">
+                    <Tippy content="カード読み上げ" disabled={isTouch}>
                         <button
                             className="sound"
                             onClick={() => {
@@ -149,7 +167,7 @@ export default function Deck() {
                         </button>
                     </Tippy>
 
-                    <Tippy content={isFullscreen ? "デッキを縮小" : "デッキを拡大"}>
+                    <Tippy content={isFullscreen ? "デッキ縮小" : "デッキ拡大"} disabled={isTouch}>
                         <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
                             <Image src={
                                 isFullscreen
@@ -173,7 +191,7 @@ export default function Deck() {
                     )}
 
                     {/* 全削除ボタン */}
-                    <Tippy content="デッキ内を全て削除">
+                    <Tippy content="デッキ内を全削除" disabled={isTouch}>
                         <button
                             className="clear"
                             onClick={() => {
