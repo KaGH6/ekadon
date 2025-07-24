@@ -7,7 +7,7 @@ import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
 import { usePathname } from "next/navigation";
 import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
-import Tippy from '@tippyjs/react';
+import Tooltip from '@/components/tooltip';
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
@@ -155,7 +155,7 @@ export default function Deck() {
                     ))}
                 </div>
                 <div className="deck-bottom">
-                    <Tippy content="カード読み上げ" disabled={isTouch}>
+                    <Tooltip content="カードを読み上げ">
                         <button
                             className="sound"
                             onClick={() => {
@@ -165,9 +165,9 @@ export default function Deck() {
                         >
                             <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
                         </button>
-                    </Tippy>
+                    </Tooltip>
 
-                    <Tippy content={isFullscreen ? "デッキ縮小" : "デッキ拡大"} disabled={isTouch}>
+                    <Tooltip content={isFullscreen ? "デッキを縮小" : "デッキを拡大"}>
                         <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
                             <Image src={
                                 isFullscreen
@@ -176,7 +176,7 @@ export default function Deck() {
                             } width={50} height={50}
                                 alt={isFullscreen ? "デッキ拡大" : "デッキ縮小"} />
                         </button>
-                    </Tippy>
+                    </Tooltip>
 
                     {/* 保存ボタンはチェックリスト画面のみ表示 */}
                     {isChecklistPage && (
@@ -191,7 +191,7 @@ export default function Deck() {
                     )}
 
                     {/* 全削除ボタン */}
-                    <Tippy content="デッキ内を全削除" disabled={isTouch}>
+                    <Tooltip content="デッキ内を全削除">
                         <button
                             className="clear"
                             onClick={() => {
@@ -208,7 +208,7 @@ export default function Deck() {
                                 alt="デッキ内全削除"
                             />
                         </button>
-                    </Tippy>
+                    </Tooltip>
                 </div>
             </div>
         </section >

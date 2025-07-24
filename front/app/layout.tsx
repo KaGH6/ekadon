@@ -3,7 +3,6 @@ import "../public/assets/css/sp.css";
 // import "../public/assets/css/common.css";
 // import Header from "@/components/header";
 import BodyWrapper from "@/components/BodyWrapper";
-import 'tippy.js/dist/tippy.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
