@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeckController;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 // ==============================
 // CORS対策：OPTIONS preflight
@@ -28,7 +29,16 @@ Route::post('/signup', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
 
 //  アクセストークンのリフレッシュ
-Route::middleware(['jwt.auth'])->post('/refresh', [AuthController::class, 'refresh']);
+// Route::middleware(['jwt.auth'])->post('/refresh', [AuthController::class, 'refresh']);
+Route::post('/refresh', function () {
+    try {
+        $newToken = auth('api')->refresh(); // 現在のJWTから新しいトークンを発行
+        return response()->json(['access_token' => $newToken]);
+    } catch (JWTException $e) {
+        return response()->json(['error' => 'トークンの更新に失敗しました'], 401);
+    }
+});
+
 
 // ==============================
 // 認証が必要なルート（auth:sanctum）
