@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchDecks } from "@/lib/api/deck";              // API ユーティリティ
-import Breadcrumbs from "@/components/breadcrumbs";       // パンくず
-import CreateButton from "@/components/create-button";     // 「作成」ボタン
-import Deck from "@/components/deck";                      // 現在のデッキ表示
-import { useDeckStore } from "@/store/deckStore";          // Zustand ストア
-import AuthGuard from "@/components/AuthGuard";            // 認証ガード
+import { fetchDecks } from "@/lib/api/deck"; // API ユーティリティ
+import Breadcrumbs from "@/components/breadcrumbs"; // パンくず
+import CreateButton from "@/components/create-button"; // 作成ボタン
+import Deck from "@/components/deck"; // 現在のデッキ表示
+import { useDeckStore } from "@/store/deckStore"; // Zustand ストア
+import AuthGuard from "@/components/AuthGuard"; // 認証ガード
+import type { DeckType } from "@/lib/api/deck"; // デッキ型定義
 
 // 型定義（API レスポンスに合わせて調整）
 type CardData = {
@@ -27,7 +28,8 @@ type DeckData = {
 };
 
 export default function DeckListPage() {
-    const [decks, setDecks] = useState([]);
+    // const [decks, setDecks] = useState([]);
+    const [decks, setDecks] = useState<Deck[]>([]);
     const [editModeId, setEditModeId] = useState<number | null>(null);
     const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
     const longPressTimer = useRef<NodeJS.Timeout | null>(null);
