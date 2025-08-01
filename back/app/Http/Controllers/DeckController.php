@@ -28,7 +28,7 @@ class DeckController extends Controller {
         // 画像アップロード
         $imageUrl = null;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('deck_images', 's3');
+            $path = $request->file('image')->store('deck_imgs', 's3');
             Storage::disk('s3')->setVisibility($path, 'public');
             $imageUrl = Storage::disk('s3')->url($path);
         }
@@ -87,7 +87,7 @@ class DeckController extends Controller {
             }
 
             // 新しい画像をアップロード 
-            $path = $request->file('image')->store('deck_images', 's3');
+            $path = $request->file('image')->store('deck_imgs', 's3');
             Storage::disk('s3')->setVisibility($path, 'public');
             $deck->image_url = Storage::disk('s3')->url($path);
         }
