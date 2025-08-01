@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
 import Tooltip from '@/components/tooltip';
+import axios from "@/lib/api/axiosInstance";
 
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
@@ -42,26 +43,134 @@ export default function Deck() {
     // Zustandから状態と操作関数を取得
     const deck = useDeckStore((state) => state.deck);
     // const removeCard = useDeckStore((state) => state.removeCard);
+    const isSaved = useDeckStore((s) => s.isSaved);
+    const setIsSaved = useDeckStore((s) => s.setIsSaved);
+    const editingDeckId = useDeckStore((s) => s.editingDeckId);
+    const setEditingDeckId = useDeckStore((s) => s.setEditingDeckId);
     const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
     const clearDeck = useDeckStore((state) => state.clearDeck); // 全削除
 
     const isTouch = useIsTouchDevice(); // タッチ端末かどうか判定
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [name, setName] = useState("");
+    const [thumbFile, setThumbFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string>(
+        "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"
+    );
+    const [saving, setSaving] = useState(false);
+    const isDisabled = isSaved && !editingDeckId;
+
     const pathname = usePathname(); // 現在のパスを取得
+    const router = useRouter();
+
+    // 編集モード時に既存の name／image を読み込んで初期セット
+    useEffect(() => {
+        if (!isModalOpen) return;
+
+        if (editingDeckId) {
+            // 編集モード：GET で既存データ取得
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}/decks/${editingDeckId}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            })
+                .then(res => {
+                    setName(res.data.name || "");
+                    // 画像は既存のURLをそのままプレビュー
+                    setPreviewUrl(res.data.image_url || "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");
+                    setThumbFile(null);
+                })
+                .catch(() => {
+                    // 失敗時はプレースホルダーに戻す
+                    setName("");
+                    setPreviewUrl("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");
+                    setThumbFile(null);
+                });
+        } else {
+            // 新規モード：常にプレースホルダーにリセット
+            setName("");
+            setPreviewUrl("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");
+            setThumbFile(null);
+        }
+    }, [isModalOpen, editingDeckId]);
+
+    // // 画像プレビュー URL を更新
+    // useEffect(() => {
+    //     if (!thumbFile) {
+    //         return;
+    //     }
+    //     const url = URL.createObjectURL(thumbFile);
+    //     setPreviewUrl(url);
+    //     return () => URL.revokeObjectURL(url);
+    // }, [thumbFile]);
+
+    // モーダルの open/close
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setName("");
+        setThumbFile(null);
+        setPreviewUrl("");
+    };
 
     // デッキ保存処理
-    const handleSaveDeck = async () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault(); // フォームのデフォルト送信を防ぐ
+        // if (isSaved) return; // すでに保存済み
+        if (isDisabled) return;  // 編集モード以外で既に保存済みなら無視
+
+        // 1) デッキ名を入力
+        if (!name) {
+            alert("デッキ名を入力してください");
+            return;
+        }
+
+        // 2) 画像を登録
+        if (!thumbFile) {
+            alert("画像を選択してください");
+            return;
+        }
+        setSaving(true);
+
+        // 3) カードIDと順番を組み立て
         try {
-            const cardIds = deck.map((card) => card.id);
-            const name = prompt("デッキ名を入力してください");
-            if (!name) {
-                alert("デッキ名が未入力のため、保存をキャンセルしました。");
-                return;
+            const token = localStorage.getItem("token")!;
+            const form = new FormData();
+            form.append("name", name);
+            form.append("image", thumbFile);
+            // カードID＋順番を追加
+            deck.forEach((card, idx) => {
+                form.append(`cards[${idx}][id]`, String(card.id));
+                form.append(`cards[${idx}][position]`, String(idx));
+            });
+
+            // await saveDeck(form);
+            // alert("デッキを保存しました！");
+            if (editingDeckId) {
+                // 編集モード: 既存デッキを更新
+                await fetch(`${process.env.NEXT_PUBLIC_API_URL}/decks/${editingDeckId}`, {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: form,
+                });
+                alert("デッキを更新しました！");
+                setEditingDeckId(null);  // 編集モード解除
+            } else {
+                // 新規モード: POST
+                await saveDeck(form);
+                alert("デッキを保存しました！");
             }
 
-            await saveDeck(cardIds, name); // nameがある時だけ1回呼ぶ
-            alert("デッキを保存しました！");
-        } catch (error) {
-            console.error("デッキ保存エラー:", error);
+            setIsSaved(true);
+            clearDeck();
+            closeModal();
+
+            // 一覧へ戻って再フェッチ
+            router.push("/decklist");
+            router.refresh();
+        } catch (err) {
+            console.error(err);
             alert("保存に失敗しました。");
         }
     };
@@ -133,6 +242,87 @@ export default function Deck() {
     return (
         <section id="deck" className={`deck-wrapper ${isFullscreen ? "rotate-wrapper" : ""}`}>
             <div className="deck-outside">
+                {/* デッキ保存ボタン */}
+                <Tooltip content={
+                    editingDeckId
+                        ? "変更を保存"
+                        : isSaved
+                            ? "このデッキは保存済みです"
+                            : "デッキを保存"
+                }>
+                    <button
+                        className={`save${isSaved ? ' disabled' : ''}`}
+                        onClick={openModal}
+                        disabled={isDisabled}  // 編集モード以外で既に保存済みなら無効
+                        // disabled={isSaved}
+                        aria-disabled={isDisabled}
+                    >
+                        <Image
+                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/saved.svg"
+                            width={50}
+                            height={50}
+                            alt="保存"
+                        />
+                    </button>
+                </Tooltip>
+
+                {/* モーダル */}
+                {isModalOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal-window">
+                            <h2>デッキを保存</h2>
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group">
+                                    <label>1. リスト名</label>
+                                    <input
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        placeholder="例：あさのデッキ"
+                                        disabled={saving}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>2. リスト画像</label>
+                                    <label className="select-img-wrapper">
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: "none" }}
+                                            onChange={(e) => {
+                                                const f = e.target.files?.[0] || null;
+                                                setThumbFile(f);
+                                            }}
+                                            disabled={saving}
+                                        />
+
+                                        <div className="preview-box">
+                                            {previewUrl ? (
+                                                <Image
+                                                    src={previewUrl}
+                                                    alt="プレビュー"
+                                                    fill
+                                                    style={{ objectFit: "contain" }}
+                                                />
+                                            ) : (
+                                                <p>画像を選択</p>
+                                            )}
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="modal-actions">
+                                    <button type="button" onClick={closeModal} disabled={saving}>
+                                        キャンセル
+                                    </button>
+                                    <button type="submit" disabled={saving}>
+                                        保存
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
+
                 <div className="deck-inside">
                     {/* {selectedCards.map((card, index) => ( */}
                     {deck.map((card, index) => (
@@ -177,18 +367,6 @@ export default function Deck() {
                                 alt={isFullscreen ? "デッキ拡大" : "デッキ縮小"} />
                         </button>
                     </Tooltip>
-
-                    {/* 保存ボタンはチェックリスト画面のみ表示 */}
-                    {isChecklistPage && (
-                        <button className="save" onClick={handleSaveDeck}>
-                            <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/saved.svg"
-                                width={50}
-                                height={50}
-                                alt="保存"
-                            />
-                        </button>
-                    )}
 
                     {/* 全削除ボタン */}
                     <Tooltip content="デッキ内を全削除">

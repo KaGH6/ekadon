@@ -16,6 +16,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const router = useRouter();
     const pathname = usePathname(); // 現在のパスを取得
+    const editingDeckId = useDeckStore((s) => s.editingDeckId);
 
     // ページが変わったらハンバーガーメニューを閉じる
     useEffect(() => {
@@ -34,6 +35,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
 
     // タイトルをパスに応じて切り替える
     const getTitle = () => {
+        if (editingDeckId && pathname.startsWith("/categories")) return "デッキ 編集中";
         if (pathname === "/") return "ホーム";
         if (pathname === "/menu") return "メニュー";
         if (/^\/categories\/\d+\/cards\/\d+\/edit$/.test(pathname)) return "カード 編集";
@@ -42,8 +44,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         if (pathname.startsWith("/categories/") && pathname.includes("create")) return "カテゴリー 作成";
         if (pathname.startsWith("/categories/") && pathname.includes("edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
-        if (pathname.startsWith("/checklists") && pathname.match(/^\/checklists\/\d+/)) return "チェックリスト詳細";
-        if (pathname.startsWith("/checklists")) return "チェックリスト 一覧";
+        if (pathname.startsWith("/decklist")) return "デッキ 一覧";
         return ""; // デフォルト
     };
 

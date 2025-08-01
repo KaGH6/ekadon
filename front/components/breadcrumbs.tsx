@@ -19,12 +19,8 @@ export default function Breadcrumbs() {
     } else if (pathname.includes("categories")) {
         currentLayer = 2;
     } else if (
-        pathname.startsWith("/checklists/") &&
-        (pathname.includes("/edit") || pathname.includes("/create") || pathname.match(/^\/checklists\/\d+$/))
-    ) {
-        currentLayer = 5; // チェックリスト詳細や編集・作成
-    } else if (pathname.startsWith("/checklists")) {
-        currentLayer = 4; // チェックリスト一覧
+        pathname.startsWith("/decklists/")) {
+        currentLayer = 4; // デッキ一覧
     } else if (pathname === "/" || pathname === "/menu") {
         currentLayer = 1; // ホーム画面
     }
@@ -73,20 +69,9 @@ export default function Breadcrumbs() {
 
             {shouldShow(4) && (
                 <>
-                    {/* チェックリスト一覧 */}
-                    <button onClick={() => router.push("/checklists")}>
-                        <Image src={getLayerImage(4, "checklist")} width={40} height={40} alt="チェックリスト一覧" />
-                    </button>
-                </>
-            )}
-
-            {shouldShow(5) && (
-                <>
-                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
-
-                    {/* チェックリスト詳細・作成・編集 */}
-                    <button onClick={() => router.push("/checklists/1")}>
-                        <Image src={getLayerImage(5, "checklist-detail")} width={40} height={40} alt="チェックリスト詳細" />
+                    {/* デッキ一覧 */}
+                    <button onClick={() => router.push("/decklists")}>
+                        <Image src={getLayerImage(4, "decklist")} width={40} height={40} alt="デッキ一覧" />
                     </button>
                 </>
             )}
