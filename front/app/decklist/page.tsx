@@ -29,7 +29,7 @@ type DeckData = {
 
 export default function DeckListPage() {
     // const [decks, setDecks] = useState([]);
-    const [decks, setDecks] = useState<Deck[]>([]);
+    const [decks, setDecks] = useState<DeckData[]>([]);
     const [editModeId, setEditModeId] = useState<number | null>(null);
     const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
     const longPressTimer = useRef<NodeJS.Timeout | null>(null);
