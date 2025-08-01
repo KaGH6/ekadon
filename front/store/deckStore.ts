@@ -15,10 +15,14 @@ export type CardData = {
 // Zustandで管理する状態の型
 type DeckState = {
     deck: CardData[];
+    isSaved: boolean; // 現在のデッキが保存済みかどうか
+    editingDeckId: number | null; // 編集中のデッキID（nullなら新規作成）
     addCard: (card: CardData) => void;
     removeCard: (id: number) => void;
     removeCardByIndex: (index: number) => void;
     clearDeck: () => void; // 全削除
+    setIsSaved: (flag: boolean) => void; // フラグのsetter
+    setEditingDeckId: (id: number | null) => void; // 編集中のデッキIDをセット
 };
 
 // Zustand Store の作成
@@ -26,6 +30,9 @@ export const useDeckStore = create<DeckState>()(
     persist(
         (set, get) => ({
             deck: [], // 状態の中身。deck=カードの配列（現在のデッキ）。
+            isSaved: false, // デッキが保存済みかどうかのフラグ
+            editingDeckId: null, // 編集中のデッキID
+            setEditingDeckId: (id) => set({ editingDeckId: id }), // 編集中のデッキIDをセット
 
             // カードを追加
             addCard: (card) => {
@@ -52,7 +59,8 @@ export const useDeckStore = create<DeckState>()(
                 })),
 
             // デッキを全削除
-            clearDeck: () => set({ deck: [] }),
+            clearDeck: () => set({ deck: [], isSaved: false }), // クリア時は保存済フラグも false
+            setIsSaved: (flag) => set({ isSaved: flag }),
         }),
 
         // 状態をローカルに保存

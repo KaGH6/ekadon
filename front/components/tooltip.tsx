@@ -50,7 +50,7 @@ export default function Tooltip({ children, content }: TooltipProps) {
                             fontSize: '0.83rem',
                             padding: '0.27rem 0.5rem',
                             borderRadius: '0.25rem',
-                            zIndex: 9999,
+                            zIndex: 90000,
                             whiteSpace: 'nowrap',
                         }}
                     >

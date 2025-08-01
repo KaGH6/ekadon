@@ -24,6 +24,14 @@ const nextConfig = {
             's3.ap-northeast-1.amazonaws.com',
             '127.0.0.1',
         ],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "ekadon-backet.s3.ap-northeast-1.amazonaws.com",
+                port: "",
+                pathname: "/**", // バケットの下すべてを許可
+            },
+        ],
     },
 };
 
