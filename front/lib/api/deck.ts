@@ -13,7 +13,15 @@ export type DeckType = {
 // デッキ一覧取得（ログインユーザーに紐づくもの）
 export const fetchDecks = async () => {
     const res = await axiosInstance.get("/decks");
-    return res.data;
+    // return res.data;
+    // API が返すフィールド名が `image`（または `image_url`）かどうかを確認
+    return res.data.map((d) => ({
+        id: d.id,
+        name: d.name,
+        // もしバックエンドが `image` プロパティで返しているならこちらを使う
+        image_url: d.image_url ?? d.image ?? null,
+        cards: d.cards,
+    }));
 };
 
 // // デッキ保存

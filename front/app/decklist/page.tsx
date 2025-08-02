@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import axiosInstance from "@/lib/api/axiosInstance";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchDecks } from "@/lib/api/deck"; // API ユーティリティ
@@ -39,6 +40,7 @@ export default function DeckListPage() {
     const addCard = useDeckStore((s) => s.addCard);
     const setIsSaved = useDeckStore((s) => s.setIsSaved);
     const setEditingDeckId = useDeckStore((s) => s.setEditingDeckId);
+    const setBackupDeck = useDeckStore((s) => s.setBackupDeck);
 
     // Saved Deck 一覧を取得
     useEffect(() => {
@@ -69,12 +71,17 @@ export default function DeckListPage() {
         if (confirmDeleteId == null) return;
         try {
             // DELETE /api/decks/{id}
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/decks/${confirmDeleteId}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
+            // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/decks/${confirmDeleteId}`, {
+            //     method: "DELETE",
+            //     headers: {
+            //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+            //     },
+            // });
+
+            // axiosInstance はデフォルトで Authorization & withCredentials を付与
+            await axiosInstance.delete(`/decks/${confirmDeleteId}`);
+
+            // フロントのリストも即時に更新
             setDecks((prev) => prev.filter((d) => d.id !== confirmDeleteId));
             setEditModeId(null);
             setConfirmDeleteId(null);
@@ -102,7 +109,7 @@ export default function DeckListPage() {
                     </div>
 
                     {/* デッキ一覧 */}
-                    <div className="list-content">
+                    <div id="deck-list" className="list-content">
                         {decks.map((d) => (
                             <div
                                 key={d.id}
@@ -128,12 +135,14 @@ export default function DeckListPage() {
                                     <div className="edit-delete-menu">
                                         <button
                                             onClick={() => {
-                                                // 1. 既存のカードをストアにロード
+                                                // 1. 編集前のカード配列をバックアップ
+                                                setBackupDeck(d.cards);
+                                                // 2. 既存のカードをストアにロード
                                                 clearDeck();
                                                 d.cards.forEach((c) => addCard(c));
                                                 setIsSaved(false); // 再度編集→未保存扱いに
                                                 setEditingDeckId(d.id); // どのデッキを編集中か保持
-                                                // 2. カード選択画面へ
+                                                // 3. カード選択画面へ
                                                 router.push("/categories");
                                             }}
                                         >

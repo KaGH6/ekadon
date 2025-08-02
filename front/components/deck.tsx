@@ -47,6 +47,7 @@ export default function Deck() {
     const setIsSaved = useDeckStore((s) => s.setIsSaved);
     const editingDeckId = useDeckStore((s) => s.editingDeckId);
     const setEditingDeckId = useDeckStore((s) => s.setEditingDeckId);
+    const restoreBackup = useDeckStore((s) => s.restoreBackup);
     const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
     const clearDeck = useDeckStore((state) => state.clearDeck); // 全削除
 
@@ -94,6 +95,12 @@ export default function Deck() {
     }, [isModalOpen, editingDeckId]);
 
     // // 画像プレビュー URL を更新
+    useEffect(() => {
+        if (!thumbFile) return;
+        const url = URL.createObjectURL(thumbFile);
+        setPreviewUrl(url);
+        return () => URL.revokeObjectURL(url);
+    }, [thumbFile]);
     // useEffect(() => {
     //     if (!thumbFile) {
     //         return;
@@ -266,6 +273,22 @@ export default function Deck() {
                     </button>
                 </Tooltip>
 
+                {/* 編集モード中で /categories 以下ならキャンセルボタンを表示 */}
+                {editingDeckId && pathname.startsWith("/categories") && (
+                    <button
+                        className="cancel-edit-btn"
+                        onClick={() => {
+                            // バックアップから復元して編集モード解除
+                            restoreBackup();
+                            setEditingDeckId(null);
+                            // デッキ一覧に戻る
+                            router.push("/decklist");
+                        }}
+                    >
+                        編集をキャンセル❌
+                    </button>
+                )}
+
                 {/* モーダル */}
                 {isModalOpen && (
                     <div className="modal-overlay">
@@ -273,17 +296,17 @@ export default function Deck() {
                             <h2>デッキを保存</h2>
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label>1. リスト名</label>
+                                    <label>1. デッキ名</label>
                                     <input
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="例：あさのデッキ"
+                                        placeholder="例：朝にやること"
                                         disabled={saving}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>2. リスト画像</label>
+                                    <label>2. デッキアイコン画像</label>
                                     <label className="select-img-wrapper">
                                         <input
                                             type="file"
@@ -297,16 +320,15 @@ export default function Deck() {
                                         />
 
                                         <div className="preview-box">
-                                            {previewUrl ? (
+                                            {previewUrl && (
                                                 <Image
                                                     src={previewUrl}
                                                     alt="プレビュー"
                                                     fill
                                                     style={{ objectFit: "contain" }}
                                                 />
-                                            ) : (
-                                                <p>画像を選択</p>
                                             )}
+                                            <p className="preview-label">画像を選択</p>
                                         </div>
                                     </label>
                                 </div>
