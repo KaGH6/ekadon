@@ -121,10 +121,18 @@ export default function DeckListPage() {
                             >
                                 <div className="list-link">
                                     <Image
-                                        src={d.image_url ?? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck.svg"}
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck.svg"
+                                        width={80}
+                                        height={80}
+                                        alt="デッキ枠"
+                                        className="list-icon"
+                                    />
+                                    <Image
+                                        src={d.image_url}
                                         width={80}
                                         height={80}
                                         alt={d.name}
+                                        className="list-image"
                                         unoptimized
                                     />
                                     <p className="list-name">{d.name}</p>
