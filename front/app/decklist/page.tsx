@@ -127,14 +127,15 @@ export default function DeckListPage() {
                                         alt="デッキ枠"
                                         className="list-icon"
                                     />
-                                    <Image
-                                        src={d.image_url}
-                                        width={80}
-                                        height={80}
-                                        alt={d.name}
-                                        className="list-image"
-                                        unoptimized
-                                    />
+                                    {d.image_url && (
+                                        <Image
+                                            src={d.image_url}
+                                            width={80}
+                                            height={80}
+                                            alt={d.name}
+                                            unoptimized
+                                        />
+                                    )}
                                     <p className="list-name">{d.name}</p>
                                 </div>
 

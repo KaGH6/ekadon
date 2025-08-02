@@ -523,6 +523,14 @@ body.fullscreen #list {
     align-items: center;
 }
 
+#deck-list .list-link .list-icon {
+    position: relative;
+}
+
+#deck-list .list-link .list-image {
+    position: absolute;
+}
+
 #deck-list .list-link p {
     font-weight: 500;
 }
