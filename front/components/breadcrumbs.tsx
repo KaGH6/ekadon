@@ -15,11 +15,10 @@ export default function Breadcrumbs() {
     let currentLayer = 0;
 
     if (pathname.includes("/cards")) {
-        currentLayer = 3;
+        currentLayer = 3; // カード一覧
     } else if (pathname.includes("categories")) {
-        currentLayer = 2;
-    } else if (
-        pathname.startsWith("/decklists/")) {
+        currentLayer = 2; // カテゴリ一覧
+    } else if (pathname.startsWith("/decklist")) {
         currentLayer = 4; // デッキ一覧
     } else if (pathname === "/" || pathname === "/menu") {
         currentLayer = 1; // ホーム画面
@@ -56,7 +55,7 @@ export default function Breadcrumbs() {
                 </>
             )}
 
-            {shouldShow(3) && (
+            {currentLayer === 3 && (
                 <>
                     <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
@@ -67,11 +66,13 @@ export default function Breadcrumbs() {
                 </>
             )}
 
-            {shouldShow(4) && (
+            {currentLayer === 4 && (
                 <>
+                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
+
                     {/* デッキ一覧 */}
-                    <button onClick={() => router.push("/decklists")}>
-                        <Image src={getLayerImage(4, "decklist")} width={40} height={40} alt="デッキ一覧" />
+                    <button onClick={() => router.push("/decklist")}>
+                        <Image src={getLayerImage(4, "deck-pagenate")} width={40} height={40} alt="デッキ一覧" />
                     </button>
                 </>
             )}

@@ -17,6 +17,9 @@ type DeckState = {
     deck: CardData[];
     isSaved: boolean; // 現在のデッキが保存済みかどうか
     editingDeckId: number | null; // 編集中のデッキID（nullなら新規作成）
+    backupDeck: CardData[]; // 編集前のカード配列を退避
+    setBackupDeck: (cards: CardData[]) => void; // 退避用アクション
+    restoreBackup: () => void; // 編集キャンセル時にバックアップから復元
     addCard: (card: CardData) => void;
     removeCard: (id: number) => void;
     removeCardByIndex: (index: number) => void;
@@ -33,6 +36,16 @@ export const useDeckStore = create<DeckState>()(
             isSaved: false, // デッキが保存済みかどうかのフラグ
             editingDeckId: null, // 編集中のデッキID
             setEditingDeckId: (id) => set({ editingDeckId: id }), // 編集中のデッキIDをセット
+            backupDeck: [],
+            setBackupDeck: (cards) => set({ backupDeck: cards }),
+            restoreBackup: () => {
+                const b = get().backupDeck;
+                set({
+                    deck: b,
+                    isSaved: true,
+                    editingDeckId: null,
+                });
+            },
 
             // カードを追加
             addCard: (card) => {
