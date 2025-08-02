@@ -153,16 +153,11 @@ export default function Deck() {
             // await saveDeck(form);
             // alert("デッキを保存しました！");
             if (editingDeckId) {
-                // 編集モード: 既存デッキを更新
-                await fetch(`${process.env.NEXT_PUBLIC_API_URL}/decks/${editingDeckId}`, {
-                    method: "PUT",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: form,
-                });
+                // 編集モード: メソッドオーバーライドでPUT相当を送信
+                form.append("_method", "PUT");
+                await axios.post(`/decks/${editingDeckId}`, form);
                 alert("デッキを更新しました！");
-                setEditingDeckId(null);  // 編集モード解除
+                setEditingDeckId(null);
             } else {
                 // 新規モード: POST
                 await saveDeck(form);
