@@ -1,5 +1,6 @@
-import axios from "@/lib/api/axiosInstance"; // 追記
-import axiosInstance from "./axiosInstance";
+// import axios from "@/lib/api/axiosInstance";
+// import axiosInstance from "./axiosInstance";
+import axiosInstance from "@/lib/api/axiosInstance"; // 追記
 import { CardData } from "@/app/types/card";  // CardDataの定義パスに合わせて修正
 const API_URL = process.env.NEXT_PUBLIC_API_URL; // 追記
 
@@ -71,17 +72,6 @@ export const fetchDecks = async (): Promise<DeckType[]> => {
 
 // デッキ保存 (FormData: name, image?, cards[][id], cards[][position])
 export const saveDeck = async (formData: FormData) => {
-    const token = localStorage.getItem("token");
-    const res = await axios.post(
-        `${API_URL}/decks`,
-        formData,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                // "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true, // Sanctum 使っている場合は必須
-        }
-    );
+    const res = await axiosInstance.post("/decks", formData);
     return res.data;
 };
