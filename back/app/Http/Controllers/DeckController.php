@@ -22,7 +22,7 @@ class DeckController extends Controller {
             'cards' => 'required|array',
             'cards.*.id' => 'required|integer|exists:cards,id',
             'cards.*.position' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png,svg,gif|max:2048',
         ]);
 
         // 画像アップロード

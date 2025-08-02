@@ -131,27 +131,38 @@ export default function Deck() {
             return;
         }
 
-        // 2) 画像を登録
-        if (!thumbFile) {
+        // 2) 画像チェック（新規作成時は必須）
+        if (!editingDeckId && !thumbFile) {
             alert("画像を選択してください");
             return;
         }
-        setSaving(true);
 
-        // 3) カードIDと順番を組み立て
+        // 3) カードIDと順番を組み立て（編集時で画像が未選択 かつ 既存画像もない場合はエラー）
+        if (editingDeckId && !thumbFile) {
+            // 既存の画像URLがない場合はエラー
+            const currentImageExists = previewUrl !== "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg";
+            if (!currentImageExists) {
+                alert("画像を選択してください");
+                return;
+            }
+        }
+        setSaving(true);
         try {
             const token = localStorage.getItem("token")!;
             const form = new FormData();
             form.append("name", name);
-            form.append("image", thumbFile);
+
+            // 画像が選択されている場合のみ追加
+            if (thumbFile) {
+                form.append("image", thumbFile);
+            }
+
             // カードID＋順番を追加
             deck.forEach((card, idx) => {
                 form.append(`cards[${idx}][id]`, String(card.id));
                 form.append(`cards[${idx}][position]`, String(idx));
             });
 
-            // await saveDeck(form);
-            // alert("デッキを保存しました！");
             if (editingDeckId) {
                 // 編集モード: メソッドオーバーライドでPUT相当を送信
                 form.append("_method", "PUT");
@@ -171,9 +182,19 @@ export default function Deck() {
             // 一覧へ戻って再フェッチ
             router.push("/decklist");
             router.refresh();
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert("保存に失敗しました。");
+
+            // エラーメッセージをより具体的に表示
+            if (err.response?.data?.error) {
+                alert(err.response.data.error);
+            } else if (err.response?.data?.message) {
+                alert(err.response.data.message);
+            } else {
+                alert("保存に失敗しました。");
+            }
+        } finally {
+            setSaving(false);
         }
     };
 
