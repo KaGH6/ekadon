@@ -20,10 +20,10 @@ export default function Footer() {
             try {
                 const token = localStorage.getItem("token");
                 if (!token) return;
+                // page.tsx と同じ list-category エンドポイントを叩る
                 const res = await axios.get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/list-category` /* page.tsx と同じ */, {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
+                    `${process.env.NEXT_PUBLIC_API_URL}/list-category`,
+                    { headers: { Authorization: `Bearer ${token}` } }
                 );
                 setCategories(res.data);
             } catch (e) {
@@ -31,6 +31,7 @@ export default function Footer() {
             }
         })();
     }, []);
+
 
     return (
         <footer className="footer">
