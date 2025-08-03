@@ -1210,14 +1210,14 @@ body.fullscreen .card-name {
 }
 
 .footer-icon {
-    width: min(50 / 375* 100vw, 50px);
-    height: min(50 / 375* 100vw, 50px);
+    width: min(45 / 375* 100vw, 45px);
+    height: min(45 / 375* 100vw, 45px);
     display: block;
 }
 
 .footer-link .footer-icon-name {
     font-size: clamp(8px, 11/375*100vw, 11px);
-    margin-top: 0.3em;
+    margin: 0;
     color: var(--black);
 }
 
