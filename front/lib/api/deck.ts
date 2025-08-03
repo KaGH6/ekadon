@@ -2,10 +2,13 @@
 // import axiosInstance from "./axiosInstance";
 import axiosInstance from "@/lib/api/axiosInstance"; // 追記
 import { CardData } from "@/app/types/card";  // CardDataの定義パスに合わせて修正
-const API_URL = process.env.NEXT_PUBLIC_API_URL; // 追記
+// const API_URL = process.env.NEXT_PUBLIC_API_URL; // 追記
+const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE_URL;
+const DEFAULT_DECK_IMG =
+    "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-cards.svg";
 
 // 1) S3のベースURL
-const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE_URL;
+// const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE_URL;
 
 // APIから返ってくるraw dataの型
 interface RawDeck {
@@ -66,27 +69,27 @@ export const fetchDecks = async (): Promise<DeckType[]> => {
 };
 
 // // デッキ保存
-export const saveDeck = async (
-    name: string,
-    cards: { id: number; position: number }[],
-    file: File
-) => {
-    const form = new FormData();
-    form.append("name", name);
-    cards.forEach((c, i) => {
-        form.append(`cards[${i}][id]`, String(c.id));
-        form.append(`cards[${i}][position]`, String(c.position));
-    });
-    form.append("image", file);
+// export const saveDeck = async (
+//     name: string,
+//     cards: { id: number; position: number }[],
+//     file: File
+// ) => {
+//     const form = new FormData();
+//     form.append("name", name);
+//     cards.forEach((c, i) => {
+//         form.append(`cards[${i}][id]`, String(c.id));
+//         form.append(`cards[${i}][position]`, String(c.position));
+//     });
+//     form.append("image", file);
 
-    return await axiosInstance.post("/decks", form, {
-        headers: { "Content-Type": "multipart/form-data" },
-    });
-};
+//     return await axiosInstance.post("/decks", form, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//     });
+// };
 
 
 // // デッキ保存 (FormData: name, image?, cards[][id], cards[][position])
-// export const saveDeck = async (formData: FormData) => {
-//     const res = await axiosInstance.post("/decks", formData);
-//     return res.data;
-// };
+export const saveDeck = async (formData: FormData) => {
+    const res = await axiosInstance.post("/decks", formData);
+    return res.data;
+};
