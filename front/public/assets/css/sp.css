@@ -1210,8 +1210,8 @@ body.fullscreen .card-name {
 }
 
 .footer-icon {
-    width: min(45 / 375* 100vw, 45px);
-    height: min(45 / 375* 100vw, 45px);
+    width: min(40 / 375* 100vw, 40px);
+    height: min(40 / 375* 100vw, 40px);
     display: block;
 }
 
