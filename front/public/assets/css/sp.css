@@ -1215,7 +1215,7 @@ body.fullscreen .card-name {
     display: block;
 }
 
-.footer-link p {
+.footer-link .footer-icon-name {
     font-size: clamp(8px, 11/375*100vw, 11px);
     margin-top: 0.3em;
     color: var(--black);

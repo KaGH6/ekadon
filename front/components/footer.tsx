@@ -43,6 +43,7 @@ export default function Footer() {
                         alt="ホーム"
                         className="footer-icon"
                     />
+                    <p className="footer-icon-name">ホーム</p>
                 </Link>
 
                 {/* カテゴリーアイコン群 */}
@@ -59,7 +60,7 @@ export default function Footer() {
                                 alt={cat.name}
                                 className="footer-icon"
                             />
-                            <p>{cat.name}</p>
+                            <p className="footer-icon-name">{cat.name}</p>
                         </Link>
                     );
                 })}
