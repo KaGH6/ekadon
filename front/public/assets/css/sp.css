@@ -1169,6 +1169,43 @@ body.fullscreen .card-name {
     font-size: 1.1em;
 }
 
+/*-----------------
+フッター
+-------------------*/
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: min(60 / 375* 100vw, 60px);
+    padding: 0 0.6em;
+    background: #fff;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
+    z-index: 100;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 6px 0;
+    overflow-x: scroll;
+}
+
+.footer-link {
+    text-decoration: none;
+    margin-right: 0.8em;
+}
+
+/* .footer-link.active {
+    opacity: 1;
+} */
+
+.footer-icon {
+    width: min(50 / 375* 100vw, 50px);
+    height: min(50 / 375* 100vw, 50px);
+    display: block;
+}
 
 
 /* } */
