@@ -171,7 +171,18 @@ export default function Deck() {
                 setEditingDeckId(null);
             } else {
                 // 新規モード: POST
-                await saveDeck(form);
+                // await saveDeck(form);
+                await axios.post(
+                    `${process.env.NEXT_PUBLIC_API_URL}/decks`,
+                    form,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                        withCredentials: true,  // Sanctum を使うなら必須
+                    }
+                );
                 alert("デッキを保存しました！");
             }
 

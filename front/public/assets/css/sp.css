@@ -523,12 +523,16 @@ body.fullscreen #list {
     align-items: center;
 }
 
-#deck-list .list-link .list-icon {
+#deck-list .list-link .decklist-icon {
     position: relative;
 }
 
-#deck-list .list-link .list-image {
+#deck-list .list-link .decklist-img {
     position: absolute;
+    top: 11%;
+    left: 13%;
+    right: 0;
+    width: 6rem;
 }
 
 #deck-list .list-link p {

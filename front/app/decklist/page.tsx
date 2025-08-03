@@ -125,7 +125,7 @@ export default function DeckListPage() {
                                         width={80}
                                         height={80}
                                         alt="デッキ枠"
-                                        className="list-icon"
+                                        className="decklist-icon"
                                     />
                                     {d.image_url && (
                                         <Image
@@ -133,6 +133,7 @@ export default function DeckListPage() {
                                             width={80}
                                             height={80}
                                             alt={d.name}
+                                            className="decklist-img"
                                             unoptimized
                                         />
                                     )}

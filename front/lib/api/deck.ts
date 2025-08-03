@@ -11,6 +11,7 @@ const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE_URL;
 interface RawDeck {
     id: number;
     name: string;
+    image_url?: string; // 画像URLがある場合
     image?: string;
     cards: any[];
 }
@@ -19,7 +20,7 @@ interface RawDeck {
 export type DeckType = {
     id: number;
     name: string;
-    image_url: string | null;
+    image_url: string;
     cards: any[];
 };
 
@@ -46,32 +47,46 @@ export type DeckType = {
 // };
 
 // デッキ一覧取得 → フロントの型にマッピングして返す
-export const fetchDecks = async (): Promise<DeckType[]> => {
-    // axiosInstance は withCredentials やトークン付帯済み想定
-    const res = await axiosInstance.get<RawDeck[]>("/decks");
+const DEFAULT_IMG =
+    "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-cards.svg";
 
+export const fetchDecks = async (): Promise<DeckType[]> => {
+    const res = await axiosInstance.get<RawDeck[]>("/decks");
     return res.data.map((d) => ({
         id: d.id,
         name: d.name,
-        // ここで必ずフル URL に変換する
-        image_url: d.image
-            ? `${S3_BASE}/${d.image}`
-            : null,
+        image_url:
+            d.image_url
+                ? d.image_url
+                : d.image && S3_BASE
+                    ? `${S3_BASE}/${d.image}`
+                    : DEFAULT_IMG,
         cards: d.cards,
     }));
 };
 
 // // デッキ保存
-// export const saveDeck = async (
-//     name: string,
-//     cards: { id: number; position: number }[]
-// ) => {
-//     const res = await axiosInstance.post("/decks", { name, cards });
+export const saveDeck = async (
+    name: string,
+    cards: { id: number; position: number }[],
+    file: File
+) => {
+    const form = new FormData();
+    form.append("name", name);
+    cards.forEach((c, i) => {
+        form.append(`cards[${i}][id]`, String(c.id));
+        form.append(`cards[${i}][position]`, String(c.position));
+    });
+    form.append("image", file);
+
+    return await axiosInstance.post("/decks", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+};
+
+
+// // デッキ保存 (FormData: name, image?, cards[][id], cards[][position])
+// export const saveDeck = async (formData: FormData) => {
+//     const res = await axiosInstance.post("/decks", formData);
 //     return res.data;
 // };
-
-// デッキ保存 (FormData: name, image?, cards[][id], cards[][position])
-export const saveDeck = async (formData: FormData) => {
-    const res = await axiosInstance.post("/decks", formData);
-    return res.data;
-};
