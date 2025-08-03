@@ -4,12 +4,9 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import axios from "@/lib/api/axiosInstance"; // axiosInstance に認証処理済み
+import { CategoryData } from "@/app/types/category"; // CategoryDataの型定義
 
-type Category = {
-    id: number;
-    name: string;
-    icon_url: string;
-};
+type Category = CategoryData;
 
 export default function Footer() {
     const pathname = usePathname();
@@ -50,19 +47,15 @@ export default function Footer() {
 
                 {/* カテゴリーアイコン群 */}
                 {categories.map((cat) => {
-                    // 遷移先パスを定義
-                    const targetPath = `/categories/${cat.id}/cards`;
-                    // アクティブ判定（必要に応じて startsWith を使ってもOK）
-                    const isActive = pathname === targetPath;
-
+                    const target = `/categories/${cat.id}/cards`;
                     return (
                         <Link
                             key={cat.id}
-                            href={targetPath}
-                            className={`footer-link${isActive ? " active" : ""}`}
+                            href={target}
+                            className={`footer-link${pathname === target ? " active" : ""}`}
                         >
                             <img
-                                src={cat.icon_url}
+                                src={cat.category_img}
                                 alt={cat.name}
                                 className="footer-icon"
                             />
