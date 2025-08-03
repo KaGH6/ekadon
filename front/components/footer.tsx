@@ -59,6 +59,7 @@ export default function Footer() {
                                 alt={cat.name}
                                 className="footer-icon"
                             />
+                            <p>{cat.name}</p>
                         </Link>
                     );
                 })}
