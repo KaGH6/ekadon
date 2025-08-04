@@ -1240,7 +1240,7 @@ body.fullscreen .card-name {
 }
 
 .footer-link .footer-icon-name {
-    font-size: clamp(8px, 10/375*100vw, 10px);
+    font-size: clamp(8px, 11/375*100vw, 11px);
     margin: 0;
     color: var(--black);
 
