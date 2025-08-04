@@ -1245,7 +1245,7 @@ body.fullscreen .card-name {
     color: var(--black);
 
     display: inline-block;
-    max-width: clamp(60px, 70/375*100vw, 70px);
+    max-width: clamp(50px, 60/375*100vw, 60px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
