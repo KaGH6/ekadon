@@ -115,39 +115,84 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>ホーム</Link>
+                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-home.svg"
+                                        alt="ホーム"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    ホーム
+                                </Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/categories" onClick={() => setMenuOpen(false)}>カテゴリー 一覧</Link>
+                                <Link className="drawer__nav__link" href="/categories" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-category.svg"
+                                        alt="カテゴリー"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    カテゴリー 一覧</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/categories/create" onClick={() => setMenuOpen(false)}>カテゴリー作成</Link>
+                                <Link className="drawer__nav__link" href="/categories/create" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-create.svg"
+                                        alt="カテゴリー作成"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    カテゴリー作成
+                                </Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/create-cards" onClick={() => setMenuOpen(false)}>カード作成</Link>
+                                <Link className="drawer__nav__link" href="/create-cards" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-create.svg"
+                                        alt="カード作成"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    カード作成</Link>
                             </li>
                             <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>チェックリスト一覧</Link>
+                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
+                                        alt="デッキ一覧"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    デッキ一覧</Link>
                             </li>
-                            <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>チェックリスト作成</Link>
+
+                            <li className="auth drawer__nav__item">
+                                {isAuthenticated ? (
+                                    <>
+                                        {/* <Link href="/auth/signup">新規登録（開発用）</Link>
+                                    <Link href="/auth/login">ログイン（開発用）</Link> */}
+
+                                        <button onClick={handleLogout} className="drawer__nav__link">
+                                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/logout.svg"
+                                                alt="ログアウト" className="drawer__nav__icon"
+                                                width={30} height={30} />
+                                            ログアウト
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link href="/auth/signup">新規登録</Link>
+                                        <Link href="/auth/login">ログイン</Link>
+                                    </>
+                                )}
                             </li>
                         </ul>
-
-                        <div className="auth">
-                            {isAuthenticated ? (
-                                <>
-                                    <Link href="/auth/signup">新規登録（開発用）</Link>
-                                    <Link href="/auth/login">ログイン（開発用）</Link>
-                                    <button onClick={handleLogout} className="drawer__nav__link">ログアウト</button>
-                                </>
-                            ) : (
-                                <>
-                                    <Link href="/auth/signup">新規登録</Link>
-                                    <Link href="/auth/login">ログイン</Link>
-                                </>
-                            )}
-                        </div>
                     </div>
                 </nav>
             </div>

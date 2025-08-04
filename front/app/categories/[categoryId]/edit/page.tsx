@@ -86,9 +86,10 @@ export default function EditCategory() {
                                 <input
                                     type="text"
                                     className="textbox"
-                                    placeholder="カテゴリー名を入力"
+                                    placeholder="カテゴリー名を入力（16文字まで）"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
+                                    maxLength={16}
                                     required
                                 />
                             </label>

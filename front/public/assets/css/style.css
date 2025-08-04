@@ -1,7 +1,7 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700;900&display=swap');
 
-/* @media screen and (max-width: 767px) { */
+/* @media screen and (max-width: 767px) {} */
 /*----------------------------------------
 全体設定
 ------------------------------------------*/
@@ -207,9 +207,10 @@ p {
 
 .drawer__nav__inner {
     position: relative;
-    width: 100%;
+    width: 90%;
     height: 100%;
-    background-color: #EBEBEB;
+    max-width: 700px;
+    background-color: #fff;
     padding: 4rem 1.5rem 1rem;
     margin: 0 0 0 auto;
     overflow: scroll;
@@ -229,20 +230,26 @@ p {
 }
 
 .drawer__nav__link {
-    display: block;
-    color: var(--white);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    color: var(--black);
+    text-align: left;
     text-decoration: none;
-    padding: 1rem 1rem;
-    background-color: var(--gray);
-    margin: 0 auto 2em;
-    width: min(250 / 375* 100vw, 250px);
+    margin: 0 auto 1em;
+}
+
+.drawer__nav__link .drawer__nav__icon {
+    width: min(24 / 375* 100vw, 24px);
+    height: auto;
+    margin-right: 0.5em;
 }
 
 .auth {
+    /* padding: 0;
+    margin: 0;
+    text-align: left;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: left; */
 }
 
 /* ハンバーガーメニュー展開時、背景を固定 */
@@ -1185,12 +1192,29 @@ body.fullscreen .card-name {
     z-index: 100;
 }
 
+@media screen and (min-width: 767px) {
+    .footer {
+        height: min(70 / 1280* 100vw, 70px);
+    }
+}
+
 .footer-nav {
     display: flex;
     justify-content: left;
     align-items: center;
-    overflow-x: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
     height: 100%;
+
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE / Edge */
+}
+
+.footer-nav::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
 }
 
 .footer-link {
@@ -1216,9 +1240,13 @@ body.fullscreen .card-name {
 }
 
 .footer-link .footer-icon-name {
-    font-size: clamp(8px, 11/375*100vw, 11px);
+    font-size: clamp(8px, 10/375*100vw, 10px);
     margin: 0;
     color: var(--black);
-}
 
-/* } */
+    display: inline-block;
+    max-width: clamp(50px, 60/375*100vw, 60px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "../public/assets/css/sp.css";
+import "../public/assets/css/style.css";
 // import "../public/assets/css/common.css";
 // import Header from "@/components/header";
 import BodyWrapper from "@/components/BodyWrapper";
