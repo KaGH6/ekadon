@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { CardData } from "@/app/types/card";
 import { useDeckStore } from "@/store/deckStore"; // Zustandから追加
 import { saveDeck } from "@/lib/api/deck";
@@ -51,6 +51,11 @@ export default function Deck() {
     const removeCardByIndex = useDeckStore((state) => state.removeCardByIndex);
     const clearDeck = useDeckStore((state) => state.clearDeck); // 全削除
 
+    // デッキ内の横スクロール設定用
+    const insideRef = useRef<HTMLDivElement>(null);
+    const [isOverflow, setIsOverflow] = useState(false);
+    const cardRefs = useRef<Array<HTMLButtonElement | null>>([]); // 音声ボタン押下で自動スクロール
+
     const isTouch = useIsTouchDevice(); // タッチ端末かどうか判定
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,6 +69,40 @@ export default function Deck() {
 
     const pathname = usePathname(); // 現在のパスを取得
     const router = useRouter();
+
+    // デッキ内の横スクロール設定用
+    useEffect(() => {
+        const el = insideRef.current;
+        if (!el) return;
+
+        // オーバーフロー判定関数
+        const checkOverflow = () => {
+            setIsOverflow(el.scrollWidth > el.clientWidth);
+        };
+
+        // 初回判定
+        checkOverflow();
+        // ウィンドウリサイズのたびにも判定
+        window.addEventListener("resize", checkOverflow);
+
+        return () => {
+            window.removeEventListener("resize", checkOverflow);
+        };
+    }, [deck]); // deckが変わるたび再実行
+
+    // 音声ボタン押下で、デッキ内自動スクロール
+    useEffect(() => {
+        if (speakingIndex === null) return;
+        const el = cardRefs.current[speakingIndex];
+        if (!el) return;
+
+        // smooth に中央寄せスクロール
+        el.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest",
+        });
+    }, [speakingIndex]);
 
     // 編集モード時に既存の name／image を読み込んで初期セット
     useEffect(() => {
@@ -373,13 +412,19 @@ export default function Deck() {
                     </div>
                 )}
 
-                <div className="deck-inside">
+                <div
+                    ref={insideRef}
+                    className={`deck-inside ${isOverflow ? "left-align" : "center-align"}`}
+                >
                     {/* {selectedCards.map((card, index) => ( */}
                     {deck.map((card, index) => (
                         <button
                             key={index}
                             // className="card-wrap"
                             className={`card-wrap ${speakingIndex === index ? "speaking" : ""}`}
+                            ref={el => {
+                                cardRefs.current[index] = el;
+                            }}
                         >
                             <span className="card-close" onClick={(e) => {
                                 // e.stopPropagation();

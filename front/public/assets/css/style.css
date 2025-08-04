@@ -418,6 +418,14 @@ body.active {
     position: relative;
 }
 
+#deck .deck-inside.center-align {
+    justify-content: center;
+}
+
+#deck .deck-inside.left-align {
+    justify-content: flex-start;
+}
+
 #deck .card-close img {
     width: min(23 / 375* 100vw, 23px);
     position: absolute;
