@@ -328,8 +328,9 @@ export default function Deck() {
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="例：朝にやること"
+                                        placeholder="デッキ名を入力（16文字まで）"
                                         disabled={saving}
+                                        maxLength={16}
                                     />
                                 </div>
                                 <div className="form-group">

@@ -45,9 +45,13 @@ export default function Category({
     //     fetchCategories();
     // }, []);
 
+    const sortedCategories = [...categories].sort(
+        (a, b) => a.id - b.id
+    );
+
     return (
         <>
-            {categories.map((category) => (
+            {sortedCategories.map((category) => (
                 <div
                     key={category.id}
                     onContextMenu={(e) => onContextMenu(e, category.id)}

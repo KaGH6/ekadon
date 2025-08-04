@@ -75,7 +75,13 @@ export default function CategoryPage() {
                     },
                     // withCredentials: true, // Laravel Sanctum を使っている場合
                 });
-                setCategories(res.data);
+                // setCategories(res.data);
+
+                // 取得データをIDの昇順にソート
+                const sorted = res.data.sort(
+                    (a: { id: number }, b: { id: number }) => a.id - b.id
+                );
+                setCategories(sorted);
 
                 // エラーハンドリング
             } catch (error) {

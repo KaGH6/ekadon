@@ -22,6 +22,10 @@ export default function Footer() {
                     `${process.env.NEXT_PUBLIC_API_URL}/list-category`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
+                // 取得データをIDの昇順にソート
+                const sorted = res.data.sort(
+                    (a: { id: number }, b: { id: number }) => a.id - b.id
+                );
                 setCategories(res.data);
             } catch (e) {
                 console.error("Footer カテゴリ取得失敗:", e);
