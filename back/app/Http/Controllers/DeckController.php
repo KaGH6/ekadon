@@ -119,8 +119,17 @@ class DeckController extends Controller {
     private function saveDeckImage($file): string {
         // 環境ごとの default disk を取得（local なら public、production なら s3）
         $disk = config('filesystems.default', 's3');
-        $path = $file->store('deck_imgs', $disk);
-        Storage::disk($disk)->setVisibility($path, 'public');
+
+        // $path = $file->store('deck_imgs', $disk);
+        // Storage::disk($disk)->setVisibility($path, 'public');
+
+        // storePubliclyなら一発でpublic-read ACLが付与される
+        $path = $file->storePublicly('deck_imgs', [
+            'disk'       => $disk,
+            'visibility' => 'public',
+        ]);
+
+        // URLを返す
         return Storage::disk($disk)->url($path);
     }
 
