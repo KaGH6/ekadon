@@ -37,7 +37,7 @@ export default function Footer() {
     return (
         <footer className="footer">
             <nav className="footer-nav">
-                {/* ホームアイコン */}
+                {/* ホーム */}
                 <Link
                     href="/"
                     className={`footer-link${pathname === "/" ? " active" : ""}`}
@@ -48,6 +48,32 @@ export default function Footer() {
                         className="footer-icon"
                     />
                     <p className="footer-icon-name">ホーム</p>
+                </Link>
+
+                {/* デッキ一覧 */}
+                <Link
+                    href="/decklist"
+                    className={`footer-link${pathname === "/decklist" ? " active" : ""}`}
+                >
+                    <img
+                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-clear.svg"
+                        alt="デッキ"
+                        className="footer-icon"
+                    />
+                    <p className="footer-icon-name">デッキ</p>
+                </Link>
+
+                {/* カテゴリー 一覧 */}
+                <Link
+                    href="/categories"
+                    className={`footer-link${pathname === "/categories" ? " active" : ""}`}
+                >
+                    <img
+                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/card-category-clear.svg"
+                        alt="カテゴリー"
+                        className="footer-icon"
+                    />
+                    <p className="footer-icon-name">カテゴリー</p>
                 </Link>
 
                 {/* カテゴリーアイコン群 */}

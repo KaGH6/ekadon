@@ -48,7 +48,8 @@ export default function Login() {
             // axiosInstance の Authorization ヘッダーを更新
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-            router.push("/"); // 3.ログイン後、ホーム画面に遷移
+            // router.push("/"); // 3.ログイン後、ホーム画面に遷移
+            router.push("/categories/1/cards"); // ログイン後、カテゴリ1のカード一覧へ遷移
         } catch (err: any) {
             setError("ログインに失敗しました");
         }
