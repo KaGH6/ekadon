@@ -15,121 +15,127 @@ class DeckController extends Controller {
         return response()->json($decks);
     }
 
-    // 新しいデッキを保存（カードIDと順番付き）
+    /**
+     * 新しいデッキを保存（カードID と順番付き、画像必須）
+     */
     public function store(Request $request) {
         // バリデーション
         $validated = $request->validate([
-            'name'               => 'nullable|string|max:255',
-            'image'              => 'required|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
-            'cards'              => 'required|array',
-            'cards.*.id'         => 'required|integer|exists:cards,id',
-            'cards.*.position'   => 'required|integer|min:0',
+            'name'             => 'nullable|string|max:255',
+            'image'            => 'required|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            'cards'            => 'required|array',
+            'cards.*.id'       => 'required|integer|exists:cards,id',
+            'cards.*.position' => 'required|integer|min:0',
         ]);
 
-        // 画像保存（必須なので必ずここでエラー or $validated['image_url'] がセットされる）
-        $validated['image_url'] = $this->saveDeckImage($request->file('image'));
-
-        // ユーザーID を付与
-        $validated['user_id'] = $request->user()->id;
+        // 画像を保存し、フル URL を取得
+        $imageUrl = $this->saveDeckImage($request->file('image'));
 
         // デッキ作成
-        $deck = Deck::create($validated);
+        $deck = Deck::create([
+            'user_id'   => $request->user()->id,
+            'name'      => $validated['name'] ?? null,
+            'image_url' => $imageUrl,
+        ]);
 
-        // ピボットテーブルへカードID＋順番を登録
+        // pivot テーブルへカードID＋順番を登録
         foreach ($validated['cards'] as $card) {
-            $deck->cards()->attach($card['id'], ['position' => $card['position']]);
+            $deck->cards()->attach(
+                $card['id'],
+                ['position' => $card['position']]
+            );
         }
 
         return response()->json($deck->load('cards'), 201);
     }
 
-    // 特定のデッキ取得
-    public function show(Request $request, $id) {
-        $userId = $request->user()->id;
-        $deck = Deck::with('cards')
-            ->where('id', $id)
-            ->where('user_id', $userId)
-            ->firstOrFail();
-
-        return response()->json($deck);
-    }
-
-    // 既存デッキの更新
+    /**
+     * 既存デッキの更新
+     */
     public function update(Request $request, $id) {
-        // ユーザー本人のデッキか確認
-        $userId = $request->user()->id;
-        $deck = Deck::where('id', $id)
-            ->where('user_id', $userId)
-            ->firstOrFail();
+        /** @var Deck $deck */
+        $deck = Deck::findOrFail($id);
 
+        // バリデーション
         $validated = $request->validate([
-            'name'               => 'nullable|string|max:255',
-            'image'              => 'nullable|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
-            'cards'              => 'required|array',
-            'cards.*.id'         => 'required|integer|exists:cards,id',
-            'cards.*.position'   => 'required|integer|min:0',
+            'name'             => 'nullable|string|max:255',
+            'image'            => 'nullable|file|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            'cards'            => 'required|array',
+            'cards.*.id'       => 'required|integer|exists:cards,id',
+            'cards.*.position' => 'required|integer|min:0',
         ]);
 
-        // 画像差し替え時：古い画像を削除して新規アップロード
+        // 画像差し替えがあれば古い画像を削除して新規アップロード
         if ($request->hasFile('image')) {
-            // 古いURLからキーを抽出して削除
             if ($deck->image_url) {
                 $this->deleteDeckImage($deck->image_url);
             }
-            // 新しい画像保存
             $validated['image_url'] = $this->saveDeckImage($request->file('image'));
         }
 
-        // 名前／画像URLを更新
-        $deck->update($validated);
-    }
+        // デッキ情報更新
+        $deck->update([
+            'name'      => $validated['name'] ?? $deck->name,
+            'image_url' => $validated['image_url'] ?? $deck->image_url,
+        ]);
 
-    /**
-     * S3 に画像をアップロードしてフル URL を返す
-     */
-    private function saveDeckImage($file) {
-        $path = $file->store('deck_imgs', 's3');
-        Storage::disk('s3')->setVisibility($path, 'public');
-        return Storage::disk('s3')->url($path);
-    }
+        // まず既存の pivot を全消し
+        $deck->cards()->detach();
 
-    /**
-     * フル URL からキーを抽出し、S3 上のオブジェクトを削除
-     */
-    private function deleteDeckImage(string $imageUrl) {
-        $disk = 's3';
-        // バケットルート URL（末尾なし）を取得
-        $bucketUrl = rtrim(Storage::disk($disk)->url(''), '/');
-        // フル URL からバケット部分を除去し、オブジェクトキーを得る
-        $relativePath = ltrim(str_replace($bucketUrl, '', $imageUrl), '/');
-        Storage::disk($disk)->delete($relativePath);
-
-
-        // 名前更新
-        if (isset($validated['name'])) {
-            $deck->name = $validated['name'];
+        // 新しいカード配列を pivot テーブルに登録
+        foreach ($validated['cards'] as $card) {
+            $deck->cards()->attach(
+                $card['id'],
+                ['position' => $card['position']]
+            );
         }
-        $deck->save();
-
-        // pivot テーブルを一括再同期（追加・削除・並び順を反映）
-        $syncData = [];
-        foreach ($validated['cards'] as $c) {
-            $syncData[$c['id']] = ['position' => $c['position']];
-        }
-        $deck->cards()->sync($syncData);
 
         return response()->json($deck->load('cards'));
     }
 
-    // デッキ削除
-    public function destroy(Request $request, $id) {
-        $userId = $request->user()->id;
-        $deck = Deck::where('id', $id)->where('user_id', $userId)->firstOrFail();
-
-        // 中間テーブルの紐付けを解除
-        $deck->cards()->detach(); // 中間テーブルを削除
+    /**
+     * デッキ削除
+     */
+    public function destroy($id) {
+        /** @var Deck $deck */
+        $deck = Deck::findOrFail($id);
+        // 画像削除
+        if ($deck->image_url) {
+            $this->deleteDeckImage($deck->image_url);
+        }
+        // pivot とモデルを削除
+        $deck->cards()->detach();
         $deck->delete();
 
-        return response()->json(['message' => 'デッキを削除しました。']);
+        return response()->json(null, 204);
+    }
+
+    /**
+     * S3（または環境依存の default disk）に画像をアップロードして公開 URL を返す
+     *
+     * @param \Illuminate\Http\UploadedFile $file
+     * @return string
+     */
+    private function saveDeckImage($file): string {
+        // 環境ごとの default disk を取得（local なら public、production なら s3）
+        $disk = config('filesystems.default', 's3');
+        $path = $file->store('deck_imgs', $disk);
+        Storage::disk($disk)->setVisibility($path, 'public');
+        return Storage::disk($disk)->url($path);
+    }
+
+    /**
+     * フル URL からバケット連携部分を除去し、オブジェクトキーを得て削除
+     *
+     * @param string $imageUrl
+     * @return void
+     */
+    private function deleteDeckImage(string $imageUrl): void {
+        $disk = config('filesystems.default', 's3');
+        // バケットの base URL（末尾なし）
+        $bucketUrl = rtrim(Storage::disk($disk)->url(''), '/');
+        // フル URL から bucketUrl を取り除き、先頭の / を削る
+        $relativePath = ltrim(str_replace($bucketUrl, '', $imageUrl), '/');
+        Storage::disk($disk)->delete($relativePath);
     }
 }

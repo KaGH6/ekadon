@@ -536,11 +536,16 @@ body.fullscreen #list {
 }
 
 #deck-list .list-link .decklist-img {
+    aspect-ratio: 1/1;
+    width: min(73 / 375* 100vw, 73px);
+    height: auto;
+    object-fit: contain;
     position: absolute;
-    top: 11%;
-    left: 13%;
-    right: 0;
-    width: 6rem;
+    top: 7%;
+    left: 0;
+    right: 0.3em;
+    margin: 0 auto;
+    z-index: 200;
 }
 
 #deck-list .list-link p {
