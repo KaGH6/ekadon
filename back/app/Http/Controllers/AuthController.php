@@ -14,7 +14,14 @@ class AuthController extends Controller {
         //バリデーション(検証のルール)
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|email|unique:users',
+            'email'    => [
+                'required',
+                'string',
+                'max:255',
+                'email',
+                'unique:users',
+                'regex:/^[^@]+@[^@]+\.[^@]+$/'
+            ],
             'password' => 'required|string|min:8|max:255|confirmed',
         ]);
 

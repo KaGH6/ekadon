@@ -32,6 +32,12 @@ export default function Signup() {
             return;
         }
 
+        // メール形式チェック
+        if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+            setErrors(["正しいメールアドレス形式を入力してください"]);
+            return;
+        }
+
         try {
             // サインアップ、LaravelにPOST
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/signup`, {
@@ -91,7 +97,7 @@ export default function Signup() {
 
                         <label className="form-group">
                             <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg" className="sign-img" width={20} height={20} alt="メールアドレス" />
-                            <input type="email" id="email" className="textbox" placeholder="メールアドレス" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <input type="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}" id="email" className="textbox" placeholder="メールアドレス" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </label>
                         <label className="form-group">
                             <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード" />

@@ -49,7 +49,7 @@ export default function Login() {
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
             // router.push("/"); // 3.ログイン後、ホーム画面に遷移
-            router.push("/categories/1/cards"); // ログイン後、カテゴリ1のカード一覧へ遷移
+            router.push("/categories/19/cards"); // ログイン後、カテゴリ19のカード一覧へ遷移
         } catch (err: any) {
             setError("ログインに失敗しました");
         }
