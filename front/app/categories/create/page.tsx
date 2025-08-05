@@ -14,7 +14,7 @@ export default function CreateCategoryPage() {
     const [name, setName] = useState(""); // カテゴリー名
     const [categoryImg, setCategoryImg] = useState<File | null>(null); // 画像ファイル
     const [error, setError] = useState(""); // エラーメッセージ
-    const [previewUrl, setPreviewUrl] = useState<string>("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img2.svg"); // 選択した画像を表示するため
+    const [previewUrl, setPreviewUrl] = useState<string>("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"); // 選択した画像を表示するため
 
 
     // フォーム送信処理

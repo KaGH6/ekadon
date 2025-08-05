@@ -127,10 +127,6 @@ p {
     height: fit-content;
 }
 
-.drawer__nav__menu {
-    display: flex;
-}
-
 /* ハンバーガーボタンのデザイン */
 .drawer__button {
     /* position: relative; */
@@ -224,9 +220,11 @@ p {
 }
 
 .drawer__nav__menu {
-    display: block;
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     list-style: none;
-    padding-left: 0;
 }
 
 .drawer__nav__link {

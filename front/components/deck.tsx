@@ -206,7 +206,6 @@ export default function Deck() {
                 // 編集モード: メソッドオーバーライドでPUT相当を送信
                 form.append("_method", "PUT");
                 await axios.post(`/decks/${editingDeckId}`, form);
-                alert("デッキを更新しました！");
                 setEditingDeckId(null);
             } else {
                 // 新規モード: POST
@@ -222,7 +221,6 @@ export default function Deck() {
                 //         withCredentials: true,  // Sanctum を使うなら必須
                 //     }
                 // );
-                alert("デッキを保存しました！");
             }
 
             setIsSaved(true);
