@@ -12,27 +12,49 @@ export default function Footer() {
     const pathname = usePathname();
     const [categories, setCategories] = useState<Category[]>([]);
 
+    // useEffect(() => {
+    //     (async () => {
+    //         try {
+    //             const token = localStorage.getItem("token");
+    //             if (!token) return;
+    //             // page.tsx と同じ list-category エンドポイントを叩る
+    //             const res = await axios.get(
+    //                 `${process.env.NEXT_PUBLIC_API_URL}/list-category`,
+    //                 { headers: { Authorization: `Bearer ${token}` } }
+    //             );
+    //             // 取得データをIDの昇順にソート
+    //             const sorted = res.data.sort(
+    //                 (a: { id: number }, b: { id: number }) => a.id - b.id
+    //             );
+    //             setCategories(res.data);
+    //         } catch (e) {
+    //             console.error("Footer カテゴリ取得失敗:", e);
+    //         }
+    //     })();
+    // }, []);
+
     useEffect(() => {
-        (async () => {
+        const fetchCategories = async () => {
             try {
                 const token = localStorage.getItem("token");
                 if (!token) return;
-                // page.tsx と同じ list-category エンドポイントを叩る
-                const res = await axios.get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/list-category`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                // 取得データをIDの昇順にソート
+                // const res = await axios.get(
+                //     `${process.env.NEXT_PUBLIC_API_URL}/list-category`,
+                //     { headers: { Authorization: `Bearer ${token}` } }
+                // );
+                const res = await axios.get("/list-category");
+
+                // ID 昇順にソートして state 更新
                 const sorted = res.data.sort(
                     (a: { id: number }, b: { id: number }) => a.id - b.id
                 );
-                setCategories(res.data);
+                setCategories(sorted);
             } catch (e) {
                 console.error("Footer カテゴリ取得失敗:", e);
             }
-        })();
-    }, []);
-
+        };
+        fetchCategories();
+    }, [pathname]);  // ここを常に [pathname] の１要素に固定
 
     return (
         <footer className="footer">

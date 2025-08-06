@@ -110,7 +110,18 @@ export default function EditCategory() {
                                         }
                                     }}
                                 />
-                                <Image src={previewUrl} alt="選択画像" className="select-img" width={100} height={100} unoptimized />
+                                {/* <Image src={previewUrl} alt="選択画像" className="select-img" width={100} height={100} unoptimized /> */}
+                                {previewUrl && (
+                                    <Image
+                                        src={previewUrl}
+                                        alt="選択画像"
+                                        width={100}
+                                        height={100}
+                                        priority
+                                        className="select-img"
+                                        unoptimized
+                                    />
+                                )}
                                 <p className="select-img-text bold">画像を選択</p>
                             </label>
 

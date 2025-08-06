@@ -545,6 +545,7 @@ body.fullscreen #list {
 
 #deck-list .list-link .decklist-icon {
     position: relative;
+    width: min(145 / 375* 100vw, 145px);
 }
 
 #deck-list .list-link .decklist-img {
@@ -553,7 +554,7 @@ body.fullscreen #list {
     height: auto;
     object-fit: contain;
     position: absolute;
-    top: 7%;
+    top: 9%;
     left: 0;
     right: 0.3em;
     margin: 0 auto;
@@ -1105,8 +1106,8 @@ body.fullscreen .card-name {
 
 /* デッキー一覧：オプションボタン */
 #deck-list .option-button {
-    top: 10px;
-    left: 10px;
+    top: 12px;
+    left: 12px;
 }
 
 /*-----------------
