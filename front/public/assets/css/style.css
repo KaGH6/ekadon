@@ -1110,6 +1110,18 @@ body.fullscreen .card-name {
     left: 12px;
 }
 
+@media screen and (max-width: 370px) {
+    .category-item .option-button {
+        top: 35px;
+        left: 13px;
+    }
+
+    #deck-list .option-button {
+        top: 10px;
+        left: 10px;
+    }
+}
+
 /*-----------------
 カード・カテゴリー・デッキリスト 一覧：編集・削除ボタン
 -------------------*/
@@ -1251,7 +1263,7 @@ body.fullscreen .card-name {
     z-index: 100;
 }
 
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 1000px) {
     .footer {
         height: min(70 / 1280* 100vw, 70px);
     }
