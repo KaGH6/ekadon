@@ -147,6 +147,7 @@ export default function CategoryPage() {
                         <Category
                             categories={categories}
                             editModeId={editModeId}
+                            onOptionButtonClick={(id: number) => setEditModeId(id)}
                             onContextMenu={handleContextMenu}
                             onTouchStart={handleTouchStart}
                             onTouchEnd={handleTouchEnd}

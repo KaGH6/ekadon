@@ -151,6 +151,7 @@ export default function CardList() {
                             categoryId={categoryId as string}
                             onSelectedCard={handleSelectedCard}
                             editModeId={editModeId}
+                            onOptionButtonClick={(id: number) => setEditModeId(id)}
                             onContextMenu={handleContextMenu}
                             onTouchStart={handleTouchStart}
                             onTouchEnd={handleTouchEnd}

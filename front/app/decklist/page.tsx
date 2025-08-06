@@ -66,18 +66,26 @@ export default function DeckListPage() {
         if (longPressTimer.current) clearTimeout(longPressTimer.current);
     };
 
+    // 編集・削除メニュー以外をクリックしたら閉じる
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+
+            // .edit-delete-menu 内をクリックしたときは閉じない
+            if (!target.closest(".edit-delete-menu")) {
+                setEditModeId(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     // 削除確定
     const handleDelete = async () => {
         if (confirmDeleteId == null) return;
         try {
-            // DELETE /api/decks/{id}
-            // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/decks/${confirmDeleteId}`, {
-            //     method: "DELETE",
-            //     headers: {
-            //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-            //     },
-            // });
-
             // axiosInstance はデフォルトで Authorization & withCredentials を付与
             await axiosInstance.delete(`/decks/${confirmDeleteId}`);
 
@@ -119,6 +127,15 @@ export default function DeckListPage() {
                                 onTouchStart={() => handleTouchStart(d.id)}
                                 onTouchEnd={handleTouchEnd}
                             >
+                                <button
+                                    className="option-button"
+                                    onClick={e => {
+                                        e.stopPropagation(); // 親の onClick／onTouch をキャンセル
+                                        setEditModeId(d.id); // 編集モード on
+                                    }}
+                                >
+                                    <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg" alt="option" />
+                                </button>
                                 <div className="list-link">
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck.svg"

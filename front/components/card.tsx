@@ -14,6 +14,7 @@ type CardProps = {
     categoryId: string;
     onSelectedCard: (card: CardData) => void;
     editModeId: number | null;
+    onOptionButtonClick?: (id: number) => void; // オプションボタン押下でメニューを出す
     onContextMenu: (e: React.MouseEvent, id: number) => void;
     onTouchStart: (id: number) => void;
     onTouchEnd: () => void;
@@ -27,6 +28,7 @@ export default function Card({
     categoryId,
     // onSelectedCard,
     editModeId,
+    onOptionButtonClick, // オプションボタン押下でメニューを出す
     onContextMenu,
     onTouchStart,
     onTouchEnd,
@@ -75,6 +77,15 @@ export default function Card({
                         onTouchStart={() => onTouchStart(card.id)}
                         onTouchEnd={onTouchEnd}
                     >
+                        <button
+                            className="option-button"
+                            onClick={e => {
+                                e.stopPropagation();
+                                onOptionButtonClick?.(card.id);
+                            }}
+                        >
+                            <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg" alt="option" />
+                        </button>
                         <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/card.svg" className="card" width={20} height={20} alt="card" />
                         <Image
                             src={card.card_img}

@@ -11,6 +11,7 @@ type CategoryProps = {
     // onSelectedCategory: (category: CategoryData) => void;
     categories: CategoryData[];
     editModeId: number | null;
+    onOptionButtonClick?: (id: number) => void;
     onContextMenu: (e: React.MouseEvent, id: number) => void;
     onTouchStart: (id: number) => void;
     onTouchEnd: () => void;
@@ -22,6 +23,7 @@ export default function Category({
     // onSelectedCategory,
     categories,
     editModeId,
+    onOptionButtonClick,
     onContextMenu,
     onTouchStart,
     onTouchEnd,
@@ -59,6 +61,15 @@ export default function Category({
                     onTouchEnd={onTouchEnd}
                     className="category-item"
                 >
+                    <button
+                        className="option-button"
+                        onClick={e => {
+                            e.stopPropagation(); // 親要素の Link ナビゲーションを防ぐ
+                            onOptionButtonClick?.(category.id); // メニューを表示
+                        }}
+                    >
+                        <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg" alt="option" />
+                    </button>
                     <Link href={`/categories/${category.id}/cards`} className="category-wrap">
                         <Image
                             src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category.svg"

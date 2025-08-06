@@ -117,7 +117,7 @@ p {
 .header-back {
     width: min(30 / 375* 100vw, 30px);
     height: auto;
-    left: 5%;
+    left: 2em;
 }
 
 .header-title {
@@ -129,10 +129,8 @@ p {
 
 /* ハンバーガーボタンのデザイン */
 .drawer__button {
-    /* position: relative; */
     position: absolute;
-    right: 5%;
-
+    right: 2em;
     width: min(37 / 375* 100vw, 37px);
     height: min(37 / 375* 100vw, 37px);
     background-color: transparent;
@@ -182,17 +180,33 @@ p {
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
+/* メニュー外オーバーレイ */
+.drawer__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    /* ナビ本体（100）の背面に */
+    pointer-events: auto;
+}
+
 /* メニューのデザイン */
 .drawer__nav {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
+    width: 90%;
+    /* width: 100%; */
+    max-width: 700px;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     transition: opacity 0.3s ease;
     opacity: 0;
     visibility: hidden;
+    z-index: 100;
 }
 
 .drawer__nav.active {
@@ -203,9 +217,7 @@ p {
 
 .drawer__nav__inner {
     position: relative;
-    width: 90%;
     height: 100%;
-    max-width: 700px;
     background-color: #fff;
     padding: 4rem 1.5rem 1rem;
     margin: 0 0 0 auto;
@@ -944,21 +956,22 @@ body.fullscreen #list {
     z-index: 100;
     border-radius: 10%;
     transition: transform 0.3s ease;
+    position: relative;
 }
 
 .card-wrap:hover {
     cursor: pointer;
 }
 
+/* 音声読み上げ時のデッキカードを拡大 */
 .card-wrap.speaking {
-    /* 音声読み上げ時のデッキカードを拡大 */
     transform: scale(1.1);
     z-index: 2;
     box-shadow: 0 0 15px #88f7cf;
 }
 
+/* デッキカード・リストカード共通 */
 .card-wrap .card {
-    /* デッキカード・リストカード共通 */
     width: min(120 / 375* 100vw, 120px);
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16);
     position: relative;
@@ -1060,6 +1073,41 @@ body.fullscreen .card-name {
     bottom: 0;
 }
 
+/*-----------------
+カード・カテゴリー・デッキリスト 一覧：オプションボタン
+-------------------*/
+/* オプションボタン共通 */
+.option-button {
+    position: absolute;
+    width: 1rem;
+    width: 1rem;
+    cursor: pointer;
+    opacity: 0.3;
+    transition: 0.3s;
+    z-index: 3000;
+}
+
+.option-button:hover {
+    opacity: 1;
+}
+
+/* カード一覧：オプションボタン */
+.card-wrap .option-button {
+    top: 8px;
+    left: 8px;
+}
+
+/* カテゴリー一覧：オプションボタン */
+.category-item .option-button {
+    top: 38px;
+    left: 15px;
+}
+
+/* デッキー一覧：オプションボタン */
+#deck-list .option-button {
+    top: 10px;
+    left: 10px;
+}
 
 /*-----------------
 カード・カテゴリー・デッキリスト 一覧：編集・削除ボタン
@@ -1070,9 +1118,8 @@ body.fullscreen .card-name {
     background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
     border-radius: 12px;
-    z-index: 200;
+    z-index: 5000;
     display: flex;
-    /* flex-direction: column; */
     align-items: center;
 }
 

@@ -153,8 +153,8 @@ export default function EditCard() {
                                 <p className="select-img-text bold">画像を選択</p>
                                 <textarea
                                     className="put-name"
-                                    maxLength={12}
-                                    placeholder="カード名を入力（12文字まで）"
+                                    maxLength={10}
+                                    placeholder="カード名を入力（10文字まで）"
                                     required
                                     value={cardName}
                                     onChange={(e) => setCardName(e.target.value)}

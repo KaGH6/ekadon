@@ -111,6 +111,16 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <span></span>
                     <span></span>
                 </button>
+
+                {/* メニュー外の黒背景だけをキャッチ */}
+                {menuOpen && (
+                    <div
+                        className="drawer__overlay"
+                        onClick={() => setMenuOpen(false)}
+                    />
+                )}
+
+                {/* ナビ本体 */}
                 <nav className={`drawer__nav ${menuOpen ? "active" : ""}`}>
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
