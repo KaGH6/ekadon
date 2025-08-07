@@ -1085,7 +1085,7 @@ body.fullscreen .card-name {
     cursor: pointer;
     opacity: 0.3;
     transition: 0.3s;
-    z-index: 3000;
+    z-index: 1500;
 }
 
 .option-button:hover {
