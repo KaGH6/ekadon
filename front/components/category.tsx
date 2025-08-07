@@ -17,6 +17,7 @@ type CategoryProps = {
     onTouchEnd: () => void;
     onEdit: (id: number) => void;
     onConfirmDelete: (id: number) => void;
+    currentUserId: number | null; // 現在のユーザーID
 }
 
 export default function Category({
@@ -29,6 +30,7 @@ export default function Category({
     onTouchEnd,
     onEdit,
     onConfirmDelete,
+    currentUserId,
 }: CategoryProps) {
 
     // CategoryDataの配列
@@ -51,35 +53,25 @@ export default function Category({
         (a, b) => a.id - b.id
     );
 
-    // 今のユーザーIDを取得
-    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
-    useEffect(() => {
-        const stored = localStorage.getItem("user_id");
-        if (stored) {
-            const n = Number(stored);
-            if (!isNaN(n)) setCurrentUserId(n);
-        }
-    }, []);
-
-    // デフォルト項目操作時のメッセージ
     const [guardMessage, setGuardMessage] = useState<string | null>(null);
 
     // 編集ボタンハンドラ
-    const handleEditClick = (category: CategoryData) => {
-        if (category.user_id === 3 && currentUserId !== 3) {
+    const handleEditClick = (cate: CategoryData) => {
+        // user_id===3 かつ currentUserId!==3 のときだけガード
+        if (cate.user_id === 3 && currentUserId !== 3) {
             setGuardMessage("デフォルトのカテゴリは編集できません");
             return;
         }
-        onEdit(category.id);
+        onEdit(cate.id);
     };
 
     // 削除ボタンハンドラ
-    const handleDeleteClick = (category: CategoryData) => {
-        if (category.user_id === 3 && currentUserId !== 3) {
+    const handleDeleteClick = (cate: CategoryData) => {
+        if (cate.user_id === 3 && currentUserId !== 3) {
             setGuardMessage("デフォルトのカテゴリは削除できません");
             return;
         }
-        onConfirmDelete(category.id);
+        onConfirmDelete(cate.id);
     };
 
     return (
@@ -133,8 +125,14 @@ export default function Category({
 
             {/* デフォルト項目ガード用モーダル */}
             {guardMessage && (
-                <div className="modal-overlay">
-                    <div className="modal">
+                <div
+                    className="modal-overlay"
+                    onClick={() => setGuardMessage(null)}      /* ← オーバーレイクリックで閉じる */
+                >
+                    <div
+                        className="modal"
+                        onClick={e => e.stopPropagation()}       /* ← モーダル内クリックは無視 */
+                    >
                         <p>{guardMessage}</p>
                         <div className="modal-buttons">
                             <button

@@ -21,6 +21,7 @@ type CardProps = {
     onEdit: (id: number) => void;
     onConfirmDelete: (id: number) => void;
     deletedCardId: number | null;
+    currentUserId: number | null;
 }
 
 export default function Card({
@@ -34,31 +35,30 @@ export default function Card({
     onTouchEnd,
     onEdit,
     onConfirmDelete,
-    deletedCardId
+    deletedCardId,
+    currentUserId
 }: CardProps) {
     // const [cards, setCards] = useState<CardData[]>([]); // CardDataの配列
     const addCard = useDeckStore((state) => state.addCard); // Zustandから追加
+    const [guardMessage, setGuardMessage] = useState<string | null>(null);
 
-    // useEffect(() => {
-    //     const fetchCards = async () => {
-    //         try {
-    //             const res = await axios.get<CardData[]>(`${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`);
-    //             console.log(res.data);
-    //             setCards(res.data);
-    //         } catch (err) {
-    //             console.error("カード取得エラー:", err);
-    //         }
-    //     };
+    // 編集クリック時のガード
+    const handleEditClick = (card: CardData) => {
+        if (card.user_id === 3 && currentUserId !== 3) {
+            setGuardMessage("デフォルトのカードは編集できません");
+            return;
+        }
+        onEdit(card.id);
+    };
 
-    //     if (categoryId) fetchCards();
-    // }, [categoryId]);
-
-    // // 削除IDが来たらそのカードだけ除外する
-    // useEffect(() => {
-    //     if (deletedCardId !== null) {
-    //         setCards(prev => prev.filter(card => card.id !== deletedCardId));
-    //     }
-    // }, [deletedCardId]);
+    // 削除クリック時のガード
+    const handleDeleteClick = (card: CardData) => {
+        if (card.user_id === 3 && currentUserId !== 3) {
+            setGuardMessage("デフォルトのカードは削除できません");
+            return;
+        }
+        onConfirmDelete(card.id);
+    };
 
     return (
         <>
@@ -101,16 +101,36 @@ export default function Card({
                             <div className="edit-delete-menu">
                                 <button onClick={(e) => {
                                     e.stopPropagation(); // カードクリックでデッキに表示を無効化
-                                    onEdit(card.id);
+                                    handleEditClick(card);
                                 }}>編集</button>
                                 <button onClick={(e) => {
                                     e.stopPropagation(); // カードクリックでデッキに表示を無効化
-                                    onConfirmDelete(card.id);
+                                    handleDeleteClick(card);
                                 }}>削除</button>
                             </div>
                         )}
                     </div>
                 ))}
+
+            {/* ガード用モーダル（オーバーレイ外クリックで閉じる） */}
+            {guardMessage && (
+                <div
+                    className="modal-overlay"
+                    onClick={() => setGuardMessage(null)}
+                >
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <p>{guardMessage}</p>
+                        <div className="modal-buttons">
+                            <button
+                                className="cancel-btn"
+                                onClick={() => setGuardMessage(null)}
+                            >
+                                閉じる
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

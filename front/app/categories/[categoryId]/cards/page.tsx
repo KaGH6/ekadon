@@ -18,37 +18,64 @@ export default function CardList() {
     const [editModeId, setEditModeId] = useState<number | null>(null);
     const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
     const [deletedCardId, setDeletedCardId] = useState<number | null>(null);
+    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
     const longPressTimer = useRef<NodeJS.Timeout | null>(null);
     const { categoryId } = useParams();
     const router = useRouter();
 
+    // ログイン中のユーザーIDを取得 :contentReference[oaicite:0]{index=0}
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await axios.get("/user");
+                setCurrentUserId(res.data.id);
+            } catch (e) {
+                console.error("ユーザー取得失敗:", e);
+            }
+        })();
+    }, []);
+
+    // // カード一覧取得
+    // useEffect(() => {
+    //     const fetchCards = async () => {
+    //         const token = localStorage.getItem("token");
+    //         if (!token) {
+    //             console.error("トークンがありません（未ログイン）");
+    //             return;
+    //         }
+
+    //         try {
+    //             const res = await axios.get(
+    //                 `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`,
+    //                 {
+    //                     headers: {
+    //                         Authorization: `Bearer ${token}`,
+    //                     },
+    //                     withCredentials: true,
+    //                 }
+    //             );
+    //             console.log("取得したカード一覧:", res.data);
+    //             setCards(res.data); // ステートに保存
+    //         } catch (error) {
+    //             console.error("カード取得エラー:", error);
+    //         }
+    //     };
+
+    //     fetchCards();
+    // }, [categoryId]);
+
     // カード一覧取得
     useEffect(() => {
-        const fetchCards = async () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("トークンがありません（未ログイン）");
-                return;
-            }
-
+        (async () => {
             try {
-                const res = await axios.get(
-                    `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                        withCredentials: true,
-                    }
+                const res = await axios.get<CardData[]>(
+                    `/categories/${categoryId}/cards`
                 );
-                console.log("取得したカード一覧:", res.data);
-                setCards(res.data); // ステートに保存
-            } catch (error) {
-                console.error("カード取得エラー:", error);
+                setCards(res.data);
+            } catch (err) {
+                console.error("カード取得エラー:", err);
             }
-        };
-
-        fetchCards();
+        })();
     }, [categoryId]);
 
 
@@ -68,34 +95,21 @@ export default function CardList() {
         console.log(indexToRemove);
     };
 
-    // カード編集ボタン
     const handleEdit = (id: number) => {
         router.push(`/categories/${categoryId}/cards/${id}/edit`);
     };
 
-    // カード削除機能
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
-
-        const token = localStorage.getItem("token");
-        if (!token) {
-            alert("ログイン情報が見つかりません。再度ログインしてください。");
-            return;
-        }
-
         try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cards/${confirmDeleteId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setCards(prev => prev.filter(card => card.id !== confirmDeleteId));
-            setSelectedCards(prev => prev.filter(card => card.id !== confirmDeleteId)); // デッキ側も更新
+            await axios.delete(`/cards/${confirmDeleteId}`);
+            setCards((prev) => prev.filter((c) => c.id !== confirmDeleteId));
+        } catch (err) {
+            console.error("削除エラー:", err);
+        } finally {
             setDeletedCardId(confirmDeleteId);
             setEditModeId(null);
             setConfirmDeleteId(null);
-        } catch (err) {
-            console.error("削除エラー:", err);
         }
     };
 
@@ -158,18 +172,33 @@ export default function CardList() {
                             onEdit={handleEdit}
                             onConfirmDelete={setConfirmDeleteId}
                             deletedCardId={deletedCardId}
+                            currentUserId={currentUserId}
                         />
                     </div>
                 </div>
             </section>
 
+            {/* 削除確認モーダル（オーバーレイ外クリックで閉じる） */}
             {confirmDeleteId !== null && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <p>選択したカードを削除しますか？</p>
+                <div
+                    className="modal-overlay"
+                    onClick={() => setConfirmDeleteId(null)}
+                >
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <p>
+                            選択したカードを削除しますか？<br />
+                            削除すると<b>カードは完全に削除</b>されます。
+                        </p>
                         <div className="modal-buttons">
-                            <button className="cancel-btn" onClick={() => setConfirmDeleteId(null)}>キャンセル</button>
-                            <button className="delete-btn" onClick={handleDelete}>削除</button>
+                            <button
+                                className="cancel-btn"
+                                onClick={() => setConfirmDeleteId(null)}
+                            >
+                                キャンセル
+                            </button>
+                            <button className="delete-btn" onClick={handleDelete}>
+                                削除
+                            </button>
                         </div>
                     </div>
                 </div>
