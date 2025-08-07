@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import axios from 'axios';
 import { CategoryData } from "@/app/types/category";
 
@@ -51,6 +51,37 @@ export default function Category({
         (a, b) => a.id - b.id
     );
 
+    // 今のユーザーIDを取得
+    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    useEffect(() => {
+        const stored = localStorage.getItem("user_id");
+        if (stored) {
+            const n = Number(stored);
+            if (!isNaN(n)) setCurrentUserId(n);
+        }
+    }, []);
+
+    // デフォルト項目操作時のメッセージ
+    const [guardMessage, setGuardMessage] = useState<string | null>(null);
+
+    // 編集ボタンハンドラ
+    const handleEditClick = (category: CategoryData) => {
+        if (category.user_id === 3 && currentUserId !== 3) {
+            setGuardMessage("デフォルトのカテゴリは編集できません");
+            return;
+        }
+        onEdit(category.id);
+    };
+
+    // 削除ボタンハンドラ
+    const handleDeleteClick = (category: CategoryData) => {
+        if (category.user_id === 3 && currentUserId !== 3) {
+            setGuardMessage("デフォルトのカテゴリは削除できません");
+            return;
+        }
+        onConfirmDelete(category.id);
+    };
+
     return (
         <>
             {sortedCategories.map((category) => (
@@ -93,12 +124,29 @@ export default function Category({
 
                     {editModeId === category.id && (
                         <div className="edit-delete-menu">
-                            <button onClick={() => onEdit(category.id)}>編集</button>
-                            <button onClick={() => onConfirmDelete(category.id)}>削除</button>
+                            <button onClick={() => handleEditClick(category)}>編集</button>
+                            <button onClick={() => handleDeleteClick(category)}>削除</button>
                         </div>
                     )}
                 </div>
             ))}
+
+            {/* デフォルト項目ガード用モーダル */}
+            {guardMessage && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <p>{guardMessage}</p>
+                        <div className="modal-buttons">
+                            <button
+                                className="cancel-btn"
+                                onClick={() => setGuardMessage(null)}
+                            >
+                                閉じる
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
