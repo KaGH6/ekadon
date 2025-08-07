@@ -55,6 +55,19 @@ export default function CategoryPage() {
         }
     };
 
+    // ログイン中のユーザーIDを取得
+    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await axios.get("/user");
+                setCurrentUserId(res.data.id);
+            } catch (e) {
+                console.error("ユーザー情報の取得に失敗しました", e);
+            }
+        })();
+    }, []);
+
     // ページ表示時にLaravel APIからカテゴリ一覧を取得
     useEffect(() => {
         const fetchCategories = async () => {
@@ -153,6 +166,7 @@ export default function CategoryPage() {
                             onTouchEnd={handleTouchEnd}
                             onEdit={handleEdit}
                             onConfirmDelete={setConfirmDeleteId}
+                            currentUserId={currentUserId} // ログイン中のユーザーIDを渡す
                         />
                     </div>
                 </div>
