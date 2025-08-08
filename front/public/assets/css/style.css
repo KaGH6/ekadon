@@ -736,7 +736,7 @@ body.fullscreen #list {
 ホーム画面
 ------------------------------------------*/
 .home-list {
-    max-width: min(450 / 375* 100vw, 450px);
+    max-width: min(700 / 375* 100vw, 700px);
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
@@ -744,6 +744,20 @@ body.fullscreen #list {
 
 .home-list .home-content {
     text-align: center;
+    background-color: rgb(203, 240, 237);
+    width: min(200 / 375* 100vw, 200px);
+    border-radius: 15px;
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16);
+    margin-bottom: 1em;
+    transition: 0.3s;
+}
+
+.home-list .home-content:hover {
+    background-color: rgb(188, 228, 224);
+}
+
+.home-list .home-content h3 {
+    color: #536b79;
 }
 
 .home-list .home-content .home-list-img {
