@@ -1,136 +1,145 @@
-import axios, { AxiosHeaders } from "axios";
+// /lib/api/axiosInstance.ts
+import axios, {
+    AxiosInstance,
+    AxiosHeaders,
+    InternalAxiosRequestConfig,
+} from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// 単一インスタンス
-const instance = axios.create({
-    baseURL: API_URL,
-    // withCredentials: true, // クッキー送信が必要な場合（HttpOnly にするなら必要）
-    // withCredentials: false, // 通常は不要
-});
+// インターセプタ非適用の“素”クライアント（/refresh専用）
+const bare = axios.create();
 
-// --- リクエストインターセプタ：毎回Authorizationを付与 ---
-instance.interceptors.request.use((config) => {
-    if (typeof window !== "undefined") {
-        const raw = localStorage.getItem("token") || "";
-        const token = raw.replace(/^Bearer\s+/i, ""); // Bearer二重対策
+// AxiosHeaders へ正規化
+function toAxiosHeaders(h?: any): AxiosHeaders {
+    if (!h) return new AxiosHeaders();
+    if (h instanceof AxiosHeaders) return h;
+    return new AxiosHeaders(h as any);
+}
 
-        if (token) {
-            // headers が未設定/プレーンオブジェクトでも AxiosHeaders に統一
-            let headers: AxiosHeaders;
-            if (!config.headers) {
-                headers = new AxiosHeaders();
-            } else if (config.headers instanceof AxiosHeaders) {
-                headers = config.headers;
-            } else {
-                headers = new AxiosHeaders(config.headers as any);
+// 401→refresh→再送までの処理を任意のクライアントに適用
+function attachInterceptors(client: AxiosInstance) {
+    // リクエスト: Authorization を常に付与（"Bearer " 保存ミスも剥がす）
+    client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+        if (typeof window !== "undefined") {
+            const raw = localStorage.getItem("token") || "";
+            const token = raw.replace(/^Bearer\s+/i, "");
+            if (token) {
+                const headers = toAxiosHeaders(config.headers);
+                headers.set("Authorization", `Bearer ${token}`);
+                config.headers = headers;
             }
-            headers.set("Authorization", `Bearer ${token}`);
-            config.headers = headers;
         }
-    }
-    return config;
-});
-
-// --- 401時のリフレッシュ制御（多重発火ガード付き） ---
-let isRefreshing = false;
-type Replay = (t: string) => void;
-let queue: Replay[] = [];
-
-const waitForNewToken = (original: any) =>
-    new Promise((resolve, reject) => {
-        queue.push((newToken: string) => {
-            try {
-                let headers: AxiosHeaders;
-                if (!original.headers) {
-                    headers = new AxiosHeaders();
-                } else if (original.headers instanceof AxiosHeaders) {
-                    headers = original.headers;
-                } else {
-                    headers = new AxiosHeaders(original.headers as any);
-                }
-                headers.set("Authorization", `Bearer ${newToken}`);
-                original.headers = headers;
-                instance.request(original).then(resolve).catch(reject);
-            } catch (e) {
-                reject(e);
-            }
-        });
+        return config;
     });
 
-const flushQueue = (newToken: string) => {
-    queue.forEach((fn) => fn(newToken));
-    queue = [];
-};
+    // 多重401の待ち合わせ
+    let isRefreshing = false;
+    type Replay = (t: string) => void;
+    let queue: Replay[] = [];
 
-instance.interceptors.response.use(
-    (res) => res,
-    async (error) => {
-        const original = error.config || {};
-        const status = error?.response?.status;
+    const waitForNewToken = (original: InternalAxiosRequestConfig) =>
+        new Promise((resolve, reject) => {
+            queue.push((newToken: string) => {
+                try {
+                    const headers = toAxiosHeaders(original.headers);
+                    headers.set("Authorization", `Bearer ${newToken}`);
+                    original.headers = headers;
+                    client.request(original).then(resolve).catch(reject);
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        });
 
-        if (status !== 401) return Promise.reject(error);
+    const flushQueue = (newToken: string) => {
+        queue.forEach((fn) => fn(newToken));
+        queue = [];
+    };
 
-        // /refresh 自身 or 既にリトライ済みなら終了
-        const url = String(original.url || "");
-        if (original._retry || url.endsWith("/refresh")) {
-            return Promise.reject(error);
-        }
-        original._retry = true;
+    client.interceptors.response.use(
+        (res) => res,
+        async (error) => {
+            const original = (error?.config || {}) as InternalAxiosRequestConfig & {
+                _retry?: boolean;
+            };
+            const status = error?.response?.status;
 
-        const raw = (typeof window !== "undefined" ? localStorage.getItem("token") : "") || "";
-        const oldToken = raw.replace(/^Bearer\s+/i, "");
-        if (!oldToken) {
-            if (typeof window !== "undefined") {
-                localStorage.removeItem("token");
-                // 認可不要のページに飛ばす
-                window.location.href = "/auth/login";
+            if (status !== 401) return Promise.reject(error);
+
+            const url = String(original.url || "");
+            if (original._retry || url.endsWith("/refresh")) {
+                return Promise.reject(error);
             }
-            return Promise.reject(error);
-        }
+            original._retry = true;
 
-        // すでに他のリクエストがリフレッシュ中なら待つ
-        if (isRefreshing) {
-            return waitForNewToken(original);
-        }
+            const raw =
+                (typeof window !== "undefined" ? localStorage.getItem("token") : "") ||
+                "";
+            const oldToken = raw.replace(/^Bearer\s+/i, "");
 
-        isRefreshing = true;
-        try {
-            // 旧トークンでリフレッシュ
-            const hdrs = new AxiosHeaders();
-            hdrs.set("Authorization", `Bearer ${oldToken}`);
-
-            const { data } = await axios.post(`${API_URL}/refresh`, {}, { headers: hdrs });
-
-            const newToken =
-                data?.access_token ?? data?.token ?? data?.authorisation?.token;
-
-            if (!newToken) {
-                throw new Error("No token in refresh response");
-            }
-
-            if (typeof window !== "undefined") {
-                localStorage.setItem("token", String(newToken).replace(/^Bearer\s+/i, ""));
+            if (!oldToken) {
+                if (typeof window !== "undefined") {
+                    localStorage.removeItem("token");
+                    window.location.href = "/auth/login";
+                }
+                return Promise.reject(error);
             }
 
-            // 待っていたリクエストを再送
-            flushQueue(newToken);
-
-            // 元リクエストを再送
-            const newHeaders = new AxiosHeaders(original.headers as any);
-            newHeaders.set("Authorization", `Bearer ${newToken}`);
-            original.headers = newHeaders;
-
-            return instance.request(original);
-        } catch (e) {
-            if (typeof window !== "undefined") {
-                localStorage.removeItem("token");
-                window.location.href = "/auth/login";
+            if (isRefreshing) {
+                return waitForNewToken(original);
             }
-            return Promise.reject(e);
-        } finally {
-            isRefreshing = false;
+
+            isRefreshing = true;
+            try {
+                // refresh は “素”クライアント(bare) で実行（インターセプタなし）
+                const headers = new AxiosHeaders();
+                headers.set("Authorization", `Bearer ${oldToken}`);
+
+                const { data } = await bare.post(
+                    `${API_URL}/refresh`,
+                    {},
+                    { headers }
+                );
+
+                const newToken =
+                    data?.access_token ?? data?.token ?? data?.authorisation?.token;
+
+                if (!newToken) throw new Error("No token in refresh response");
+
+                if (typeof window !== "undefined") {
+                    localStorage.setItem(
+                        "token",
+                        String(newToken).replace(/^Bearer\s+/i, "")
+                    );
+                }
+
+                flushQueue(newToken);
+
+                const h2 = toAxiosHeaders(original.headers);
+                h2.set("Authorization", `Bearer ${newToken}`);
+                original.headers = h2;
+
+                return client.request(original);
+            } catch (e) {
+                if (typeof window !== "undefined") {
+                    localStorage.removeItem("token");
+                    window.location.href = "/auth/login";
+                }
+                return Promise.reject(e);
+            } finally {
+                isRefreshing = false;
+            }
         }
-    }
-);
+    );
+}
+
+// ① 自前インスタンス
+const instance = axios.create({ baseURL: API_URL });
+attachInterceptors(instance);
+
+// ② ついでに“素の axios”にも同じインターセプタを適用
+//    （うっかり import axios from "axios" を使っても守れるように）
+attachInterceptors(axios);
+
 export default instance;
