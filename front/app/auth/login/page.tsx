@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-// import axios from "axios";
 import { useRouter } from "next/navigation";
-import axios from "@/lib/api/axiosInstance"; // リフレッシュトークン用
+import axios from "@/lib/api/axiosInstance";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -13,44 +12,34 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
-    // パスワードの表示/非表示を切り替え
-    const togglePassword = () => {
-        setShowPassword(!showPassword);
-    };
+    const togglePassword = () => setShowPassword((v) => !v);
 
-    // ログイン処理
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault(); // フォーム送信時のページリロードを防ぐ
+        e.preventDefault();
+        setError("");
 
-        // // CSRF Cookieを最初に取得(Laravel Sanctum用。JWT認証では不要。)
-        // await axios.get(`https://api.ekadon.com/sanctum/csrf-cookie`, {
-        //     withCredentials: true
-        // });
-
-        // ログインリクエスト送信
         try {
-            // await を使っているので、APIの返事が返るまで次の処理には進まない
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-                email,
-                password
-            }, {
-                withCredentials: true
-            });
+            const res = await axios.post(`/login`, { email, password });
 
-            // トークンの取得と保存
-            // Laravelからの返事（JSON）にあるtokenを取り出す
-            const token = res.data.token;
+            // 返却のどれでも拾えるように
+            const token =
+                res.data?.access_token ??
+                res.data?.token ??
+                res.data?.authorisation?.token;
 
-            // 1.トークンを保存
-            localStorage.setItem("token", token);
+            if (!token) {
+                console.log("login response:", res.data);
+                setError("ログインに失敗しました（トークンが取得できませんでした）");
+                return;
+            }
 
-            // 2. axiosに自動でトークンを付けるようにする
-            // axiosInstance の Authorization ヘッダーを更新
-            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            // 保存は生JWT（先頭の"Bearer "は削除）
+            const clean = String(token).replace(/^Bearer\s+/i, "");
+            localStorage.setItem("token", clean);
 
-            // router.push("/"); // 3.ログイン後、ホーム画面に遷移
-            router.push("/categories/19/cards"); // ログイン後、カテゴリ19のカード一覧へ遷移
-        } catch (err: any) {
+            // 画面遷移
+            router.push("/categories/19/cards");
+        } catch (err) {
             setError("ログインに失敗しました");
         }
     };
@@ -65,12 +54,31 @@ export default function Login() {
 
                     <form onSubmit={handleLogin}>
                         <label className="form-group">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg" className="sign-img" width={20} height={20} alt="メールアドレス" />
-                            <input type="email" className="textbox" placeholder="メールアドレス" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <Image
+                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg"
+                                className="sign-img"
+                                width={20}
+                                height={20}
+                                alt="メールアドレス"
+                            />
+                            <input
+                                type="email"
+                                className="textbox"
+                                placeholder="メールアドレス"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </label>
 
                         <label className="form-group">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg" className="sign-img" width={20} height={20} alt="パスワード" />
+                            <Image
+                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg"
+                                className="sign-img"
+                                width={20}
+                                height={20}
+                                alt="パスワード"
+                            />
                             <input
                                 type={showPassword ? "text" : "password"}
                                 className="textbox"
@@ -80,7 +88,9 @@ export default function Login() {
                                 required
                             />
                             <Image
-                                src={`https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/${showPassword ? "password-checked" : "password-check"}.svg`} className="pwcheck toggle-password"
+                                src={`https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/${showPassword ? "password-checked" : "password-check"
+                                    }.svg`}
+                                className="pwcheck toggle-password"
                                 width={20}
                                 height={20}
                                 alt="パスワードチェック"
@@ -89,11 +99,17 @@ export default function Login() {
                             />
                         </label>
 
-                        <button type="submit" className="submit-button">ログイン</button>
+                        <button type="submit" className="submit-button">
+                            ログイン
+                        </button>
                     </form>
 
-                    <a href="#" className="sign-text">パスワードを忘れた方</a>
-                    <a href="/auth/signup" className="sign-text">アカウント登録がまだの方</a>
+                    <a href="#" className="sign-text">
+                        パスワードを忘れた方
+                    </a>
+                    <a href="/auth/signup" className="sign-text">
+                        アカウント登録がまだの方
+                    </a>
                 </div>
             </div>
         </div>
