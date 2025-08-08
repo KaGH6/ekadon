@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { CardData } from "@/app/types/card";
 import { useRouter, usePathname } from "next/navigation";
 import { useDeckStore } from "@/store/deckStore";
+import api from "@/lib/api/axiosInstance"; // インターセプタ付き axios
 
 type HeaderProps = {
     selectedCards: CardData[];
@@ -56,30 +57,43 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
             return;
         }
 
+        // try {
+        //     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             "Authorization": `Bearer ${token}`,
+        //         },
+        //     });
+
+        //     localStorage.removeItem("token"); // JWTトークン削除
+        //     setIsAuthenticated(false); // ログアウトボタン表示
+        //     setMenuOpen(false);
+
+        //     useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
+
+        //     // ログイン画面へリダイレクト
+        //     router.push("/auth/login");
+        // } catch (err) {
+        //     console.error("ログアウト失敗", err);
+        //     localStorage.removeItem("token"); // JWTトークン削除
+        //     setIsAuthenticated(false); // ログアウトボタン表示
+        //     setMenuOpen(false); // メニューを閉じる
+        //     useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
+        //     router.push("/auth/login"); // ログイン画面へリダイレクト
+        // }
+
         try {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-            });
-
-            localStorage.removeItem("token"); // JWTトークン削除
-            setIsAuthenticated(false); // ログアウトボタン表示
-            setMenuOpen(false);
-
-            useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
-
-            // ログイン画面へリダイレクト
-            router.push("/auth/login");
+            await api.post("/logout"); // Authorization はインターセプタが付与
         } catch (err) {
-            console.error("ログアウト失敗", err);
-            localStorage.removeItem("token"); // JWTトークン削除
-            setIsAuthenticated(false); // ログアウトボタン表示
-            setMenuOpen(false); // メニューを閉じる
-            useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
-            router.push("/auth/login"); // ログイン画面へリダイレクト
+            // 失敗してもクライアント側では確実にログアウトさせる
+            console.warn("logout failed (ignored):", err);
+        } finally {
+            localStorage.removeItem("token");
+            setIsAuthenticated(false);
+            setMenuOpen(false);
+            useDeckStore.getState().clearDeck();
+            router.push("/auth/login");
         }
     };
 
