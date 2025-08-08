@@ -7,19 +7,17 @@ import axios, {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// インターセプタ非適用の“素”クライアント（/refresh専用）
+// 余計なインターセプタが付かない“素”クライアント（/refresh専用）
 const bare = axios.create();
 
-// AxiosHeaders へ正規化
 function toAxiosHeaders(h?: any): AxiosHeaders {
     if (!h) return new AxiosHeaders();
     if (h instanceof AxiosHeaders) return h;
     return new AxiosHeaders(h as any);
 }
 
-// 401→refresh→再送までの処理を任意のクライアントに適用
 function attachInterceptors(client: AxiosInstance) {
-    // リクエスト: Authorization を常に付与（"Bearer " 保存ミスも剥がす）
+    // リクエスト: 毎回 Authorization 付与（"Bearer "が保存されてても剥がす）
     client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
         if (typeof window !== "undefined") {
             const raw = localStorage.getItem("token") || "";
@@ -33,7 +31,6 @@ function attachInterceptors(client: AxiosInstance) {
         return config;
     });
 
-    // 多重401の待ち合わせ
     let isRefreshing = false;
     type Replay = (t: string) => void;
     let queue: Replay[] = [];
@@ -77,7 +74,6 @@ function attachInterceptors(client: AxiosInstance) {
                 (typeof window !== "undefined" ? localStorage.getItem("token") : "") ||
                 "";
             const oldToken = raw.replace(/^Bearer\s+/i, "");
-
             if (!oldToken) {
                 if (typeof window !== "undefined") {
                     localStorage.removeItem("token");
@@ -92,7 +88,6 @@ function attachInterceptors(client: AxiosInstance) {
 
             isRefreshing = true;
             try {
-                // refresh は “素”クライアント(bare) で実行（インターセプタなし）
                 const headers = new AxiosHeaders();
                 headers.set("Authorization", `Bearer ${oldToken}`);
 
@@ -134,12 +129,11 @@ function attachInterceptors(client: AxiosInstance) {
     );
 }
 
-// ① 自前インスタンス
+// 自前インスタンス
 const instance = axios.create({ baseURL: API_URL });
 attachInterceptors(instance);
 
-// ② ついでに“素の axios”にも同じインターセプタを適用
-//    （うっかり import axios from "axios" を使っても守れるように）
+// 念のため「素の axios」にも同じ挙動を付与
 attachInterceptors(axios);
 
 export default instance;
