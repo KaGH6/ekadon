@@ -28,7 +28,7 @@ return [
     // 'allowed_origins' => ['https://ekadon.com'],
     'allowed_origins' => [
         'https://ekadon.com',
-        'https://api.ekadon.com',
+        // 'https://api.ekadon.com',
         'https://ekadon.vercel.app',
         'http://localhost:3000',
     ],

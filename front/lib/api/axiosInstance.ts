@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const instance = axios.create({
     baseURL: API_URL,
-    withCredentials: true, // クッキー送信が必要な場合（HttpOnly にするなら必要）
+    // withCredentials: true, // クッキー送信が必要な場合（HttpOnly にするなら必要）
     // withCredentials: false, // 通常は不要
 });
 
