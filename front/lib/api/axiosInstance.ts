@@ -22,9 +22,11 @@ instance.interceptors.response.use(
     res => res,
     async err => {
         const originalRequest = err.config;
+        console.log('401エラーが発生しました:', err);
 
         if (err.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
+            console.log('401エラーが発生しました:', err);
 
             try {
                 const refreshResponse = await axios.post(
@@ -36,8 +38,9 @@ instance.interceptors.response.use(
                         },
                     }
                 );
-
+                console.log('リフレッシュトークン成功:', refreshResponse);
                 const newAccessToken = refreshResponse.data.access_token;
+                console.log('新しいアクセストークン:', newAccessToken);
 
                 // トークン保存（必要に応じて zustand/context にも反映）
                 localStorage.setItem('token', newAccessToken);
@@ -45,6 +48,7 @@ instance.interceptors.response.use(
                 // ヘッダーを新しいトークンに更新して再実行
                 instance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                console.log('終わり', originalRequest);
 
                 return instance(originalRequest);
             } catch (refreshError) {

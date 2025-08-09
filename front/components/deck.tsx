@@ -109,11 +109,13 @@ export default function Deck() {
         if (!isModalOpen) return;
 
         if (editingDeckId) {
+            console.log("ssaaaaa:", editingDeckId);
             // 編集モード：GET で既存データ取得
             axios.get(`${process.env.NEXT_PUBLIC_API_URL}/decks/${editingDeckId}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             })
                 .then(res => {
+                    console.log(res.data);
                     setName(res.data.name || "");
                     // 画像は既存のURLをそのままプレビュー
                     setPreviewUrl(res.data.image_url || "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");

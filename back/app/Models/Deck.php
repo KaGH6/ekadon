@@ -21,9 +21,10 @@ class Deck extends Model {
 
     // カードとのリレーション（多対多）＋順番
     public function cards() {
-        return $this->belongsToMany(Card::class)
+        return $this->belongsToMany(Card::class, 'card_deck')
             ->withPivot('position')
             ->withTimestamps()
-            ->orderBy('pivot_position');
+            // ->orderBy('pivot_position');
+            ->orderBy('card_deck.position');
     }
 }

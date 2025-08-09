@@ -260,6 +260,11 @@ p {
     text-decoration: none;
     margin: 0 auto 1em;
     font-size: 1.3rem;
+    transition: 0.3s;
+}
+
+.drawer__nav__link:hover {
+    opacity: 0.7;
 }
 
 @media screen and (max-width: 370px) {

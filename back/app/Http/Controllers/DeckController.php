@@ -49,6 +49,23 @@ class DeckController extends Controller {
         return response()->json($deck->load('cards'), 201);
     }
 
+    // デッキ取得（ID指定 & ログインユーザー所有のみ）
+    public function show(Request $request, string $id) {
+        $userId = $request->user()->id;
+
+        $deck = Deck::with([
+            'cards' => function ($q) {
+                // pivot経由の並び順（card_deck.position）で返す
+                $q->orderBy('card_deck.position');
+            }
+        ])
+            ->where('id', $id)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        return response()->json($deck);
+    }
+
     /**
      * 既存デッキの更新
      */
