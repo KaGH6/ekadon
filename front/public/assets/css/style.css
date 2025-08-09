@@ -41,10 +41,9 @@ body {
     letter-spacing: 0.7;
     margin: 0;
     width: 100% !important;
-    height: 100% !important;
+    height: auto;
     position: relative;
-    /* max-width: 100%; */
-    /* overflow-x: hidden; */
+    background-color: #FDF6EE;
 }
 
 *,
@@ -239,6 +238,20 @@ p {
     list-style: none;
 }
 
+.drawer__nav__item h3 {
+    font-size: 1.4rem;
+    color: #5bcec8;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.8em;
+}
+
+.nav-border {
+    width: 80%;
+    border-bottom: 1px solid var(--lightgray);
+    margin-bottom: 2em;
+}
+
 .drawer__nav__link {
     display: flex;
     align-items: center;
@@ -246,6 +259,24 @@ p {
     text-align: left;
     text-decoration: none;
     margin: 0 auto 1em;
+    font-size: 1.3rem;
+}
+
+@media screen and (max-width: 370px) {
+    .drawer__nav__inner {
+        padding: 3rem 0 1rem;
+    }
+
+    .drawer__nav__link {
+        font-size: 1.2rem;
+    }
+}
+
+.logout-button {
+    color: #ff5c5c;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .drawer__nav__link .drawer__nav__icon {
@@ -681,10 +712,10 @@ body.fullscreen #list {
 /* 一覧スペース設定 */
 /* 一覧全体 */
 #list {
-    background-color: #FDF6EE;
+
     width: 100%;
-    height: 100dvh;
-    padding-bottom: 3em;
+    height: fit-content;
+    padding-bottom: 15em;
     margin-top: min(340 / 375* 100vw, 340px);
     z-index: 1000;
 }
@@ -739,16 +770,19 @@ body.fullscreen #list {
     max-width: min(700 / 375* 100vw, 700px);
     margin: 0 auto;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
 
 .home-list .home-content {
     text-align: center;
     background-color: rgb(203, 240, 237);
-    width: min(200 / 375* 100vw, 200px);
+    /* width: min(200 / 375* 100vw, 200px); */
+    width: 24dvw;
+    max-width: min(200 / 375* 100vw, 200px);
     border-radius: 15px;
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16);
-    margin-bottom: 1em;
+    margin: 0 0.7em 1em;
     transition: 0.3s;
 }
 
@@ -758,12 +792,43 @@ body.fullscreen #list {
 
 .home-list .home-content h3 {
     color: #536b79;
+    margin: 0.5em 0 1em;
 }
 
 .home-list .home-content .home-list-img {
-    margin: 1em;
-    width: auto;
-    height: min(110 / 375* 100vw, 110px);
+    aspect-ratio: 1/1;
+    margin-top: 1em;
+    width: 8dvw;
+    max-width: min(130 / 375* 100vw, 130px);
+    min-width: min(90 / 375* 100vw, 90px);
+    height: auto;
+}
+
+@media screen and (max-width: 500px) {
+    .home-list .home-content {
+        width: min(180 / 375* 100vw, 180px);
+        margin-bottom: 2em;
+    }
+
+    .home-list .home-content .home-list-img {
+        width: min(120 / 375* 100vw, 120px);
+    }
+
+    .home-list .home-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .home-deck {
+        order: 1 !important;
+    }
+
+    .home-cate {
+        order: 2 !important;
+    }
+
+    .home-inst {
+        order: 3 !important;
+    }
 }
 
 /*----------------------------------------

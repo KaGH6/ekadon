@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { CardData } from "@/app/types/card";
 import { useRouter, usePathname } from "next/navigation";
 import { useDeckStore } from "@/store/deckStore";
-import api from "@/lib/api/axiosInstance"; // インターセプタ付き axios
 
 type HeaderProps = {
     selectedCards: CardData[];
@@ -57,43 +56,30 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
             return;
         }
 
-        // try {
-        //     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "Authorization": `Bearer ${token}`,
-        //         },
-        //     });
-
-        //     localStorage.removeItem("token"); // JWTトークン削除
-        //     setIsAuthenticated(false); // ログアウトボタン表示
-        //     setMenuOpen(false);
-
-        //     useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
-
-        //     // ログイン画面へリダイレクト
-        //     router.push("/auth/login");
-        // } catch (err) {
-        //     console.error("ログアウト失敗", err);
-        //     localStorage.removeItem("token"); // JWTトークン削除
-        //     setIsAuthenticated(false); // ログアウトボタン表示
-        //     setMenuOpen(false); // メニューを閉じる
-        //     useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
-        //     router.push("/auth/login"); // ログイン画面へリダイレクト
-        // }
-
         try {
-            await api.post("/logout"); // Authorization はインターセプタが付与
-        } catch (err) {
-            // 失敗してもクライアント側では確実にログアウトさせる
-            console.warn("logout failed (ignored):", err);
-        } finally {
-            localStorage.removeItem("token");
-            setIsAuthenticated(false);
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/logout`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+
+            localStorage.removeItem("token"); // JWTトークン削除
+            setIsAuthenticated(false); // ログアウトボタン表示
             setMenuOpen(false);
-            useDeckStore.getState().clearDeck();
+
+            useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
+
+            // ログイン画面へリダイレクト
             router.push("/auth/login");
+        } catch (err) {
+            console.error("ログアウト失敗", err);
+            localStorage.removeItem("token"); // JWTトークン削除
+            setIsAuthenticated(false); // ログアウトボタン表示
+            setMenuOpen(false); // メニューを閉じる
+            useDeckStore.getState().clearDeck(); // Zustandのdeckをリセット
+            router.push("/auth/login"); // ログイン画面へリダイレクト
         }
     };
 
@@ -139,6 +125,9 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                     <div className="drawer__nav__inner">
                         <ul className="drawer__nav__menu">
                             <li className="drawer__nav__item">
+                                <h3>一覧</h3>
+                            </li>
+                            <li className="drawer__nav__item">
                                 <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-home.svg"
@@ -161,6 +150,21 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                     />
                                     カテゴリー 一覧</Link>
                             </li>
+                            <li className="drawer__nav__item nav-border">
+                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
+                                        alt="デッキ一覧"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    デッキ一覧</Link>
+                            </li>
+
+                            <li className="drawer__nav__item">
+                                <h3>作成</h3>
+                            </li>
                             <li className="drawer__nav__item">
                                 <Link className="drawer__nav__link" href="/categories/create" onClick={() => setMenuOpen(false)}>
                                     <Image
@@ -173,7 +177,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                     カテゴリー作成
                                 </Link>
                             </li>
-                            <li className="drawer__nav__item">
+                            <li className="drawer__nav__item nav-border">
                                 <Link className="drawer__nav__link" href="/create-cards" onClick={() => setMenuOpen(false)}>
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-create.svg"
@@ -184,25 +188,12 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                     />
                                     カード作成</Link>
                             </li>
-                            <li className="drawer__nav__item">
-                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
-                                    <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
-                                        alt="デッキ一覧"
-                                        className="drawer__nav__icon"
-                                        width={30}
-                                        height={30}
-                                    />
-                                    デッキ一覧</Link>
-                            </li>
+
 
                             <li className="auth drawer__nav__item">
                                 {isAuthenticated ? (
                                     <>
-                                        {/* <Link href="/auth/signup">新規登録（開発用）</Link>
-                                    <Link href="/auth/login">ログイン（開発用）</Link> */}
-
-                                        <button onClick={handleLogout} className="drawer__nav__link">
+                                        <button onClick={handleLogout} className="drawer__nav__link logout-button">
                                             <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/logout.svg"
                                                 alt="ログアウト" className="drawer__nav__icon"
                                                 width={30} height={30} />

@@ -34,11 +34,22 @@ export default function CategoryPage() {
     // カテゴリー削除機能
     const handleDelete = async () => {
         if (confirmDeleteId === null) return;
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("ログイン情報が見つかりません。再度ログインしてください。");
+            return;
+        }
+
         try {
-            await axios.delete(`/categories/${confirmDeleteId}`);
-            setCategories((prev) => prev.filter((c) => c.id !== confirmDeleteId));
-            setEditModeId(null);
-            setConfirmDeleteId(null);
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/categories/${confirmDeleteId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setCategories(prev => prev.filter(cate => cate.id !== confirmDeleteId)); //選択したIDと一致しないものだけを取り出して、新しい配列を作る。
+            setEditModeId(null); // 削除後は編集・削除ボタンも閉じる
+            setConfirmDeleteId(null); // 削除確認ポップアップを閉じる
         } catch (error) {
             console.error("削除エラー:", error);
         }
@@ -57,17 +68,40 @@ export default function CategoryPage() {
         })();
     }, []);
 
-    // カテゴリ一覧（相対パス＋インターセプタ任せ）
+    // ページ表示時にLaravel APIからカテゴリ一覧を取得
     useEffect(() => {
-        (async () => {
+        const fetchCategories = async () => {
             try {
-                const res = await axios.get(`/list-category`);
-                const sorted = res.data.sort((a: { id: number }, b: { id: number }) => a.id - b.id);
+                // const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`); // API呼び出し
+                // setCategories(res.data); // stateに保存
+                // console.log(categories);
+
+                const token = localStorage.getItem('token'); // トークン取得
+                if (!token) {
+                    console.error("トークンがありません（未ログイン）");
+                    return;
+                }
+
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/list-category`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    // withCredentials: true, // Laravel Sanctum を使っている場合
+                });
+                // setCategories(res.data);
+
+                // 取得データをIDの昇順にソート
+                const sorted = res.data.sort(
+                    (a: { id: number }, b: { id: number }) => a.id - b.id
+                );
                 setCategories(sorted);
+
+                // エラーハンドリング
             } catch (error) {
                 console.error("カテゴリー取得失敗:", error);
             }
-        })();
+        };
+        fetchCategories(); // 関数実行
     }, []);
 
     // 長押し・右クリックの管理

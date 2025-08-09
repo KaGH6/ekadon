@@ -1,139 +1,60 @@
-// /lib/api/axiosInstance.ts
-import axios, {
-    AxiosInstance,
-    AxiosHeaders,
-    InternalAxiosRequestConfig,
-} from "axios";
+import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// 余計なインターセプタが付かない“素”クライアント（/refresh専用）
-const bare = axios.create();
+const instance = axios.create({
+    baseURL: API_URL,
+    withCredentials: true, // クッキー送信が必要な場合（HttpOnly にするなら必要）
+    // withCredentials: false, // 通常は不要
+});
 
-function toAxiosHeaders(h?: any): AxiosHeaders {
-    if (!h) return new AxiosHeaders();
-    if (h instanceof AxiosHeaders) return h;
-    return new AxiosHeaders(h as any);
-}
+// トークンを毎回自動付与
+instance.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
-function attachInterceptors(client: AxiosInstance) {
-    // リクエスト: 毎回 Authorization 付与（"Bearer "が保存されてても剥がす）
-    client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-        if (typeof window !== "undefined") {
-            const raw = localStorage.getItem("token") || "";
-            const token = raw.replace(/^Bearer\s+/i, "");
-            if (token) {
-                const headers = toAxiosHeaders(config.headers);
-                headers.set("Authorization", `Bearer ${token}`);
-                config.headers = headers;
-            }
-        }
-        return config;
-    });
+// 401エラー時に自動でリフレッシュ処理
+instance.interceptors.response.use(
+    res => res,
+    async err => {
+        const originalRequest = err.config;
 
-    let isRefreshing = false;
-    type Replay = (t: string) => void;
-    let queue: Replay[] = [];
+        if (err.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
 
-    const waitForNewToken = (original: InternalAxiosRequestConfig) =>
-        new Promise((resolve, reject) => {
-            queue.push((newToken: string) => {
-                try {
-                    const headers = toAxiosHeaders(original.headers);
-                    headers.set("Authorization", `Bearer ${newToken}`);
-                    original.headers = headers;
-                    client.request(original).then(resolve).catch(reject);
-                } catch (e) {
-                    reject(e);
-                }
-            });
-        });
-
-    const flushQueue = (newToken: string) => {
-        queue.forEach((fn) => fn(newToken));
-        queue = [];
-    };
-
-    client.interceptors.response.use(
-        (res) => res,
-        async (error) => {
-            const original = (error?.config || {}) as InternalAxiosRequestConfig & {
-                _retry?: boolean;
-            };
-            const status = error?.response?.status;
-
-            if (status !== 401) return Promise.reject(error);
-
-            const url = String(original.url || "");
-            if (original._retry || url.endsWith("/refresh")) {
-                return Promise.reject(error);
-            }
-            original._retry = true;
-
-            const raw =
-                (typeof window !== "undefined" ? localStorage.getItem("token") : "") ||
-                "";
-            const oldToken = raw.replace(/^Bearer\s+/i, "");
-            if (!oldToken) {
-                if (typeof window !== "undefined") {
-                    localStorage.removeItem("token");
-                    window.location.href = "/auth/login";
-                }
-                return Promise.reject(error);
-            }
-
-            if (isRefreshing) {
-                return waitForNewToken(original);
-            }
-
-            isRefreshing = true;
             try {
-                const headers = new AxiosHeaders();
-                headers.set("Authorization", `Bearer ${oldToken}`);
-
-                const { data } = await bare.post(
+                const refreshResponse = await axios.post(
                     `${API_URL}/refresh`,
                     {},
-                    { headers }
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        },
+                    }
                 );
 
-                const newToken =
-                    data?.access_token ?? data?.token ?? data?.authorisation?.token;
+                const newAccessToken = refreshResponse.data.access_token;
 
-                if (!newToken) throw new Error("No token in refresh response");
+                // トークン保存（必要に応じて zustand/context にも反映）
+                localStorage.setItem('token', newAccessToken);
 
-                if (typeof window !== "undefined") {
-                    localStorage.setItem(
-                        "token",
-                        String(newToken).replace(/^Bearer\s+/i, "")
-                    );
-                }
+                // ヘッダーを新しいトークンに更新して再実行
+                instance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+                originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
-                flushQueue(newToken);
-
-                const h2 = toAxiosHeaders(original.headers);
-                h2.set("Authorization", `Bearer ${newToken}`);
-                original.headers = h2;
-
-                return client.request(original);
-            } catch (e) {
-                if (typeof window !== "undefined") {
-                    localStorage.removeItem("token");
-                    window.location.href = "/auth/login";
-                }
-                return Promise.reject(e);
-            } finally {
-                isRefreshing = false;
+                return instance(originalRequest);
+            } catch (refreshError) {
+                console.error('リフレッシュトークン失敗:', refreshError);
+                return Promise.reject(refreshError);
             }
         }
-    );
-}
 
-// 自前インスタンス
-const instance = axios.create({ baseURL: API_URL });
-attachInterceptors(instance);
-
-// 念のため「素の axios」にも同じ挙動を付与
-attachInterceptors(axios);
+        return Promise.reject(err);
+    }
+);
 
 export default instance;
