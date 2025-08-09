@@ -54,9 +54,10 @@ AWSで利用したサービス
 * Web Speech API
 
 ## ER 図
-<img width="1121" height="1155" alt="aws drawio" src="https://github.com/user-attachments/assets/a7f225f5-7f31-46d5-ab5d-2a503aeca7f1" />
+
 
 ## インフラ構成図
+<img width="1121" height="1155" alt="aws drawio" src="https://github.com/user-attachments/assets/a7f225f5-7f31-46d5-ab5d-2a503aeca7f1" />
 
 ## 機能一覧
 ### カード関連
