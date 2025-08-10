@@ -828,30 +828,19 @@ body.fullscreen #list {
     height: auto;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 420px) {
     .home-list .home-content {
-        width: min(180 / 375* 100vw, 180px);
-        margin-bottom: 2em;
+        width: min(90 / 375* 100vw, 90px);
+        margin: 0 0.5em 2em;
     }
 
     .home-list .home-content .home-list-img {
-        width: min(120 / 375* 100vw, 120px);
+        width: min(70 / 375* 100vw, 70px);
+        min-width: min(50 / 375* 100vw, 50px);
     }
 
     .home-list .home-content h3 {
-        font-size: 1.2rem;
-    }
-
-    .home-deck {
-        order: 1 !important;
-    }
-
-    .home-cate {
-        order: 2 !important;
-    }
-
-    .home-inst {
-        order: 3 !important;
+        font-size: 1rem;
     }
 }
 
