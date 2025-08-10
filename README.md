@@ -4,7 +4,7 @@
 
 <img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/f6457314-10e3-4eaa-925b-e5d30524fe42" />
 
-## 概要
+## 1. 概要
 発達障害のお子様やその保護者、療育に携わる教員・指導員の方々にとって使いやすい絵カードアプリを目指しました。
 
 カードを並べてお子様とのコミュニケーションをサポートします。
@@ -13,7 +13,7 @@
 <img width="1157" height="648" alt="Image" src="https://github.com/user-attachments/assets/5febe22b-4f10-4563-bb9a-4327940c11d7" />
 
 
-## 使用技術
+## 2. 使用技術
 ### フロントエンド
 * React 19.0.0
 * Next.js 15.4.3
@@ -53,11 +53,15 @@ AWSで利用したサービス
 ### その他
 * Web Speech API
 
-## ER 図
+## 3. ER 図
 <img width="731" height="540" alt="eka-ER" src="https://github.com/user-attachments/assets/dbf533fe-5c8c-456e-93cf-af81d1036b0c" />
 
-## インフラ構成図
+## 4. インフラ構成図
 <img width="1121" height="1155" alt="aws drawio" src="https://github.com/user-attachments/assets/a7f225f5-7f31-46d5-ab5d-2a503aeca7f1" />
+
+## 5. 画面遷移図
+<img width="1000" height="1284" alt="Frame 9" src="https://github.com/user-attachments/assets/c3c4fcf2-83ea-41b2-82aa-1e6f54c84a2e" />
+
 
 ## 機能一覧
 ### カード関連
