@@ -82,11 +82,17 @@ class AuthController extends Controller {
     //  アクセストークンのリフレッシュ
     public function refresh() {
         try {
-            $newToken = JWTAuth::parseToken()->refresh();
+            // $newToken = JWTAuth::parseToken()->refresh();
+            // return response()->json([
+            //     'access_token' => $newToken,
+            //     'token_type' => 'bearer',
+            //     'expires_in' => auth()->factory()->getTTL() * 60
+            // ]);
+            $new = auth()->refresh(); // 期限切れアクセストークンでOK
             return response()->json([
-                'access_token' => $newToken,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
+                'access_token' => $new,
+                'token_type'   => 'bearer',
+                'expires_in'   => auth()->factory()->getTTL() * 60,
             ]);
         } catch (JWTException $e) {
             return response()->json(['error' => 'トークンのリフレッシュに失敗しました'], 401);

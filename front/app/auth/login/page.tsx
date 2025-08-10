@@ -48,7 +48,16 @@ export default function Login() {
         <div id="input" className="sign">
             <div className="sign-wrap-outer">
                 <div className="sign-wrap-inner">
-                    <h2>ログイン</h2>
+                    <div className="log-top">
+                        <Image
+                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png"
+                            alt="えかどん"
+                            width={100}
+                            height={100}
+                            className="log-logo"
+                        />
+                        <h2>ログイン</h2>
+                    </div>
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -104,9 +113,6 @@ export default function Login() {
                         </button>
                     </form>
 
-                    <a href="#" className="sign-text">
-                        パスワードを忘れた方
-                    </a>
                     <a href="/auth/signup" className="sign-text">
                         アカウント登録がまだの方
                     </a>

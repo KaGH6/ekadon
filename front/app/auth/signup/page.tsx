@@ -71,7 +71,16 @@ export default function Signup() {
         <div id="input" className="sign">
             <div className="sign-wrap-outer">
                 <div className="sign-wrap-inner">
-                    <h2>新規登録</h2>
+                    <div className="sign-top">
+                        <Image
+                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png"
+                            alt="えかどん"
+                            width={100}
+                            height={100}
+                            className="sign-logo"
+                        />
+                        <h2>新規登録</h2>
+                    </div>
 
                     {errors.length > 0 && (
                         <ul style={{ color: "red", paddingLeft: "20px" }}>

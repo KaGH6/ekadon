@@ -29,7 +29,7 @@ export default function InstructionPage() {
                         <li>
                             <h3>カテゴリー一覧画面</h3>
                             <p>好きなカテゴリーを選択します。</p>
-                            <img src="" alt="" />
+                            <img src="aa" alt="aa" />
                             <p>選択したカードはデッキに表示されます。</p>
                         </li>
                     </ol>
