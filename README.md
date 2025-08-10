@@ -54,7 +54,7 @@ AWSで利用したサービス
 * Web Speech API
 
 ## ER 図
-<img width="731" height="540" alt="eka-ER" src="https://github.com/user-attachments/assets/e0ca8802-e81f-4b55-8237-5e772a7d145a" />
+<img width="731" height="540" alt="eka-ER" src="https://github.com/user-attachments/assets/dbf533fe-5c8c-456e-93cf-af81d1036b0c" />
 
 ## インフラ構成図
 <img width="1121" height="1155" alt="aws drawio" src="https://github.com/user-attachments/assets/a7f225f5-7f31-46d5-ab5d-2a503aeca7f1" />
