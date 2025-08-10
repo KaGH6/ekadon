@@ -849,13 +849,17 @@ body.fullscreen #list {
 ------------------------------------------*/
 #create-edit {
     background-color: #E6F4F1;
-    /* background-color: #fdf6ee; */
-    height: 100dvh;
+    height: 100%;
 }
 
-.create {
-    background-color: #e4e1d7;
+#create-edit #input {
+    background-color: #E6F4F1;
+    padding-bottom: 5em;
 }
+
+/* .create {
+    background-color: #e4e1d7;
+} */
 
 #input .content_wrap {
     display: flex;
