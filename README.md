@@ -50,6 +50,10 @@ AWSで利用したサービス
 ### バージョン管理
 * Git/GitHub
 
+### CI/CD
+* Vercel
+* GitHub Actions
+
 ### その他
 * Web Speech API
 
@@ -93,22 +97,22 @@ AWSで利用したサービス
 ## 7. 使い方
 | トップページ | アカウント登録、ログインページ |
 | --- | --- |
-|<img width="250" height="447" alt="image 32" src="https://github.com/user-attachments/assets/e213fb68-6857-4c72-bdc8-a93f1c364947" />|<img width="250" height="445" alt="ekadon com_auth_signup(iPhone SE) 2" src="https://github.com/user-attachments/assets/67922729-81cf-4850-b489-4404bd9b2f98" />|
+|<img width="574" height="512" alt="Group 111" src="https://github.com/user-attachments/assets/06b72327-7251-4f53-b7dc-3a91f06079de" />|<img width="574" height="512" alt="Group 116" src="https://github.com/user-attachments/assets/cd2f5f34-4172-45ca-9ab5-ddadaf0a56db" />|
 |・えかどんの主な機能の一覧と、使い方ガイドへのリンクが掲載されています。|・メールアドレス、ユーザー名、パスワードで新規登録・ログインすることができます。 |
 
 | カテゴリー一覧 | カード一覧 |
 | --- | --- |
-|<img width="250" height="451" alt="image 34" src="https://github.com/user-attachments/assets/7a03b79f-7add-4b60-a5a2-59d79cb59559" />|<img width="250" height="443" alt="image 35" src="https://github.com/user-attachments/assets/f7adc166-8ccd-413a-9296-9a3f80e71a8e" />|
+|<img width="574" height="512" alt="Group 117" src="https://github.com/user-attachments/assets/db0f4736-0a98-4999-91bd-b8cc7efcc2d8" />|<img width="574" height="512" alt="Group 118" src="https://github.com/user-attachments/assets/2a8a7448-982b-4d41-af61-528361f49eb3" />|
 |・ログイン後、カテゴリー一覧画面に遷移します。　　　　　　　　　　　　　　　 　　　|・好きなカテゴリーを選択後、そのカテゴリーの中から好きなカードを選択し、画面上部のデッキにカードを表示させることができます。<br>・デッキに表示したカードは、音声ボタン押下で音声出力することができます。|
 
 | カード作成 | カテゴリー作成 |
 | --- | --- |
-|<img width="250" height="549" alt="image 61" src="https://github.com/user-attachments/assets/05843832-2b60-419e-b1f1-3644598cab60" />|<img width="250" height="443" alt="image 38" src="https://github.com/user-attachments/assets/95d3422f-2445-4b26-ae4f-4fcc0cc6b62a" />|
+|<img width="574" height="512" alt="Group 119" src="https://github.com/user-attachments/assets/9388405a-c7e0-4d0f-9125-5d1238603456" />|<img width="574" height="512" alt="Group 120" src="https://github.com/user-attachments/assets/2da62211-b3b5-49af-babe-07f8191b5840" />|
 |・カード作成ボタンから、カードを作成することができます。<br>・画像とカード名を登録し、カテゴリーを選択すると、カードが作成できます。|・カテゴリー作成ボタンから、カテゴリーを作成することができます。<br>・カテゴリー名と画像を登録し、カテゴリーが作成できます。　　　　　　　　　　 |
 
 | デッキ上のカード削除 | デッキ保存 |
 | --- | --- |
-|<img width="250" height="438" alt="image 62" src="https://github.com/user-attachments/assets/5d4d0e7f-a569-49e5-bc63-34fbaede7da0" />|<img width="250" height="445" alt="image 36" src="https://github.com/user-attachments/assets/a889e12d-ac2a-42fd-96b0-fbb644e06718" />|
+|<img width="574" height="512" alt="Group 121" src="https://github.com/user-attachments/assets/8a83c6d7-ec1e-466c-8ceb-7e446c2799f7" />|<img width="574" height="512" alt="Group 122" src="https://github.com/user-attachments/assets/41bcd5af-062b-4adf-9694-4af994ac1eef" />|
 |・カードの✕ボタンで、個別のカードを削除することができます。<br>・もしくは、デッキのゴミ箱ボタンでデッキ上のカード全てを削除することができます。　　　　　|・デッキ上にカードが並んだ状態でデッキ保存ボタンを押下すると、デッキ上のカードとその並び順が保存されます。<br>・保存されたデッキは、デッキ一覧で確認することができます。 |
 
 
