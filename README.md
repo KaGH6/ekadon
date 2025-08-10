@@ -10,7 +10,7 @@
 カードを並べてお子様とのコミュニケーションをサポートします。
 また、オリジナルのカードやカテゴリーを作成することもできます。
 
-<img width="1157" height="648" alt="Image" src="https://github.com/user-attachments/assets/5febe22b-4f10-4563-bb9a-4327940c11d7" />
+<img width="1794" height="1186" alt="アセット 5-8-2" src="https://github.com/user-attachments/assets/7f87a543-ec94-4af8-bc87-035685e67511" />
 
 
 ## 2. 使用技術
@@ -98,7 +98,7 @@ AWSで利用したサービス
 | アカウント登録、ログインページ | トップページ |
 | --- | --- |
 |<img width="574" height="512" alt="Group 111" src="https://github.com/user-attachments/assets/06b72327-7251-4f53-b7dc-3a91f06079de" />|<img width="574" height="512" alt="Group 116" src="https://github.com/user-attachments/assets/cd2f5f34-4172-45ca-9ab5-ddadaf0a56db" />|
-|・メールアドレス、ユーザー名、パスワードで新規登録・ログインすることができます。|・えかどんの主な機能の一覧と、使い方ガイドへのリンクが掲載されています。 |
+|・メールアドレス、ユーザー名、パスワードで新規登録・ログインすることができます。|・えかどんの主な機能の一覧と、使い方ガイドへのリンクが掲載されています。　　　　　　 |
 
 | カテゴリー一覧 | カード一覧 |
 | --- | --- |
