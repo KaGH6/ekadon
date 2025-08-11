@@ -1,0 +1,316 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700;900&display=swap');
+
+:root {
+    --teal: #85ddd8;
+    --teal-d: #4bbdb6;
+    --ink: #243039;
+    --ink-2: #4a5a66;
+    --bg: #f5fbfb;
+    --card: #ffffff;
+    --line: #e6f3f2;
+    --warn: #ffb74d;
+    --radius: 16px;
+}
+
+/* main base */
+#guide {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+}
+
+.guide-wrapper {
+    max-width: 1000px;
+    margin: 24px auto 64px;
+    padding: 0 20px;
+}
+
+.guide {
+    margin: 28px 0
+}
+
+.guide:last-child {
+    padding-bottom: 7em;
+}
+
+.section__title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    margin: 0 0 16px;
+}
+
+.badge {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--teal);
+    color: #073435;
+    font-weight: 700;
+    border: 1px solid #d7efee;
+}
+
+/* grid of cards (no media queries, grid auto-fit) */
+.card-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+/* card */
+.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .02);
+}
+
+.card__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.step {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: inline-grid;
+    place-items: center;
+    background: #e8f9f8;
+    color: #0c3f41;
+    border: 1px solid #d7efee;
+    font-weight: 700;
+}
+
+.card__desc {
+    margin: 12px 0 0;
+    color: var(--ink-2);
+    font-size: 1rem;
+}
+
+/* mock screens */
+.mock {
+    margin: 8px 0 4px;
+}
+
+.mock__screen {
+    background: #eaf7f6;
+    border: 1px solid #d7efee;
+    border-radius: 12px;
+    padding: 0;
+    min-height: 140px;
+}
+
+/* 画像用の枠（比率はモックに合わせて調整可） */
+.mock__figure {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* next/image の実体を綺麗に収める */
+.guides-img {
+    object-fit: contain;
+    image-rendering: auto;
+}
+
+.mock__thumbs {
+    display: flex;
+    gap: 8px
+}
+
+.thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #dfeeed;
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+}
+
+/* deck mock */
+.mock__deck {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.icon {
+    border: 1px solid #cbe9e7;
+    background: #fff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-size: 16px;
+    cursor: default;
+}
+
+.deck-card {
+    display: grid;
+    place-items: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid #dfeeed;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .02);
+    font-size: 34px;
+    position: relative;
+}
+
+.deck-card__label {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+    font-size: 12px;
+    background: #ffffffcc;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid #eef6f5;
+    text-align: center;
+}
+
+.deck-ctrl {
+    display: flex;
+    gap: 8px
+}
+
+.deck-card--small {
+    width: 68px;
+    height: 68px;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+}
+
+.chip {
+    border: 1px solid #ffd8d8;
+    background: #fff6f6;
+    color: #c0392b;
+    border-radius: 10px;
+    padding: 0 6px;
+    height: 22px;
+    font-size: 12px;
+}
+
+/* split screen mock */
+.mock__screen--split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-items: start;
+}
+
+.mock__panel {
+    background: #f3fbfb;
+    border: 1px dashed #cfeceb;
+    border-radius: 10px;
+    padding: 12px
+}
+
+.btn {
+    display: inline-block;
+    border: 1px solid var(--teal-d);
+    background: var(--teal);
+    color: #063a3a;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+}
+
+.btn--primary {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .04)
+}
+
+.list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0
+}
+
+.list__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    color: var(--ink)
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--teal-d);
+    display: inline-block
+}
+
+/* flow icons */
+.flow {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+.flow__item {
+    min-width: 110px;
+    flex: 1 1 120px;
+    background: #ffffff;
+    border: 1px solid #dfeeed;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+}
+
+.icon-circ {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: #e8f9f8;
+    border: 1px solid #d7efee;
+    margin-bottom: 6px;
+}
+
+/* notice */
+.notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff8e8;
+    border: 1px solid #ffe2b3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #5a4100;
+}
+
+.notice__icon {
+    font-size: 18px
+}
+
+.notice__text {
+    margin: 0
+}
+
+/* footer */
+.guide__footer {
+    text-align: center;
+    color: #7d8a93;
+    margin: 40px 0 24px;
+}
