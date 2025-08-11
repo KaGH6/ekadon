@@ -23,16 +23,180 @@
 
 .guide-wrapper {
     max-width: 1000px;
-    margin: 24px auto 64px;
-    padding: 0 20px;
+    margin: 0 auto;
+    padding: 5em 20px 7em;
 }
+
+/* =========================
+   1) ヒーロー（ロゴ＋タイトル）
+   ========================= */
+.guide-wrapper .guide-top {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.guide-wrapper .guide-top .ekadon {
+    /* ほどよいサイズに自動対応（メディアクエリ不要） */
+    width: clamp(100px, 18vw, 120px);
+    height: auto;
+    border-radius: 22px;
+    /* 角丸でやわらかく */
+    padding: 10px;
+    /* 内側に余白 */
+    background: #fff;
+    /* 白ベースで清潔感 */
+    border: 1px solid var(--line);
+    /* 薄い縁取り */
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .06), 0 1px 0 rgba(0, 0, 0, .03);
+}
+
+/* ==============
+   h1デザイン
+   ============== */
+.guide-wrapper .guide-top h1 {
+    position: relative;
+    display: inline-block;
+    margin: .9rem 0 0;
+    padding: .55rem 1.2rem;
+    font-size: clamp(22px, 2.2vw + 14px, 36px);
+    font-weight: 900;
+    letter-spacing: .03em;
+    color: #104f4c;
+    /* 濃いめティール */
+    background: #fff;
+    /* ふわっと白いピル */
+    border: 1px solid var(--line);
+    border-radius: 1.4rem;
+    box-shadow:
+        0 10px 24px rgba(133, 221, 216, .22),
+        0 1px 0 rgba(255, 255, 255, .9) inset;
+    text-shadow: 0 1px 0 #fff;
+    /* ぷっくり感 */
+}
+
+/* きらきらアクセント */
+.guide-wrapper .guide-top h1::before,
+.guide-wrapper .guide-top h1::after {
+    content: "✦";
+    position: absolute;
+    font-size: 16px;
+    color: var(--teal);
+    text-shadow: 0 0 12px rgba(133, 221, 216, .45);
+    animation: guideSparkle 3.2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.guide-wrapper .guide-top h1::before {
+    left: -16px;
+    bottom: -20px;
+    transform: rotate(-12deg);
+}
+
+.guide-wrapper .guide-top h1::after {
+    right: -16px;
+    top: -16px;
+    transform: rotate(10deg);
+    animation-delay: .9s;
+}
+
+@keyframes guideSparkle {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(var(--r, 0deg));
+        opacity: .95;
+    }
+
+    50% {
+        transform: translateY(-4px) rotate(calc(var(--r, 0deg) + 12deg));
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   2) 目次ナビ（ol）を“チップ”化
+   ========================= */
+.guide-wrapper nav {
+    display: block;
+    margin: .25rem auto 2rem;
+    max-width: 840px;
+}
+
+.guide-wrapper nav>ol {
+    /* 丸数字のlist-styleは使わず、疑似要素で安定表示に */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    /* 画面幅で自動折返し */
+    gap: 8px;
+    justify-content: center;
+    counter-reset: sec;
+}
+
+.guide-wrapper nav>ol>li {
+    counter-increment: sec;
+}
+
+.guide-wrapper nav>ol>li>a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    /* ピル型 */
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .03);
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+
+.guide-wrapper nav>ol>li>a::before {
+    /* ①②③…の丸数字バッジ */
+    content: counter(sec, jp-circled-decimal);
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--teal);
+    border: 1px solid #d7efee;
+    color: #073435;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.guide-wrapper nav>ol>li>a:hover {
+    transform: translateY(-1px);
+    border-color: var(--teal-d);
+    box-shadow: 0 6px 20px rgba(133, 221, 216, .18);
+}
+
+.guide-wrapper nav>ol>li>a:focus-visible {
+    outline: 2px solid var(--teal-d);
+    outline-offset: 2px;
+}
+
+/* スクロール時の見やすさ（アンカーの頭出し & スムーススクロール） */
+#guide {
+    scroll-behavior: smooth;
+}
+
+#guide [id^="guide-"] {
+    scroll-margin-top: 14px;
+}
+
 
 .guide {
     margin: 28px 0
-}
-
-.guide:last-child {
-    padding-bottom: 7em;
 }
 
 .section__title {
@@ -44,7 +208,9 @@
 }
 
 .badge {
-    display: inline-grid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     place-items: center;
     width: 32px;
     height: 32px;
@@ -79,10 +245,12 @@
 }
 
 .step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 28px;
     height: 28px;
     border-radius: 999px;
-    display: inline-grid;
     place-items: center;
     background: #e8f9f8;
     color: #0c3f41;
@@ -91,9 +259,18 @@
 }
 
 .card__desc {
-    margin: 12px 0 0;
+    padding-left: 0.5em;
+    margin: 0;
     color: var(--ink-2);
     font-size: 1rem;
+    text-indent: -1.4em;
+    margin-left: 1em;
+}
+
+.guide-option {
+    width: 0.8rem;
+    margin: 0 0.2em 0.2em;
+    padding: 0;
 }
 
 /* mock screens */
@@ -102,11 +279,12 @@
 }
 
 .mock__screen {
-    background: #eaf7f6;
+    background: #eaf7f67e;
     border: 1px solid #d7efee;
     border-radius: 12px;
-    padding: 0;
+    padding: 0.7em 0;
     min-height: 140px;
+    margin-bottom: 0.7em;
 }
 
 /* 画像用の枠（比率はモックに合わせて調整可） */
@@ -301,16 +479,34 @@
 }
 
 .notice__icon {
-    font-size: 18px
+    font-size: 18px;
 }
 
 .notice__text {
-    margin: 0
+    margin: 0;
+    font-size: 1rem;
 }
 
-/* footer */
-.guide__footer {
-    text-align: center;
-    color: #7d8a93;
-    margin: 40px 0 24px;
+/* =========================
+ページトップ
+   ========================= */
+.pagetop {
+    margin-top: 4em;
+    opacity: 1;
+    transition: opacity .3s ease;
+    text-align: right;
+}
+
+.pagetop[data-visible="false"] {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pagetop-button {
+    width: min(60 / 375* 100vw, 60px);
+    transition: 0.3s;
+}
+
+.pagetop-button:hover {
+    opacity: 0.8;
 }

@@ -150,8 +150,8 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                     />
                                     カテゴリー 一覧</Link>
                             </li>
-                            <li className="drawer__nav__item nav-border">
-                                <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
+                            <li className="drawer__nav__item">
+                                <Link className="drawer__nav__link" href="/decklist" onClick={() => setMenuOpen(false)}>
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
                                         alt="デッキ一覧"
@@ -160,6 +160,17 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                         height={30}
                                     />
                                     デッキ一覧</Link>
+                            </li>
+                            <li className="drawer__nav__item nav-border">
+                                <Link className="drawer__nav__link" href="/guide" onClick={() => setMenuOpen(false)}>
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/instruction-blue.svg"
+                                        alt="使い方ガイド"
+                                        className="drawer__nav__icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    使い方ガイド</Link>
                             </li>
 
                             <li className="drawer__nav__item">
