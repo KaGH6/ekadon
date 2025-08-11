@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Tooltip from "./tooltip";
+import Tooltip from '@/components/tooltip';
 
 type Props = {
     /** 画面最上部でも表示しておくか（既定: true） */
