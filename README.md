@@ -12,6 +12,10 @@
 
 <img width="1794" height="1186" alt="アセット 5-8-2" src="https://github.com/user-attachments/assets/7f87a543-ec94-4af8-bc87-035685e67511" />
 
+## 要件定義
+<a href="https://github.com/KaGH6/ekadon/blob/main/documents/requirements.md" target="_blank" rel="noopener noreferrer">要件定義</a>
+
+<br>
 
 ## 2. 使用技術
 ### フロントエンド
