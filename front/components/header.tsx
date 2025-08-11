@@ -45,6 +45,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         if (pathname.startsWith("/categories/") && pathname.includes("edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
         if (pathname.startsWith("/decklist")) return "デッキ 一覧";
+        if (pathname.startsWith("/guide")) return "使い方ガイド";
         return ""; // デフォルト
     };
 
