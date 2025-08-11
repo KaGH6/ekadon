@@ -94,7 +94,7 @@ AWSで利用したサービス
 * ログイン・ログアウト機能
 * 作成したカード・カテゴリー・デッキの管理
 
-## 7. アプリの画面
+## 7. アプリの基本操作
 | アカウント登録、ログインページ | トップページ |
 | --- | --- |
 |<img width="574" height="512" alt="Group 111" src="https://github.com/user-attachments/assets/06b72327-7251-4f53-b7dc-3a91f06079de" />|<img width="574" height="512" alt="Group 116" src="https://github.com/user-attachments/assets/cd2f5f34-4172-45ca-9ab5-ddadaf0a56db" />|
