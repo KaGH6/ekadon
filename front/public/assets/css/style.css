@@ -1386,7 +1386,7 @@ body.fullscreen .card-name {
     /* padding: 0 0.6em; */
     background: #fff;
     box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.16);
-    z-index: 1000;
+    z-index: 1600;
 }
 
 @media screen and (min-width: 1000px) {
