@@ -1434,6 +1434,7 @@ body.fullscreen .card-name {
     width: min(40 / 375* 100vw, 40px);
     height: min(40 / 375* 100vw, 40px);
     display: block;
+    object-fit: cover;
 }
 
 .footer-link .footer-icon-name {
