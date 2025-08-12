@@ -1403,15 +1403,6 @@ body.fullscreen .card-name {
     overflow-y: hidden;
     height: 100%;
 
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE / Edge */
-}
-
-.footer-nav::-webkit-scrollbar {
-    display: none;
-    /* Chrome, Safari */
 }
 
 .footer-link {
