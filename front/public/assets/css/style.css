@@ -1389,12 +1389,6 @@ body.fullscreen .card-name {
     z-index: 1600;
 }
 
-@media screen and (min-width: 1000px) {
-    .footer {
-        height: min(70 / 1280* 100vw, 70px);
-    }
-}
-
 .footer-nav {
     display: flex;
     justify-content: left;
