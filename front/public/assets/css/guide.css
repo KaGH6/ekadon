@@ -28,30 +28,26 @@
 }
 
 /* =========================
-   1) ヒーロー（ロゴ＋タイトル）
+   1) ロゴ＋タイトル
    ========================= */
 .guide-wrapper .guide-top {
     text-align: center;
-    /* margin-bottom: 1.25rem; */
-    margin-top: 1em;
-    margin-bottom: 2.3em;
+    margin-bottom: 1.25rem;
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .guide-wrapper .guide-top .ekadon {
     /* ほどよいサイズに自動対応（メディアクエリ不要） */
-    /* width: clamp(100px, 18vw, 120px); */
-    width: clamp(50px, 18vw, 70px);
+    width: clamp(100px, 18vw, 120px);
     height: auto;
-    margin-right: 0.7em;
-    /* padding: 10px;
     border-radius: 22px;
+    padding: 10px;
     background: #fff;
     border: 1px solid var(--line);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, .06), 0 1px 0 rgba(0, 0, 0, .03); */
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .06), 0 1px 0 rgba(0, 0, 0, .03);
 }
 
 /* ==============
@@ -72,6 +68,7 @@
     box-shadow:
         0 10px 24px rgba(133, 221, 216, .22),
         0 1px 0 rgba(255, 255, 255, .9) inset;
+    text-shadow: 0 1px 0 #fff;
 }
 
 /* きらきらアクセント */
@@ -115,7 +112,7 @@
 
 
 /* =========================
-   2) 目次ナビ（ol）を“チップ”化
+   2) 目次ナビ（ol）をチップ化
    ========================= */
 .guide-wrapper nav {
     display: block;
