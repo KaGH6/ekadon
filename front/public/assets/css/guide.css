@@ -32,26 +32,26 @@
    ========================= */
 .guide-wrapper .guide-top {
     text-align: center;
-    margin-bottom: 1.25rem;
+    /* margin-bottom: 1.25rem; */
+    margin-top: 1em;
+    margin-bottom: 2.3em;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
 }
 
 .guide-wrapper .guide-top .ekadon {
     /* ほどよいサイズに自動対応（メディアクエリ不要） */
-    width: clamp(100px, 18vw, 120px);
+    /* width: clamp(100px, 18vw, 120px); */
+    width: clamp(50px, 18vw, 70px);
     height: auto;
+    margin-right: 0.7em;
+    /* padding: 10px;
     border-radius: 22px;
-    /* 角丸でやわらかく */
-    padding: 10px;
-    /* 内側に余白 */
     background: #fff;
-    /* 白ベースで清潔感 */
     border: 1px solid var(--line);
-    /* 薄い縁取り */
-    box-shadow: 0 6px 14px rgba(0, 0, 0, .06), 0 1px 0 rgba(0, 0, 0, .03);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .06), 0 1px 0 rgba(0, 0, 0, .03); */
 }
 
 /* ==============
@@ -66,16 +66,12 @@
     font-weight: 900;
     letter-spacing: .03em;
     color: #104f4c;
-    /* 濃いめティール */
     background: #fff;
-    /* ふわっと白いピル */
     border: 1px solid var(--line);
     border-radius: 1.4rem;
     box-shadow:
         0 10px 24px rgba(133, 221, 216, .22),
         0 1px 0 rgba(255, 255, 255, .9) inset;
-    text-shadow: 0 1px 0 #fff;
-    /* ぷっくり感 */
 }
 
 /* きらきらアクセント */
@@ -128,7 +124,6 @@
 }
 
 .guide-wrapper nav>ol {
-    /* 丸数字のlist-styleは使わず、疑似要素で安定表示に */
     list-style: none;
     padding: 0;
     margin: 0;
@@ -150,7 +145,6 @@
     gap: 8px;
     padding: 8px 12px;
     border-radius: 999px;
-    /* ピル型 */
     background: #fff;
     border: 1px solid var(--line);
     color: var(--ink);
@@ -160,7 +154,7 @@
 }
 
 .guide-wrapper nav>ol>li>a::before {
-    /* ①②③…の丸数字バッジ */
+    /* 丸数字バッジ */
     content: counter(sec, jp-circled-decimal);
     display: inline-grid;
     place-items: center;

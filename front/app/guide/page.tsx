@@ -17,7 +17,7 @@ export default function GuidePage() {
             <section id="guide">
                 <div className="guide-wrapper">
                     <div className="guide-top">
-                        <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png" alt="えかどん" className="ekadon" width={70} height={70} />
+                        <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon-kun.png" alt="えかどん" className="ekadon" width={70} height={70} />
                         <h1>えかどん 使い方ガイド</h1>
                     </div>
                     <nav>

@@ -220,6 +220,10 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                 )}
                             </li>
                         </ul>
+                        <div className="menu-bottom">
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png" alt="えかどん" className="menu-ekadon" width={70} height={70} />
+                            <p>&copy; 2025 ekadon.</p>
+                        </div>
                     </div>
                 </nav>
             </div>

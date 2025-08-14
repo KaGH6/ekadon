@@ -238,19 +238,6 @@ p {
     list-style: none;
 }
 
-
-.drawer__nav__menu .ham-bottom {
-    margin: 3em auto 0;
-}
-
-.drawer__nav__menu .ham-bottom .ekadon {
-    width: clamp(64px, 18vw, 96px);
-}
-
-.drawer__nav__menu .ham-bottom p {
-    font-size: 1rem;
-}
-
 .drawer__nav__item h3 {
     font-size: 1.4rem;
     color: #5bcec8;
@@ -280,7 +267,7 @@ p {
     opacity: 0.7;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
     .drawer__nav__inner {
         padding: 3rem 0 1rem;
     }
@@ -311,11 +298,36 @@ p {
     justify-content: left; */
 }
 
+.menu-bottom {
+    margin-top: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-bottom .menu-ekadon {
+    width: min(45 / 375* 100dvh, 45px);
+}
+
+.menu-bottom p {
+    font-size: 0.9rem;
+    margin-left: 0.7em;
+}
+
+@media screen and (max-width: 767px) {
+    .menu-bottom {
+        margin-top: 1.7em;
+    }
+
+}
+
 /* ハンバーガーメニュー展開時、背景を固定 */
 body.active {
     height: 100%;
     overflow: hidden;
 }
+
+
 
 /*----------------------------------------
 入力画面共通（signin/signup/create）
