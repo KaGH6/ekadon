@@ -321,7 +321,7 @@ export default function Deck() {
                         ? "変更を保存"
                         : isSaved
                             ? "このデッキは保存済みです"
-                            : "デッキを保存"
+                            : "マイデッキに保存"
                 }>
                     <button
                         className={`save${isSaved ? ' disabled' : ''}`}
@@ -359,21 +359,21 @@ export default function Deck() {
                 {isModalOpen && (
                     <div className="modal-overlay">
                         <div className="modal-window">
-                            <h2>デッキを保存</h2>
+                            <h2>マイデッキに保存</h2>
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label>1. デッキ名</label>
+                                    <label>1. マイデッキ名</label>
                                     <input
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="デッキ名を入力（16文字まで）"
+                                        placeholder="マイデッキ名を入力（16文字まで）"
                                         disabled={saving}
                                         maxLength={16}
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>2. デッキアイコン画像</label>
+                                    <label>2. マイデッキアイコン画像</label>
                                     <label className="select-img-wrapper">
                                         <input
                                             type="file"

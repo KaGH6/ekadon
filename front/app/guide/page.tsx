@@ -25,7 +25,7 @@ export default function GuidePage() {
                             <li><a href="#guide-1">基本機能</a></li>
                             <li><a href="#guide-2">カテゴリー</a></li>
                             <li><a href="#guide-3">カード</a></li>
-                            <li><a href="#guide-4">デッキ</a></li>
+                            <li><a href="#guide-4">マイデッキ</a></li>
                             <li><a href="#guide-5">その他</a></li>
                         </ol>
                     </nav>
@@ -375,7 +375,7 @@ export default function GuidePage() {
                     {/* デッキ機能 */}
                     <div className="guide" aria-labelledby="sec-deck">
                         <h2 id="sec-deck" className="section__title">
-                            <span id="guide-4" className="badge">4</span> デッキ
+                            <span id="guide-4" className="badge">4</span> マイデッキ
                         </h2>
 
                         <article className="card-row">
@@ -384,7 +384,7 @@ export default function GuidePage() {
                             <div className="card">
                                 <div className="card__head">
                                     <span className="step">1</span>
-                                    <h3 className="card__title">デッキ保存</h3>
+                                    <h3 className="card__title">マイデッキに保存</h3>
                                 </div>
                                 <div className="mock">
                                     <div className="mock__screen">
@@ -404,14 +404,14 @@ export default function GuidePage() {
                                     ① デッキ上にカードが並んだ状態でデッキ保存ボタンを押下すると、デッキ上のカードとその並び順が保存されます。
                                 </p>
                                 <p className="card__desc">
-                                    ② 保存したデッキは、デッキ一覧で確認できます。
+                                    ② 保存したデッキは、マイデッキ一覧で確認できます。
                                 </p>
                             </div>
 
                             <div className="card">
                                 <div className="card__head">
                                     <span className="step">2</span>
-                                    <h3 className="card__title">保存したデッキの編集</h3>
+                                    <h3 className="card__title">保存したマイデッキの編集</h3>
                                 </div>
                                 <div className="mock">
                                     <div className="mock__screen">
@@ -428,7 +428,7 @@ export default function GuidePage() {
                                     </div>
                                 </div>
                                 <p className="card__desc">
-                                    ① 編集したいデッキのオプションボタン
+                                    ① 編集したいマイデッキのオプションボタン
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
                                         alt="オプションボタン"
@@ -451,14 +451,14 @@ export default function GuidePage() {
                             <div className="card">
                                 <div className="card__head">
                                     <span className="step">3</span>
-                                    <h3 className="card__title">編集したデッキの保存</h3>
+                                    <h3 className="card__title">編集したマイデッキの保存</h3>
                                 </div>
                                 <div className="mock">
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
                                                 src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-13.png"
-                                                alt="編集したデッキの保存"
+                                                alt="編集したマイデッキの保存"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
                                                 quality={95}
@@ -468,7 +468,7 @@ export default function GuidePage() {
                                     </div>
                                 </div>
                                 <p className="card__desc">
-                                    ① 3.「保存したデッキの編集」の③でデッキ保存ボタンを押下後、ウィンドウが表示されます。
+                                    ① 2.「保存したマイデッキの編集」の③でデッキ保存ボタンを押下後、ウィンドウが表示されます。
                                 </p>
                                 <p className="card__desc">
                                     ② デッキ名や画像を編集し、保存ボタンで編集完了です。
@@ -478,7 +478,7 @@ export default function GuidePage() {
                             <div className="card">
                                 <div className="card__head">
                                     <span className="step">4</span>
-                                    <h3 className="card__title">保存したデッキの削除</h3>
+                                    <h3 className="card__title">保存したマイデッキの削除</h3>
                                 </div>
                                 <div className="mock">
                                     <div className="mock__screen">

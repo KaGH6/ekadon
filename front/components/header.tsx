@@ -44,7 +44,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         if (pathname.startsWith("/categories/") && pathname.includes("create")) return "カテゴリー 作成";
         if (pathname.startsWith("/categories/") && pathname.includes("edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
-        if (pathname.startsWith("/decklist")) return "デッキ 一覧";
+        if (pathname.startsWith("/decklist")) return "マイデッキ 一覧";
         if (pathname.startsWith("/guide")) return "使い方ガイド";
         return ""; // デフォルト
     };
@@ -155,12 +155,12 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                 <Link className="drawer__nav__link" href="/decklist" onClick={() => setMenuOpen(false)}>
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
-                                        alt="デッキ一覧"
+                                        alt="マイデッキ"
                                         className="drawer__nav__icon"
                                         width={30}
                                         height={30}
                                     />
-                                    デッキ一覧</Link>
+                                    マイデッキ</Link>
                             </li>
                             <li className="drawer__nav__item nav-border">
                                 <Link className="drawer__nav__link" href="/guide" onClick={() => setMenuOpen(false)}>

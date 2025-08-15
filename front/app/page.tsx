@@ -54,8 +54,8 @@ export default function Home() {
                             <h3>使い方</h3>
                         </Link>
                         <Link href={`/decklist`} className="home-content home-deck">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-blue.svg" alt="デッキ" className="home-list-img" width={70} height={70} />
-                            <h3>デッキ</h3>
+                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-blue.svg" alt="マイデッキ" className="home-list-img" width={70} height={70} />
+                            <h3>マイデッキ</h3>
                         </Link>
                         <Link href={`/categories`} className="home-content home-cate">
                             <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category-blue.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
