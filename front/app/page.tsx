@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import axios from 'axios';
 import Breadcrumbs from "@/components/breadcrumbs";
 import CreateButton from "@/components/create-button";
 import Deck from "@/components/deck";
 import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
+import Tooltip from '@/components/tooltip';
 
 export default function Home() {
     const router = useRouter(); // ログインチェック
@@ -43,24 +43,26 @@ export default function Home() {
                 <div className="content_wrap">
                     <div className="list-top">
                         <Breadcrumbs />
-                        {/* <CreateButton
-                            createHref="/categories/create"
-                            createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
-                        /> */}
                     </div>
                     <div className="home-list">
-                        <Link href={`/guide`} className="home-content home-inst">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/instruction.svg" alt="使い方" className="home-list-img" width={70} height={70} />
-                            <h3>使い方</h3>
-                        </Link>
-                        <Link href={`/decklist`} className="home-content home-deck">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-blue.svg" alt="マイデッキ" className="home-list-img" width={70} height={70} />
-                            <h3>マイデッキ</h3>
-                        </Link>
-                        <Link href={`/categories`} className="home-content home-cate">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category-blue.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
-                            <h3>カテゴリー</h3>
-                        </Link>
+                        <Tooltip content="えかどんの使い方を確認">
+                            <Link href={`/guide`} className="home-content home-inst">
+                                <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/instruction.svg" alt="使い方" className="home-list-img" width={70} height={70} />
+                                <h3>使い方</h3>
+                            </Link>
+                        </Tooltip>
+                        <Tooltip content="保存したマイデッキを確認">
+                            <Link href={`/decklist`} className="home-content home-deck">
+                                <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-blue.svg" alt="マイデッキ" className="home-list-img" width={70} height={70} />
+                                <h3>マイデッキ</h3>
+                            </Link>
+                        </Tooltip>
+                        <Tooltip content="カテゴリー一覧からカードを選択">
+                            <Link href={`/categories`} className="home-content home-cate">
+                                <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category-blue.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
+                                <h3>カテゴリー</h3>
+                            </Link>
+                        </Tooltip>
                     </div>
                 </div>
             </section>

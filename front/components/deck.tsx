@@ -320,7 +320,7 @@ export default function Deck() {
                     editingDeckId
                         ? "変更を保存"
                         : isSaved
-                            ? "このデッキは保存済みです"
+                            ? "マイデッキに保存済みです"
                             : "マイデッキに保存"
                 }>
                     <button
