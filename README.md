@@ -66,7 +66,7 @@ AWSで利用したサービス
 <img width="731" height="540" alt="eka-ER" src="https://github.com/user-attachments/assets/dbf533fe-5c8c-456e-93cf-af81d1036b0c" />
 
 ## 4. インフラ構成図
-<img width="1121" height="1155" alt="aws drawio" src="https://github.com/user-attachments/assets/a7f225f5-7f31-46d5-ab5d-2a503aeca7f1" />
+<img width="1121" height="1155" alt="aws drawio (1)" src="https://github.com/user-attachments/assets/316a8224-e01f-4727-9637-b711d3008584" />
 
 ## 5. 画面遷移図
 <img width="1000" height="1333" alt="Frame 12" src="https://github.com/user-attachments/assets/4177a088-bc62-48ed-9dd2-b72111dc6503" />
