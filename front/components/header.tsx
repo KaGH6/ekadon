@@ -35,7 +35,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
 
     // タイトルをパスに応じて切り替える
     const getTitle = () => {
-        if (editingDeckId && pathname.startsWith("/categories")) return "🔴デッキ編集中";
+        if (editingDeckId && pathname.startsWith("/categories")) return "🔴マイデッキ編集中";
         if (pathname === "/") return "ホーム";
         if (pathname === "/menu") return "メニュー";
         if (/^\/categories\/\d+\/cards\/\d+\/edit$/.test(pathname)) return "カード 編集";
