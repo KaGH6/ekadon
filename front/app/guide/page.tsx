@@ -136,14 +136,14 @@ export default function GuidePage() {
                                     </div>
                                 </div>
                                 <p className="card__desc">
-                                    ① カードの
+                                    ① カードの閉じるボタン
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/close.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
                                     />
-                                    ボタンで、個別のカードを削除することができます。
+                                    で、個別のカードを削除することができます。
                                 </p>
                                 <p className="card__desc">
                                     ② デッキのゴミ箱ボタン
