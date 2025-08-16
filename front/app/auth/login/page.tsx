@@ -38,7 +38,8 @@ export default function Login() {
             localStorage.setItem("token", clean);
 
             // 画面遷移
-            router.push("/categories/19/cards");
+            // router.push("/categories/19/cards");
+            router.push("/");
         } catch (err) {
             setError("ログインに失敗しました");
         }
