@@ -123,5 +123,15 @@ class AutoImageController extends Controller {
             'b64'    => $embedB64 ? base64_encode($binary) : null, // CORS回避
             'cached' => false,
         ]);
+
+        // 保存オプション（S3のとき）
+        $options = ($disk === 's3')
+            ? [
+                'visibility'   => 'public',
+                'ContentType'  => $mime, // 'image/png' など
+                'CacheControl' => 'public, max-age=31536000'
+            ]
+            : [];
+        Storage::disk($disk)->put($path, $binary, $options);
     }
 }
