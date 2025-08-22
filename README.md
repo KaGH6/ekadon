@@ -61,6 +61,7 @@ AWSで利用したサービス
 
 ### その他
 * Web Speech API
+* OpenAI Images API (DALL·E 3)
 
 ## 3. ER 図
 <img width="731" height="540" alt="eka-ER" src="https://github.com/user-attachments/assets/dbf533fe-5c8c-456e-93cf-af81d1036b0c" />
