@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use OpenAI;
 
 class AutoImageController extends Controller {
     public function store(Request $request) {
@@ -50,10 +51,12 @@ class AutoImageController extends Controller {
         // --- OpenAI ---
         $binary = null;
         try {
-            $apiKey = env('OPENAI_API_KEY');
+            // $apiKey = env('OPENAI_API_KEY');
+            $apiKey = config('services.openai.api_key') ?: env('OPENAI_API_KEY');
             if (!$apiKey) return response()->json(['message' => 'OPENAI_API_KEY が設定されていません'], 500);
 
-            $client = \OpenAI::client($apiKey);
+            // $client = \OpenAI::client($apiKey);
+            $client = OpenAI::factory()->withApiKey($apiKey)->make();
             $res = $client->images()->create([
                 'model'  => 'gpt-image-1',
                 'prompt' => $prompt,
