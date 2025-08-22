@@ -10,6 +10,14 @@ import { speakDeckCards, speakSingleText } from "@/lib/speech/speak";
 import Tooltip from '@/components/tooltip';
 import axios from "@/lib/api/axiosInstance";
 
+// 画像生成
+function b64ToBlob(b64: string, mime = "image/png"): Blob {
+    const byte = atob(b64);
+    const arr = new Uint8Array(byte.length);
+    for (let i = 0; i < byte.length; i++) arr[i] = byte.charCodeAt(i);
+    return new Blob([arr], { type: mime });
+}
+
 // type DeckProps = {
 //     // ユーザーが選択したカードの配列
 //     selectedCards: CardData[];
@@ -66,6 +74,8 @@ export default function Deck() {
     );
     const [saving, setSaving] = useState(false);
     const isDisabled = isSaved && !editingDeckId;
+
+    const [loadingGenThumb, setLoadingGenThumb] = useState(false); // 画像生成
 
     const pathname = usePathname(); // 現在のパスを取得
     const router = useRouter();
@@ -158,6 +168,42 @@ export default function Deck() {
         setName("");
         setThumbFile(null);
         setPreviewUrl("");
+    };
+
+    // 画像生成
+    const handleAutoGenerateThumb = async () => {
+        if (!name.trim()) { alert("先にマイデッキ名を入力してください"); return; }
+        if (loadingGenThumb) return;
+
+        setLoadingGenThumb(true);
+        try {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/auto-image`,
+                { type: "deck", name },
+                { withCredentials: true } // axiosInstance により Authorization は自動付与
+            );
+
+            const { url, b64, mime } = res.data as { url: string; b64?: string | null; mime?: string };
+            let blob: Blob;
+
+            if (b64) blob = b64ToBlob(b64, mime || "image/png");
+            else blob = await (await fetch(url)).blob();
+
+            const file = new File([blob], `${name}.png`, { type: mime || "image/png" });
+            setThumbFile(file);
+            setPreviewUrl(URL.createObjectURL(file));
+        } catch (err: any) {
+            console.error(err);
+            const s = err?.response?.status, c = err?.response?.data?.code;
+            const m = err?.response?.data?.message, d = err?.response?.data?.devMessage;
+            if (s === 403 || c === "org_unverified") return alert(m ?? "OpenAIの組織が未認証です。Verify Organization を完了してください。");
+            if (s === 402 || c === "billing_limit") return alert(m ?? "OpenAIの無料枠/上限に達しました。");
+            if (s === 429 || c === "rate_limited") return alert(m ?? "混み合っています。しばらくして再試行してください。");
+            if (s === 400 || c === "bad_request") return alert((m ?? "パラメータ不正") + (d ? `\n\n詳細:${d}` : ""));
+            alert(m ?? "自動生成に失敗しました" + (d ? `\n\n詳細:${d}` : ""));
+        } finally {
+            setLoadingGenThumb(false);
+        }
     };
 
     // デッキ保存処理
@@ -373,7 +419,24 @@ export default function Deck() {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>2. マイデッキアイコン画像</label>
+                                    <div className="create-flex">
+                                        <label>2. マイデッキ画像</label>
+                                        <button
+                                            type="button"
+                                            className="auto-generate-btn ai-button"
+                                            onClick={handleAutoGenerateThumb}
+                                            disabled={saving || loadingGenThumb}
+                                        >
+                                            {loadingGenThumb ? "生成中..." : "自動生成"}
+                                            <Image
+                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ai-image.svg"
+                                                alt="自動生成"
+                                                className="ai-image"
+                                                width={70}
+                                                height={70}
+                                            />
+                                        </button>
+                                    </div>
                                     <label className="select-img-wrapper">
                                         <input
                                             type="file"

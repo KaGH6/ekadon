@@ -6,6 +6,14 @@ import { useRouter } from "next/navigation";
 import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
 
+// 画像生成
+function b64ToBlob(b64: string, mime = "image/png"): Blob {
+    const byte = atob(b64);
+    const arr = new Uint8Array(byte.length);
+    for (let i = 0; i < byte.length; i++) arr[i] = byte.charCodeAt(i);
+    return new Blob([arr], { type: mime });
+}
+
 export default function CardCreate() {
     const [cardName, setCardName] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null); // 最初はファイルが選ばれていない（null）だが、選ばれたらFile型になる
@@ -13,8 +21,8 @@ export default function CardCreate() {
     const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number | "">("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [loadingGen, setLoadingGen] = useState(false); // 画像自動生成
     const router = useRouter();
-
 
     // カテゴリ一覧を取得
     useEffect(() => {
@@ -50,6 +58,47 @@ export default function CardCreate() {
         if (file) {
             setImageFile(file);
             setImagePreviewUrl(URL.createObjectURL(file)); // ← プレビュー表示URL
+        }
+    };
+
+    // 画像自動生成
+    const handleAutoGenerate = async () => {
+        if (!cardName.trim()) { alert("先にカード名を入力してください"); return; }
+        if (loadingGen) return;
+
+        setLoadingGen(true);
+        try {
+            const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/auto-image`,
+                { type: "card", name: cardName },
+                { headers: token ? { Authorization: `Bearer ${token}` } : undefined, withCredentials: true }
+            );
+
+            const { url, b64, mime } = res.data as { url: string; b64?: string | null; mime?: string };
+
+            let blob: Blob;
+            if (b64) {
+                blob = b64ToBlob(b64, mime || "image/png"); // CORS回避（b64優先）
+            } else {
+                blob = await (await fetch(url)).blob();     // S3などb64無効時の互換
+            }
+
+            const file = new File([blob], `${cardName}.png`, { type: mime || "image/png" });
+            setImageFile(file);
+            setImagePreviewUrl(URL.createObjectURL(file));
+        } catch (err: any) {
+            console.error(err);
+            const s = err?.response?.status, c = err?.response?.data?.code;
+            const m = err?.response?.data?.message, d = err?.response?.data?.devMessage;
+            if (s === 403 || c === "org_unverified") return alert(m ?? "OpenAIの組織が未認証です。Verify Organization を完了してください。");
+            if (s === 402 || c === "billing_limit") return alert(m ?? "OpenAIの無料枠/上限に達しました。");
+            if (s === 429 || c === "rate_limited") return alert(m ?? "混み合っています。しばらくして再試行してください。");
+            if (s === 400 || c === "bad_request") return alert((m ?? "パラメータ不正") + (d ? `\n\n詳細:${d}` : ""));
+            alert(m ?? "自動生成に失敗しました" + (d ? `\n\n詳細:${d}` : ""));
+        } finally {
+            setLoadingGen(false);
         }
     };
 
@@ -107,7 +156,24 @@ export default function CardCreate() {
                 <section id="input">
                     <div className="content_wrap">
                         <form action="" className="create-card" onSubmit={handleSubmit}>
-                            <h3 className="mb05">1. カード作成</h3>
+                            <div className="create-flex">
+                                <h3>1. カード作成</h3>
+                                <button
+                                    type="button"
+                                    className="auto-generate-btn"
+                                    onClick={handleAutoGenerate}
+                                    disabled={loadingGen}
+                                >
+                                    {loadingGen ? "生成中..." : "自動生成"}
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ai-image.svg"
+                                        alt="自動生成"
+                                        className="ai-image"
+                                        width={70}
+                                        height={70}
+                                    />
+                                </button>
+                            </div>
                             <label className="card-wrap">
                                 <input type="file" id="img-file" className="img-file" accept="image/*"
                                     style={{ display: "none" }} onChange={handleImageChange} />

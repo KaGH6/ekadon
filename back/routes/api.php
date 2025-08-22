@@ -7,6 +7,7 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeckController;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Controllers\AutoImageController; // 画像生成API
 
 // ==============================
 // 認証不要のルート
@@ -26,6 +27,9 @@ Route::post('/refresh', function () {
         return response()->json(['error' => 'トークンの更新に失敗しました'], 401);
     }
 });
+
+// OpenAI 画像生成API
+Route::middleware('auth:api')->post('/auto-image', [AutoImageController::class, 'store']);
 
 // ==============================
 // 認証が必要なルート（auth:sanctum）

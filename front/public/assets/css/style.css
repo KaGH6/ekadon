@@ -1379,6 +1379,57 @@ body.fullscreen .card-name {
 }
 
 /*----------------------------------------
+画像自動生成ボタン
+------------------------------------------*/
+.create-flex {
+    display: flex;
+    align-items: center;
+}
+
+.auto-generate-btn {
+    display: flex;
+    align-items: center;
+    margin-left: 2em;
+    padding: 0.5em 0.9em;
+    border-radius: 0.5em;
+    background: #85ddd8;
+    color: #384c58;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    height: 3em;
+    transition: 0.3s;
+}
+
+.auto-generate-btn:hover {
+    opacity: 0.85;
+}
+
+.auto-generate-btn:disabled {
+    opacity: .6;
+    cursor: default;
+}
+
+.ai-image {
+    width: min(20 / 375* 100vw, 20px);
+    margin-left: 0.3em;
+}
+
+/* マイデッキ保存モーダル */
+.form-group .auto-generate-btn {
+    height: 2.3em;
+}
+
+.form-group .ai-button {
+    font-size: 0.8rem;
+}
+
+.form-group .ai-image {
+    width: min(18 / 375* 100vw, 18px);
+}
+
+/*----------------------------------------
 使い方ページ
 ------------------------------------------*/
 #instruction {
