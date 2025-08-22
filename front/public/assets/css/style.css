@@ -476,11 +476,13 @@ body.active {
 
 #deck .save:hover {
     opacity: 1;
+    cursor: pointer;
 }
 
 #deck .save.disabled {
     opacity: 1 !important;
-    cursor: auto;
+    /* cursor: auto; */
+    cursor: pointer;
 }
 
 #deck .save.disabled:hover {
