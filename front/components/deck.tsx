@@ -172,7 +172,7 @@ export default function Deck() {
 
     // 画像生成
     const handleAutoGenerateThumb = async () => {
-        if (!name.trim()) { alert("先にマイデッキ名を入力してください"); return; }
+        if (!name.trim()) { alert("先にマイリスト名を入力してください"); return; }
         if (loadingGenThumb) return;
 
         setLoadingGenThumb(true);
@@ -366,8 +366,8 @@ export default function Deck() {
                     editingDeckId
                         ? "変更を保存"
                         : isSaved
-                            ? "マイデッキに保存済みです"
-                            : "マイデッキに保存"
+                            ? "マイリストに保存済みです"
+                            : "マイリストに保存"
                 }>
                     <button
                         className={`save${isSaved ? ' disabled' : ''}`}
@@ -405,22 +405,22 @@ export default function Deck() {
                 {isModalOpen && (
                     <div className="modal-overlay">
                         <div className="modal-window">
-                            <h2>マイデッキに保存</h2>
+                            <h2>マイリストに保存</h2>
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label>1. マイデッキ名</label>
+                                    <label>1. マイリスト名</label>
                                     <input
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="マイデッキ名を入力（16文字まで）"
+                                        placeholder="マイリスト名を入力（16文字まで）"
                                         disabled={saving}
                                         maxLength={16}
                                     />
                                 </div>
                                 <div className="form-group">
                                     <div className="create-flex">
-                                        <label>2. マイデッキ画像</label>
+                                        <label>2. マイリスト画像</label>
                                         <button
                                             type="button"
                                             className="auto-generate-btn ai-button"

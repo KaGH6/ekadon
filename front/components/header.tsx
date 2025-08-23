@@ -35,7 +35,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
 
     // タイトルをパスに応じて切り替える
     const getTitle = () => {
-        if (editingDeckId && pathname.startsWith("/categories")) return "🔴マイデッキ編集中";
+        if (editingDeckId && pathname.startsWith("/categories")) return "🔴マイリスト編集中";
         if (pathname === "/") return "ホーム";
         if (pathname === "/menu") return "メニュー";
         if (/^\/categories\/\d+\/cards\/\d+\/edit$/.test(pathname)) return "カード 編集";
@@ -44,7 +44,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
         if (pathname.startsWith("/categories/") && pathname.includes("create")) return "カテゴリー 作成";
         if (pathname.startsWith("/categories/") && pathname.includes("edit")) return "カテゴリー 編集";
         if (pathname.startsWith("/categories")) return "カテゴリー 一覧";
-        if (pathname.startsWith("/decklist")) return "マイデッキ 一覧";
+        if (pathname.startsWith("/decklist")) return "マイリスト 一覧";
         if (pathname.startsWith("/guide")) return "使い方ガイド";
         return ""; // デフォルト
     };
@@ -155,12 +155,12 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                 <Link className="drawer__nav__link" href="/decklist" onClick={() => setMenuOpen(false)}>
                                     <Image
                                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
-                                        alt="マイデッキ"
+                                        alt="マイリスト"
                                         className="drawer__nav__icon"
                                         width={30}
                                         height={30}
                                     />
-                                    マイデッキ</Link>
+                                    マイリスト</Link>
                             </li>
                             <li className="drawer__nav__item nav-border">
                                 <Link className="drawer__nav__link" href="/guide" onClick={() => setMenuOpen(false)}>

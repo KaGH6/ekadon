@@ -190,7 +190,7 @@ export default function DeckListPage() {
             {confirmDeleteId !== null && (
                 <div className="modal-overlay">
                     <div className="modal">
-                        <p>選択したマイデッキを削除しますか？</p>
+                        <p>選択したマイリストを削除しますか？</p>
                         <div className="modal-buttons">
                             <button
                                 className="cancel-btn"

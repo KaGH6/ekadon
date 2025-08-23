@@ -79,10 +79,10 @@ export default function Footer() {
                 >
                     <img
                         src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-clear.svg"
-                        alt="マイデッキ"
+                        alt="マイリスト"
                         className="footer-icon"
                     />
-                    <p className="footer-icon-name">マイデッキ</p>
+                    <p className="footer-icon-name">マイリスト</p>
                 </Link>
 
                 {/* カテゴリー 一覧 */}
