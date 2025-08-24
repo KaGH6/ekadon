@@ -70,7 +70,7 @@ AWSで利用したサービス
 <img width="1121" height="1155" alt="aws drawio (1)" src="https://github.com/user-attachments/assets/316a8224-e01f-4727-9637-b711d3008584" />
 
 ## 5. 画面遷移図
-<img width="1000" height="1333" alt="Frame 12" src="https://github.com/user-attachments/assets/17bd86c5-05f7-40db-9bfb-84ba82e98bf5" />
+<img width="1000" height="1333" alt="Frame 12" src="https://github.com/user-attachments/assets/8122dc7d-8288-491f-b3fe-8db7d7bf6825" />
 
 
 ## 6. 機能一覧
