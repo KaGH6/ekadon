@@ -52,7 +52,7 @@ export default function Breadcrumbs() {
                     <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
                     {/* カテゴリー 一覧 */}
-                    <Tooltip content="カテゴリ一覧">
+                    <Tooltip content="カテゴリー 一覧">
                         <button onClick={() => router.push("/categories")}>
                             <Image src={getLayerImage(2, "card-category")} width={40} height={40} alt="layer-2" />
                         </button>
