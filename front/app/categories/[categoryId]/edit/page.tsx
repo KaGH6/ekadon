@@ -8,6 +8,13 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
 
+function b64ToBlob(b64: string, mime = "image/png"): Blob {
+    const byte = atob(b64);
+    const arr = new Uint8Array(byte.length);
+    for (let i = 0; i < byte.length; i++) arr[i] = byte.charCodeAt(i);
+    return new Blob([arr], { type: mime });
+}
+
 export default function EditCategory() {
     const { categoryId } = useParams();
     const router = useRouter();
@@ -16,6 +23,7 @@ export default function EditCategory() {
     const [categoryImg, setCategoryImg] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState("");
     const [error, setError] = useState("");
+    const [loadingGen, setLoadingGen] = useState(false); // 自動生成中フラグ
 
     useEffect(() => {
         const fetchCategory = async () => {
@@ -41,6 +49,55 @@ export default function EditCategory() {
         fetchCategory();
     }, [categoryId]);
 
+    // 画像自動生成
+    const handleAutoGenerate = async () => {
+        if (!name.trim()) {
+            alert("先にカテゴリー名を入力してください");
+            return;
+        }
+        if (loadingGen) return;
+
+        setLoadingGen(true);
+        try {
+            const token = localStorage.getItem("token") || "";
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/auto-image`,
+                { type: "category", name },
+                { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
+            );
+
+            const { url, b64, mime } = res.data as {
+                url: string;
+                b64?: string | null;
+                mime?: string;
+            };
+
+            let blob: Blob;
+            if (b64) {
+                blob = b64ToBlob(b64, mime || "image/png");
+            } else {
+                // 本番（S3直配信など）で b64 を返さない場合
+                blob = await (await fetch(url)).blob();
+            }
+            const file = new File([blob], `${name}.png`, { type: mime || "image/png" });
+
+            setCategoryImg(file);
+            setPreviewUrl(URL.createObjectURL(file));
+        } catch (err: any) {
+            console.error(err);
+            const s = err?.response?.status, c = err?.response?.data?.code;
+            const m = err?.response?.data?.message, d = err?.response?.data?.devMessage;
+            if (s === 403 || c === "org_unverified") return alert(m ?? "OpenAIの組織が未認証です。Verify Organization を完了してください。");
+            if (s === 402 || c === "billing_limit") return alert(m ?? "OpenAIの上限/支払い設定を確認してください。");
+            if (s === 429 || c === "rate_limited") return alert(m ?? "混み合っています。少し待って再試行してください。");
+            if (s === 400 || c === "bad_request") return alert((m ?? "パラメータ不正") + (d ? `\n\n詳細:${d}` : ""));
+            alert(m ?? "自動生成に失敗しました" + (d ? `\n\n詳細:${d}` : ""));
+        } finally {
+            setLoadingGen(false);
+        }
+    };
+
+    // 完成
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -94,7 +151,26 @@ export default function EditCategory() {
                                 />
                             </label>
 
-                            <h3>2. カテゴリー画像</h3>
+                            <div className="create-flex">
+                                <h3>2. カテゴリー画像</h3>
+                                {/* 自動生成ボタン */}
+                                <button
+                                    type="button"
+                                    className="auto-generate-btn"
+                                    onClick={handleAutoGenerate}
+                                    disabled={loadingGen}
+                                >
+                                    {loadingGen ? "生成中..." : "自動生成"}
+                                    <Image
+                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ai-image.svg"
+                                        alt="自動生成"
+                                        className="ai-image"
+                                        width={70}
+                                        height={70}
+                                    />
+                                </button>
+                            </div>
+
                             <label className="create-wrap select-category-img">
                                 <input
                                     type="file"
@@ -120,6 +196,7 @@ export default function EditCategory() {
                                         priority
                                         className="select-img"
                                         unoptimized
+                                        onClick={() => document.getElementById("img-file")?.click()}
                                     />
                                 )}
                                 <p className="select-img-text bold">画像を選択</p>
