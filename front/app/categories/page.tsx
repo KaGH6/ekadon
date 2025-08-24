@@ -152,6 +152,7 @@ export default function CategoryPage() {
                         <CreateButton
                             createHref="/categories/create"
                             createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
+                            tooltip="カテゴリー作成"
                         />
                     </div>
 

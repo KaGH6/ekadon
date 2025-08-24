@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useParams } from "next/navigation"; //categoryIdを取得
+import Tooltip from '@/components/tooltip';
 // import { useEffect, useState } from "react";
 
 export default function Breadcrumbs() {
@@ -38,9 +39,11 @@ export default function Breadcrumbs() {
             {shouldShow(1) && (
                 <>
                     {/* ホーム */}
-                    <button onClick={() => router.push("/")}>
-                        <Image src={getLayerImage(1, "home")} width={40} height={40} alt="home" />
-                    </button>
+                    <Tooltip content="ホーム">
+                        <button onClick={() => router.push("/")}>
+                            <Image src={getLayerImage(1, "home")} width={40} height={40} alt="home" />
+                        </button>
+                    </Tooltip>
                 </>
             )}
 
@@ -48,10 +51,12 @@ export default function Breadcrumbs() {
                 <>
                     <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
-                    {/* カテゴリ一覧 */}
-                    <button onClick={() => router.push("/categories")}>
-                        <Image src={getLayerImage(2, "card-category")} width={40} height={40} alt="layer-2" />
-                    </button>
+                    {/* カテゴリー 一覧 */}
+                    <Tooltip content="カテゴリ一覧">
+                        <button onClick={() => router.push("/categories")}>
+                            <Image src={getLayerImage(2, "card-category")} width={40} height={40} alt="layer-2" />
+                        </button>
+                    </Tooltip>
                 </>
             )}
 
@@ -60,9 +65,11 @@ export default function Breadcrumbs() {
                     <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
                     {/* カード一覧 */}
-                    <button onClick={() => router.push(`/categories/${categoryId}/cards`)}>
-                        <Image src={getLayerImage(3, "card-pagenate")} width={40} height={40} alt="layer-3" />
-                    </button>
+                    <Tooltip content="カード一覧">
+                        <button onClick={() => router.push(`/categories/${categoryId}/cards`)}>
+                            <Image src={getLayerImage(3, "card-pagenate")} width={40} height={40} alt="layer-3" />
+                        </button>
+                    </Tooltip>
                 </>
             )}
 
@@ -71,9 +78,11 @@ export default function Breadcrumbs() {
                     <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
                     {/* デッキ一覧 */}
-                    <button onClick={() => router.push("/decklist")}>
-                        <Image src={getLayerImage(4, "deck-pagenate")} width={40} height={40} alt="デッキ一覧" />
-                    </button>
+                    <Tooltip content="デッキ一覧">
+                        <button onClick={() => router.push("/decklist")}>
+                            <Image src={getLayerImage(4, "deck-pagenate")} width={40} height={40} alt="デッキ一覧" />
+                        </button>
+                    </Tooltip>
                 </>
             )}
         </div>
