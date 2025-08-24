@@ -8,7 +8,6 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import CreateEdit from "@/components/create-button";
 import Deck from "@/components/deck";
 import Card from "@/components/card";
-// import axios from "axios";
 import axios from "@/lib/api/axiosInstance";
 import AuthGuard from "@/components/AuthGuard";
 
@@ -35,35 +34,6 @@ export default function CardList() {
         })();
     }, []);
 
-    // // カード一覧取得
-    // useEffect(() => {
-    //     const fetchCards = async () => {
-    //         const token = localStorage.getItem("token");
-    //         if (!token) {
-    //             console.error("トークンがありません（未ログイン）");
-    //             return;
-    //         }
-
-    //         try {
-    //             const res = await axios.get(
-    //                 `${process.env.NEXT_PUBLIC_API_URL}/categories/${categoryId}/cards`,
-    //                 {
-    //                     headers: {
-    //                         Authorization: `Bearer ${token}`,
-    //                     },
-    //                     withCredentials: true,
-    //                 }
-    //             );
-    //             console.log("取得したカード一覧:", res.data);
-    //             setCards(res.data); // ステートに保存
-    //         } catch (error) {
-    //             console.error("カード取得エラー:", error);
-    //         }
-    //     };
-
-    //     fetchCards();
-    // }, [categoryId]);
-
     // カード一覧取得
     useEffect(() => {
         (async () => {
@@ -84,10 +54,6 @@ export default function CardList() {
         setSelectedCards(prev => [...prev, card]);
         console.log(selectedCards);
     };
-
-    // const handleRemoveCard = (idToRemove) => {
-    //     setSelectedCards(prev => prev.filter(card => card.id !== idToRemove));
-    // };
 
     // デッキからカード削除
     const handleRemoveCard = (indexToRemove: number) => { // :numberで型安全
@@ -148,7 +114,6 @@ export default function CardList() {
 
     return (
         <AuthGuard>
-            {/* <Deck selectedCards={selectedCards} onRemoveCard={handleRemoveCard} /> */}
             <Deck />
             <section id="list">
                 <div className="content_wrap">

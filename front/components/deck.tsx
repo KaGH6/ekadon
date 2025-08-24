@@ -18,14 +18,6 @@ function b64ToBlob(b64: string, mime = "image/png"): Blob {
     return new Blob([arr], { type: mime });
 }
 
-// type DeckProps = {
-//     // ユーザーが選択したカードの配列
-//     selectedCards: CardData[];
-
-//     // 削除ボタンが押されたときに呼ばれる関数（引数は削除するカードのインデックス）
-//     onRemoveCard: (index: number) => void;
-// }
-
 // タッチ端末判定用
 function useIsTouchDevice() {
     const [isTouch, setIsTouch] = useState(false);
@@ -43,7 +35,6 @@ function useIsTouchDevice() {
     return isTouch;
 }
 
-// export default function Deck({ selectedCards, onRemoveCard }: DeckProps) {
 export default function Deck() {
     const [isFullscreen, setIsFullscreen] = useState(false); // デッキ拡大
     const [speakingIndex, setSpeakingIndex] = useState<number | null>(null); // 読み上げ時のデッキのカード拡大用
@@ -152,14 +143,6 @@ export default function Deck() {
         setPreviewUrl(url);
         return () => URL.revokeObjectURL(url);
     }, [thumbFile]);
-    // useEffect(() => {
-    //     if (!thumbFile) {
-    //         return;
-    //     }
-    //     const url = URL.createObjectURL(thumbFile);
-    //     setPreviewUrl(url);
-    //     return () => URL.revokeObjectURL(url);
-    // }, [thumbFile]);
 
     // モーダルの open/close
     const openModal = () => setIsModalOpen(true);
@@ -258,17 +241,6 @@ export default function Deck() {
             } else {
                 // 新規モード: POST
                 await saveDeck(form);
-                // await axios.post(
-                //     `${process.env.NEXT_PUBLIC_API_URL}/decks`,
-                //     form,
-                //     {
-                //         headers: {
-                //             Authorization: `Bearer ${token}`,
-                //             "Content-Type": "multipart/form-data",
-                //         },
-                //         withCredentials: true,  // Sanctum を使うなら必須
-                //     }
-                // );
             }
 
             setIsSaved(true);
@@ -340,6 +312,32 @@ export default function Deck() {
             speakNext(0);
         }, 100); // cancelの完了を待つため少し待つ
     };
+
+    // デッキ内の個別のカードを読み上げ（タップした1枚だけ）
+    const speakSingleInDeck = (text: string, index: number) => {
+        if (!("speechSynthesis" in window)) {
+            alert("音声読み上げに対応していません。");
+            return;
+        }
+
+        const synth = window.speechSynthesis;
+        // 連続読み上げや他の発話を止めてから開始
+        synth.cancel();
+
+        // cancel直後の発話を安定させるため少し待つ
+        setTimeout(() => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "ja-JP";
+            utterance.rate = 0.95;
+            utterance.pitch = 1.1;
+
+            utterance.onstart = () => setSpeakingIndex(index);   // ハイライトON
+            utterance.onend = () => setSpeakingIndex(null);      // ハイライトOFF
+
+            synth.speak(utterance);
+        }, 50);
+    };
+
 
     //  デッキ拡大時にbodyにクラスを追加・削除
     useEffect(() => {
@@ -479,15 +477,12 @@ export default function Deck() {
                     ref={insideRef}
                     className={`deck-inside ${isOverflow ? "left-align" : "center-align"}`}
                 >
-                    {/* {selectedCards.map((card, index) => ( */}
                     {deck.map((card, index) => (
                         <button
                             key={index}
-                            // className="card-wrap"
                             className={`card-wrap ${speakingIndex === index ? "speaking" : ""}`}
-                            ref={el => {
-                                cardRefs.current[index] = el;
-                            }}
+                            ref={el => { cardRefs.current[index] = el; }}
+                            onClick={() => speakSingleInDeck(card.name, index)}
                         >
                             <span className="card-close" onClick={(e) => {
                                 // e.stopPropagation();
