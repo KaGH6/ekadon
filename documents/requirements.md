@@ -23,7 +23,7 @@
 ## 3. なぜそれを解決したいのか？
 発達障害児への指導に苦労した経験があるため解決したいです。
 
-現在、日本には発達障害と診断を受けた患者が87万人以上います。そのなかでも、通常学級に在籍する小中学生の8.8%が発達障害の可能性があると言われています[¹⁾](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) [²⁾](https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/) [³⁾](https://www.mext.go.jp/content/20230524-mext-tokubetu01-000026255_01.pdf)。
+現在、日本には発達障害と診断を受けた患者が87万人以上います。そのなかでも、通常学級に在籍する小中学生の8.8%に発達障害の可能性があると言われています[¹⁾](https://www.mhlw.go.jp/toukei/list/dl/seikatsu_chousa_b_r04_01.pdf) [²⁾](https://www.nikkei.com/article/DGXZQOUE0891U0Y2A201C2000000/) [³⁾](https://www.mext.go.jp/content/20230524-mext-tokubetu01-000026255_01.pdf)。
 ここ数年で発達障害についての研究や理解が進んできたためか、発達障害児に対する国や地域をあげた支援が広がりを見せつつあります。その一方で、支援者数の不足や、支援者の負担に対する注目が少ないという現状があります[⁴⁾](https://www.jstage.jst.go.jp/article/kenkouigaku/32/1/32_18/_pdf/-char/ja) [⁵⁾](https://www.jstage.jst.go.jp/article/tokkyou/53/1/53_35/_pdf/-char/ja)。
 
 実際に自分が英会話講師として小学生に集団レッスンをしていた際、定型発達（通常の子ども）の生徒の中に１人でも発達障害が疑われる生徒がいると、指導が困難でした。
