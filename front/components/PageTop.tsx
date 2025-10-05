@@ -44,7 +44,7 @@ export default function PageTop({
         >
             <Tooltip content="ページトップへ">
                 <button id="js-pagetop" onClick={scrollToTop} type="button">
-                    <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/pagetop.svg" alt="pagetop" className="pagetop-button" />
+                    <img src="https://api.ekadon.com/storage/images/icons/pagetop.svg" alt="pagetop" className="pagetop-button" />
                 </button>
             </Tooltip>
         </div>

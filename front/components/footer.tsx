@@ -65,7 +65,7 @@ export default function Footer() {
                     className={`footer-link${pathname === "/" ? " active" : ""}`}
                 >
                     <img
-                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/home.svg"
+                        src="https://api.ekadon.com/storage/images/icons/home.svg"
                         alt="ホーム"
                         className="footer-icon"
                     />
@@ -78,7 +78,7 @@ export default function Footer() {
                     className={`footer-link${pathname === "/decklist" ? " active" : ""}`}
                 >
                     <img
-                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-clear.svg"
+                        src="https://api.ekadon.com/storage/images/icons/deck-clear.svg"
                         alt="マイリスト"
                         className="footer-icon"
                     />
@@ -91,7 +91,7 @@ export default function Footer() {
                     className={`footer-link${pathname === "/categories" ? " active" : ""}`}
                 >
                     <img
-                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/card-category-clear.svg"
+                        src="https://api.ekadon.com/storage/images/icons/card-category-clear.svg"
                         alt="カテゴリー"
                         className="footer-icon"
                     />

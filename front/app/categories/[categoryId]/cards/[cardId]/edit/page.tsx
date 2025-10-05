@@ -191,7 +191,7 @@ export default function EditCard() {
                                 >
                                     {loadingGen ? "生成中..." : "自動生成"}
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ai-image.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/ai-image.svg"
                                         alt="自動生成"
                                         className="ai-image"
                                         width={70}

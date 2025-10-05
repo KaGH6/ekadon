@@ -27,7 +27,7 @@ export default function Breadcrumbs() {
 
     // 階層に応じて画像パスを切り替える
     const getLayerImage = (_: number, name: string) =>
-        `https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/${name}.svg`;
+        `https://api.ekadon.com/storage/images/icons/${name}.svg`;
 
     // 現在の階層までを表示
     // layerが ホーム（1）か、今いる階層か、1つ前の階層ならtrueを返す
@@ -49,7 +49,7 @@ export default function Breadcrumbs() {
 
             {shouldShow(2) && (
                 <>
-                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
+                    <Image src="https://api.ekadon.com/storage/images/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
                     {/* カテゴリー 一覧 */}
                     <Tooltip content="カテゴリー 一覧">
@@ -62,7 +62,7 @@ export default function Breadcrumbs() {
 
             {currentLayer === 3 && (
                 <>
-                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
+                    <Image src="https://api.ekadon.com/storage/images/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
                     {/* カード一覧 */}
                     <Tooltip content="カード一覧">
@@ -75,7 +75,7 @@ export default function Breadcrumbs() {
 
             {currentLayer === 4 && (
                 <>
-                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
+                    <Image src="https://api.ekadon.com/storage/images/icons/nation-next.svg" className="nation-next" width={40} height={40} alt="next-pagenate" />
 
                     {/* デッキ一覧 */}
                     <Tooltip content="デッキ一覧">

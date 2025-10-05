@@ -91,11 +91,11 @@ export default function Category({
                             onOptionButtonClick?.(category.id); // メニューを表示
                         }}
                     >
-                        <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg" alt="option" />
+                        <img src="https://api.ekadon.com/storage/images/icons/option.svg" alt="option" />
                     </button>
                     <Link href={`/categories/${category.id}/cards`} className="category-wrap">
                         <Image
-                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category.svg"
+                            src="https://api.ekadon.com/storage/images/icons/category.svg"
                             alt="カテゴリー枠"
                             className="category"
                             width={40}

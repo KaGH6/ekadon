@@ -47,19 +47,19 @@ export default function Home() {
                     <div className="home-list">
                         <Tooltip content="えかどんの使い方">
                             <Link href={`/guide`} className="home-content home-inst">
-                                <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/instruction.svg" alt="使い方" className="home-list-img" width={70} height={70} />
+                                <Image src="https://api.ekadon.com/storage/images/icons/instruction.svg" alt="使い方" className="home-list-img" width={70} height={70} />
                                 <h3>使い方</h3>
                             </Link>
                         </Tooltip>
                         <Tooltip content="保存したマイリストを確認">
                             <Link href={`/decklist`} className="home-content home-deck">
-                                <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-blue.svg" alt="マイリスト" className="home-list-img" width={70} height={70} />
+                                <Image src="https://api.ekadon.com/storage/images/icons/deck-blue.svg" alt="マイリスト" className="home-list-img" width={70} height={70} />
                                 <h3>マイリスト</h3>
                             </Link>
                         </Tooltip>
                         <Tooltip content="カテゴリー一覧からカードを選択">
                             <Link href={`/categories`} className="home-content home-cate">
-                                <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/category-blue.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
+                                <Image src="https://api.ekadon.com/storage/images/icons/category-blue.svg" alt="カテゴリー" className="home-list-img" width={70} height={70} />
                                 <h3>カテゴリー</h3>
                             </Link>
                         </Tooltip>

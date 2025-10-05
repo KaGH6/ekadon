@@ -61,7 +61,7 @@ export default function Deck() {
     const [name, setName] = useState("");
     const [thumbFile, setThumbFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string>(
-        "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"
+        "https://api.ekadon.com/storage/images/icons/select-img.svg"
     );
     const [saving, setSaving] = useState(false);
     const isDisabled = isSaved && !editingDeckId;
@@ -119,19 +119,19 @@ export default function Deck() {
                     console.log(res.data);
                     setName(res.data.name || "");
                     // 画像は既存のURLをそのままプレビュー
-                    setPreviewUrl(res.data.image_url || "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");
+                    setPreviewUrl(res.data.image_url || "https://api.ekadon.com/storage/images/icons/select-img.svg");
                     setThumbFile(null);
                 })
                 .catch(() => {
                     // 失敗時はプレースホルダーに戻す
                     setName("");
-                    setPreviewUrl("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");
+                    setPreviewUrl("https://api.ekadon.com/storage/images/icons/select-img.svg");
                     setThumbFile(null);
                 });
         } else {
             // 新規モード：常にプレースホルダーにリセット
             setName("");
-            setPreviewUrl("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg");
+            setPreviewUrl("https://api.ekadon.com/storage/images/icons/select-img.svg");
             setThumbFile(null);
         }
     }, [isModalOpen, editingDeckId]);
@@ -210,7 +210,7 @@ export default function Deck() {
         // 3) カードIDと順番を組み立て（編集時で画像が未選択 かつ 既存画像もない場合はエラー）
         if (editingDeckId && !thumbFile) {
             // 既存の画像URLがない場合はエラー
-            const currentImageExists = previewUrl !== "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg";
+            const currentImageExists = previewUrl !== "https://api.ekadon.com/storage/images/icons/select-img.svg";
             if (!currentImageExists) {
                 alert("画像を選択してください");
                 return;
@@ -375,7 +375,7 @@ export default function Deck() {
                         aria-disabled={isDisabled}
                     >
                         <Image
-                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/saved.svg"
+                            src="https://api.ekadon.com/storage/images/icons/saved.svg"
                             width={50}
                             height={50}
                             alt="保存"
@@ -427,7 +427,7 @@ export default function Deck() {
                                         >
                                             {loadingGenThumb ? "生成中..." : "自動生成"}
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ai-image.svg"
+                                                src="https://api.ekadon.com/storage/images/icons/ai-image.svg"
                                                 alt="自動生成"
                                                 className="ai-image"
                                                 width={70}
@@ -490,7 +490,7 @@ export default function Deck() {
                                 e.stopPropagation();
                                 // removeCard(card.id); // Zustandから削除
                                 removeCardByIndex(index); // indexで削除
-                            }}><Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/close.svg" width={15} height={15} alt="close" /></span>
+                            }}><Image src="https://api.ekadon.com/storage/images/icons/close.svg" width={15} height={15} alt="close" /></span>
                             <Image src="/assets/img/card.svg" className="card" width={20} height={20} alt="card" />
                             <Image src={card.card_img} className="card-img" width={80} height={80} alt={card.name} unoptimized />
                             <p className="card-name">{card.name}</p>
@@ -506,7 +506,7 @@ export default function Deck() {
                                 speakDeckCardsWithHighlight(texts, setSpeakingIndex);
                             }}
                         >
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/sound.svg" width={50} height={50} alt="サウンド" />
+                            <Image src="https://api.ekadon.com/storage/images/icons/sound.svg" width={50} height={50} alt="サウンド" />
                         </button>
                     </Tooltip>
 
@@ -514,8 +514,8 @@ export default function Deck() {
                         <button className="zoom" onClick={() => setIsFullscreen(!isFullscreen)}>
                             <Image src={
                                 isFullscreen
-                                    ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/zoom-out.svg"
-                                    : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/zoom-up.svg"
+                                    ? "https://api.ekadon.com/storage/images/icons/zoom-out.svg"
+                                    : "https://api.ekadon.com/storage/images/icons/zoom-up.svg"
                             } width={50} height={50}
                                 alt={isFullscreen ? "デッキ拡大" : "デッキ縮小"} />
                         </button>
@@ -533,7 +533,7 @@ export default function Deck() {
                             }}
                         >
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/trash.svg"
+                                src="https://api.ekadon.com/storage/images/icons/trash.svg"
                                 width={50}
                                 height={50}
                                 alt="デッキ内全削除"

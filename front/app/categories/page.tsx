@@ -151,7 +151,7 @@ export default function CategoryPage() {
                         <Breadcrumbs />
                         <CreateButton
                             createHref="/categories/create"
-                            createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-category.svg"
+                            createIcon="https://api.ekadon.com/storage/images/icons/create-category.svg"
                             tooltip="カテゴリー作成"
                         />
                     </div>

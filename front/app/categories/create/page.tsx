@@ -23,7 +23,7 @@ export default function CreateCategoryPage() {
     const [name, setName] = useState(""); // カテゴリー名
     const [categoryImg, setCategoryImg] = useState<File | null>(null); // 画像ファイル
     const [error, setError] = useState(""); // エラーメッセージ
-    const [previewUrl, setPreviewUrl] = useState<string>("https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/select-img.svg"); // 選択した画像を表示するため
+    const [previewUrl, setPreviewUrl] = useState<string>("https://api.ekadon.com/storage/images/icons/select-img.svg"); // 選択した画像を表示するため
     const [loadingGen, setLoadingGen] = useState(false); // 画像自動生成
 
     // フォーム送信処理
@@ -132,7 +132,7 @@ export default function CreateCategoryPage() {
                                 <h3>2. カテゴリー画像</h3>
                                 <button type="button" className="auto-generate-btn" onClick={handleAutoGenerate} disabled={loadingGen}>
                                     {loadingGen ? "生成中..." : "自動生成"}
-                                    <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ai-image.svg" alt="自動生成" className="ai-image" width={70} height={70} />
+                                    <Image src="https://api.ekadon.com/storage/images/icons/ai-image.svg" alt="自動生成" className="ai-image" width={70} height={70} />
                                 </button>
                             </div>
                             <label className="create-wrap select-category-img">

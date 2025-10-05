@@ -5,7 +5,7 @@ import { CardData } from "@/app/types/card";  // CardDataの定義パスに合�
 // const API_URL = process.env.NEXT_PUBLIC_API_URL; // 追記
 const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE_URL;
 const DEFAULT_DECK_IMG =
-    "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-cards.svg";
+    "https://api.ekadon.com/storage/images/icons/deck-cards.svg";
 
 // APIから返ってくるraw dataの型
 interface RawDeck {
@@ -26,7 +26,7 @@ export type DeckType = {
 
 // デッキ一覧取得 → フロントの型にマッピングして返す
 const DEFAULT_IMG =
-    "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck-cards.svg";
+    "https://api.ekadon.com/storage/images/icons/deck-cards.svg";
 
 export const fetchDecks = async (): Promise<DeckType[]> => {
     const res = await axiosInstance.get<RawDeck[]>("/decks");

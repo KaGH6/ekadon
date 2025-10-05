@@ -17,7 +17,7 @@ export default function GuidePage() {
             <section id="guide">
                 <div className="guide-wrapper">
                     <div className="guide-top">
-                        <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png" alt="えかどん" className="ekadon" width={70} height={70} />
+                        <Image src="https://api.ekadon.com/storage/images/icons/ekadon.png" alt="えかどん" className="ekadon" width={70} height={70} />
                         <h1>えかどん 使い方ガイド</h1>
                     </div>
                     <nav>
@@ -47,7 +47,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-1.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-1.png"
                                                 alt="使い方"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -70,7 +70,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-2.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-2.png"
                                                 alt="使い方"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -97,7 +97,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-3.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-3.png"
                                                 alt="使い方"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -124,7 +124,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-10.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-10.png"
                                                 alt="デッキ上のカード削除"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -138,7 +138,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① カードの閉じるボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/close.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/close.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -148,7 +148,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ② デッキのゴミ箱ボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/trash.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/trash.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -175,7 +175,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-4.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-4.png"
                                                 alt="カテゴリー作成"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -203,7 +203,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-5.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-5.png"
                                                 alt="カテゴリー編集"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -216,7 +216,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① 編集したいカテゴリーのオプションボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/option.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -240,7 +240,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-6.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-6.png"
                                                 alt="カテゴリー削除"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -253,7 +253,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① 削除したいカテゴリーのオプションボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/option.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -283,7 +283,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-7.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-7.png"
                                                 alt="カード作成"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -311,7 +311,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-8.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-8.png"
                                                 alt="カード編集"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -324,7 +324,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① 編集したいカードのオプションボタン&nbsp;
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/option.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -348,7 +348,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-9.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-9.png"
                                                 alt="カード削除"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -361,7 +361,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① 削除したいカードのオプションボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/option.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -390,7 +390,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-11.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-11.png"
                                                 alt="デッキ保存"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -417,7 +417,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-12.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-12.png"
                                                 alt="保存デッキの編集"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -430,7 +430,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① 編集したいマイリストのオプションボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/option.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"
@@ -457,7 +457,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-13.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-13.png"
                                                 alt="編集したマイリストの保存"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -484,7 +484,7 @@ export default function GuidePage() {
                                     <div className="mock__screen">
                                         <div className="mock__figure">
                                             <Image
-                                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/guides-14.png"
+                                                src="https://api.ekadon.com/storage/images/icons/guides-14.png"
                                                 alt="保存デッキの削除"
                                                 fill
                                                 sizes="(min-width: 1000px) 300px, (min-width: 640px) 45vw, 90vw"
@@ -497,7 +497,7 @@ export default function GuidePage() {
                                 <p className="card__desc">
                                     ① 削除したいデッキのオプションボタン
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/option.svg"
                                         alt="オプションボタン"
                                         width={5} height={5}
                                         className="guide-option"

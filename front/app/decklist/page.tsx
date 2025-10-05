@@ -134,11 +134,11 @@ export default function DeckListPage() {
                                         setEditModeId(d.id); // 編集モード on
                                     }}
                                 >
-                                    <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg" alt="option" />
+                                    <img src="https://api.ekadon.com/storage/images/icons/option.svg" alt="option" />
                                 </button>
                                 <div className="list-link">
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/deck.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/deck.svg"
                                         width={80}
                                         height={80}
                                         alt="デッキ枠"

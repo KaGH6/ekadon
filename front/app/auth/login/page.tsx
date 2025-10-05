@@ -51,7 +51,7 @@ export default function Login() {
                 <div className="sign-wrap-inner">
                     <div className="log-top">
                         <Image
-                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png"
+                            src="https://api.ekadon.com/storage/images/icons/ekadon.png"
                             alt="えかどん"
                             width={100}
                             height={100}
@@ -65,7 +65,7 @@ export default function Login() {
                     <form onSubmit={handleLogin}>
                         <label className="form-group">
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg"
+                                src="https://api.ekadon.com/storage/images/icons/email.svg"
                                 className="sign-img"
                                 width={20}
                                 height={20}
@@ -83,7 +83,7 @@ export default function Login() {
 
                         <label className="form-group">
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg"
+                                src="https://api.ekadon.com/storage/images/icons/password.svg"
                                 className="sign-img"
                                 width={20}
                                 height={20}
@@ -98,7 +98,7 @@ export default function Login() {
                                 required
                             />
                             <Image
-                                src={`https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/${showPassword ? "password-checked" : "password-check"
+                                src={`https://api.ekadon.com/storage/images/icons/${showPassword ? "password-checked" : "password-check"
                                     }.svg`}
                                 className="pwcheck toggle-password"
                                 width={20}

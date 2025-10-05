@@ -73,7 +73,7 @@ export default function Signup() {
                 <div className="sign-wrap-inner">
                     <div className="sign-top">
                         <Image
-                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png"
+                            src="https://api.ekadon.com/storage/images/icons/ekadon.png"
                             alt="えかどん"
                             width={100}
                             height={100}
@@ -93,7 +93,7 @@ export default function Signup() {
                     <form onSubmit={handleSignup}>
                         <label className="form-group">
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/username.svg"
+                                src="https://api.ekadon.com/storage/images/icons/username.svg"
                                 className="sign-img"
                                 width={20}
                                 height={20}
@@ -112,7 +112,7 @@ export default function Signup() {
 
                         <label className="form-group">
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/email.svg"
+                                src="https://api.ekadon.com/storage/images/icons/email.svg"
                                 className="sign-img"
                                 width={20}
                                 height={20}
@@ -132,7 +132,7 @@ export default function Signup() {
 
                         <label className="form-group">
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg"
+                                src="https://api.ekadon.com/storage/images/icons/password.svg"
                                 className="sign-img"
                                 width={20}
                                 height={20}
@@ -150,8 +150,8 @@ export default function Signup() {
                             <Image
                                 src={
                                     showPassword
-                                        ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-checked.svg"
-                                        : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-check.svg"
+                                        ? "https://api.ekadon.com/storage/images/icons/password-checked.svg"
+                                        : "https://api.ekadon.com/storage/images/icons/password-check.svg"
                                 }
                                 className="pwcheck toggle-password"
                                 data-target="password"
@@ -164,7 +164,7 @@ export default function Signup() {
 
                         <label className="form-group">
                             <Image
-                                src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password.svg"
+                                src="https://api.ekadon.com/storage/images/icons/password.svg"
                                 className="sign-img"
                                 width={20}
                                 height={20}
@@ -182,8 +182,8 @@ export default function Signup() {
                             <Image
                                 src={
                                     showPasswordConfirm
-                                        ? "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-checked.svg"
-                                        : "https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/password-check.svg"
+                                        ? "https://api.ekadon.com/storage/images/icons/password-checked.svg"
+                                        : "https://api.ekadon.com/storage/images/icons/password-check.svg"
                                 }
                                 className="pwcheck toggle-password"
                                 data-target="password_confirm"

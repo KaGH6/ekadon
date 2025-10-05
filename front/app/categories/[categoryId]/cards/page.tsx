@@ -121,7 +121,7 @@ export default function CardList() {
                         <Breadcrumbs />
                         <CreateEdit
                             createHref="/create-cards"
-                            createIcon="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/create-card.svg"
+                            createIcon="https://api.ekadon.com/storage/images/icons/create-card.svg"
                             tooltip="カード作成"
                         />
                     </div>

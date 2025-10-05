@@ -94,7 +94,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                 {pathname !== "/" && (
                     <button onClick={() => router.back()}>
                         <Image
-                            src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/back.svg"
+                            src="https://api.ekadon.com/storage/images/icons/back.svg"
                             alt="前のページへ戻る"
                             className="header-back"
                             width={30}
@@ -131,7 +131,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             <li className="drawer__nav__item">
                                 <Link className="drawer__nav__link" href="/" onClick={() => setMenuOpen(false)}>
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-home.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/menu-home.svg"
                                         alt="ホーム"
                                         className="drawer__nav__icon"
                                         width={30}
@@ -143,7 +143,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             <li className="drawer__nav__item">
                                 <Link className="drawer__nav__link" href="/categories" onClick={() => setMenuOpen(false)}>
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-category.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/menu-category.svg"
                                         alt="カテゴリー"
                                         className="drawer__nav__icon"
                                         width={30}
@@ -154,7 +154,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             <li className="drawer__nav__item">
                                 <Link className="drawer__nav__link" href="/decklist" onClick={() => setMenuOpen(false)}>
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-deck.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/menu-deck.svg"
                                         alt="マイリスト"
                                         className="drawer__nav__icon"
                                         width={30}
@@ -165,7 +165,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             <li className="drawer__nav__item nav-border">
                                 <Link className="drawer__nav__link" href="/guide" onClick={() => setMenuOpen(false)}>
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/instruction-blue.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/instruction-blue.svg"
                                         alt="使い方ガイド"
                                         className="drawer__nav__icon"
                                         width={30}
@@ -180,7 +180,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             <li className="drawer__nav__item">
                                 <Link className="drawer__nav__link" href="/categories/create" onClick={() => setMenuOpen(false)}>
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-create.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/menu-create.svg"
                                         alt="カテゴリー作成"
                                         className="drawer__nav__icon"
                                         width={30}
@@ -192,7 +192,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             <li className="drawer__nav__item nav-border">
                                 <Link className="drawer__nav__link" href="/create-cards" onClick={() => setMenuOpen(false)}>
                                     <Image
-                                        src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/menu-create.svg"
+                                        src="https://api.ekadon.com/storage/images/icons/menu-create.svg"
                                         alt="カード作成"
                                         className="drawer__nav__icon"
                                         width={30}
@@ -206,7 +206,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                                 {isAuthenticated ? (
                                     <>
                                         <button onClick={handleLogout} className="drawer__nav__link logout-button">
-                                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/logout.svg"
+                                            <Image src="https://api.ekadon.com/storage/images/icons/logout.svg"
                                                 alt="ログアウト" className="drawer__nav__icon"
                                                 width={30} height={30} />
                                             ログアウト
@@ -221,7 +221,7 @@ export default function Header({ selectedCards }: HeaderProps) { // selectedCard
                             </li>
                         </ul>
                         <div className="menu-bottom">
-                            <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/ekadon.png" alt="えかどん" className="menu-ekadon" width={70} height={70} />
+                            <Image src="https://api.ekadon.com/storage/images/icons/ekadon.png" alt="えかどん" className="menu-ekadon" width={70} height={70} />
                             <p>&copy; 2025 ekadon.</p>
                         </div>
                     </div>

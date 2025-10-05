@@ -84,9 +84,9 @@ export default function Card({
                                 onOptionButtonClick?.(card.id);
                             }}
                         >
-                            <img src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/option.svg" alt="option" />
+                            <img src="https://api.ekadon.com/storage/images/icons/option.svg" alt="option" />
                         </button>
-                        <Image src="https://ekadon-backet.s3.ap-northeast-1.amazonaws.com/icons/card.svg" className="card" width={20} height={20} alt="card" />
+                        <Image src="https://api.ekadon.com/storage/images/icons/card.svg" className="card" width={20} height={20} alt="card" />
                         <Image
                             src={card.card_img}
                             alt={card.name}
